@@ -30,8 +30,8 @@ The project tab is a place to keep track of the progress of the project. It is a
 ### Vite <a>https://vitejs.dev/</a>
 Vite is a build tool that is used to build the project. It packages in a lot of the tools that is needed to produce a production ready modern website. It also has a dev server that allows for fast development along with many other features like an effective build tool.
 
-### React
+### React <a>https://reactjs.org/</a>
 This project uses React as the front-end framework. React is a JavaScript library for building user interfaces. It is a component based framework that allows for easy and fast development because of its modularity and virtual DOM. It is also a framework that is easy to learn and use. This is the library I'm most familiar with.
 
-### TypeScript
+### TypeScript <a>https://www.typescriptlang.org/</a>
 TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. It is also a language that is easy to maintain and scale because of it's static typing. 
