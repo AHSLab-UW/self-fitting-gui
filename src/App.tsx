@@ -1,9 +1,15 @@
 import './styles/App.css'
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import DragDrop from './pages/DragDrop'
 
 function App() {
   return (
     <div className="App">
-      <div>Hello World!</div>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/drag-drop-demo" element={<DragDrop />}></Route>
+      </Routes>
     </div>
   )
 }
