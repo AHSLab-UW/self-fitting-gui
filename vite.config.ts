@@ -1,8 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+const ASSET_URL = process.env.ASSET_URL || '';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/self-tuning-gui/'
+  base: ASSET_URL,
+  server: {
+    port: 3000,
+  }
 })
