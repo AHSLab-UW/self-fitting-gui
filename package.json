@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build --base=/self-tuning-gui/",
+    "device": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
