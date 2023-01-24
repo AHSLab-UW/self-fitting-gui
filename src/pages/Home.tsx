@@ -15,6 +15,8 @@ export default function Home() {
       <Link to="/drag-drop-demo">Drag Drop Demo</Link>
       <div></div>
       <Link to="/dev">Command Demo</Link>
+      <div></div>
+      <Link to="/VideoPage">Video Page</Link>
     </>
   )
 }
