@@ -1,4 +1,4 @@
-# Self-Tuning GUI Front End
+# Self-Fitting GUI Front End
 Applied Hearing Science Lab, University of Washington
 ## Overview
 [Description Here]
