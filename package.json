@@ -1,11 +1,11 @@
 {
-  "name": "selftuning-gui",
+  "name": "selffitting-gui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/self-tuning-gui/",
+    "build": "tsc && vite build --base=/self-fitting-gui/",
     "device": "vite build",
     "preview": "vite preview"
   },
