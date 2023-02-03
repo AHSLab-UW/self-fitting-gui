@@ -1,0 +1,20 @@
+/* cool modern rounded button */
+.coolButton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.coolButton:hover {
+    background-color: #3e8e41;
+    cursor: pointer;
+    /* increase size */
+    transform: scale(1.1);
+}
