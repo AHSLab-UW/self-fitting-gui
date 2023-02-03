@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
 
 interface Coordinates {
   x: number;
   y: number;
 }
 
-const toScreenPosition = (coordinates: Coordinates, screenSize: number, gridSize: number = 50) => {
+const toScreenPosition = (coordinates: Coordinates, gridSize: number, xOffset: number, yOffset: number, range: number = 25) => {
     return {
-      x: coordinates.x * (screenSize / gridSize) + (screenSize / 2),
-      y: coordinates.y * -(screenSize / gridSize) + (screenSize / 2),
+      x: (coordinates.x / range + 1) * (gridSize/2) + xOffset,
+      y: (coordinates.y / range + 1) * (gridSize/2) - yOffset,
     };
   };
 
-const toStatePosition = (coordinates: Coordinates, screenSize: number, gridSize: number = 50) => {
+const toStatePosition = (coordinates: Coordinates, gridSize: number, xOffset: number, yOffset: number, range: number = 25) => {
     return {
-        x: Math.round(coordinates.x / (screenSize / gridSize)) - (gridSize / 2),
-        y: Math.round((coordinates.y - (screenSize / 2)) * -1 / (screenSize / gridSize)),
+      x: ((coordinates.x - xOffset) / (gridSize/2) - 1) * range,
+      y: ((coordinates.y + yOffset) / (gridSize/2) - 1) * range,
     };
 };
 
@@ -24,6 +23,7 @@ const Grid = () => {
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
   const [down, setDown] = useState(false);
   const [gridSize, setGridSize] = useState(300);
+  const [dotStyle, setDotStyle] = useState({});
 
     useEffect(() => {
         setGridSize(window.innerWidth / 2);
@@ -34,8 +34,15 @@ const Grid = () => {
     }, []);
 
     useEffect(() => {
-        // print both gridsize and coordinates
-        console.log(gridSize, coordinates);
+        // print both state and screen coordinates
+        console.log("state: ", coordinates);
+        console.log("screen: ", toScreenPosition(coordinates, gridSize, gridSize/2, 0));
+
+        setDotStyle({
+          left: toScreenPosition(coordinates, gridSize, gridSize/2, 0).x - gridSize/2 - gridSize/24,
+          top: toScreenPosition(coordinates, gridSize, gridSize/2, 0).y - gridSize/24,
+          from: { left: 0, top: 0 },
+        });
     }, [coordinates]);
 
 
@@ -43,7 +50,7 @@ const Grid = () => {
     setCoordinates(toStatePosition({
         x: e.touches ? e.touches[0].clientX : e.clientX,
         y: e.touches ? e.touches[0].clientY : e.clientY,
-    }, window.innerWidth, gridSize));
+    }, gridSize, gridSize/2, 0));
     setDown(true);
   };
 
@@ -53,22 +60,16 @@ const Grid = () => {
     setCoordinates(toStatePosition({
       x: e.touches ? e.touches[0].clientX : e.clientX,
       y: e.touches ? e.touches[0].clientY : e.clientY,
-    }, window.innerWidth, gridSize))
+    }, gridSize, gridSize/2, 0))
   };
 
   const handleEnd = () => {
     setCoordinates({
-        x: Math.round(coordinates.x / 15) * 15,
-        y: Math.round(coordinates.y / 15) * 15,
+        x: Math.round(coordinates.x / 16.7) * 16.7,
+        y: Math.round(coordinates.y / 16.7) * 16.7,
     });
     setDown(false);
   };
-
-  const styles = useSpring({
-    left: toScreenPosition(coordinates, window.innerWidth, gridSize).x,
-    top: toScreenPosition(coordinates, window.innerWidth, gridSize).y,
-    from: { left: 0, top: 0 },
-  });
 
   return (
     <div
@@ -99,15 +100,16 @@ const Grid = () => {
           }}
         />
       ))}
-      <animated.div
+      <div
+        className="dot"
         style={{
           position: 'absolute',
-          width: '20px',
-          height: '20px',
+          width: `${gridSize / 10}px`,
+          height: `${gridSize / 10}px`,
           background: 'red',
           borderRadius: '50%',
           transitionDuration: '0s',
-          ...styles,
+          ...dotStyle,
         }}
       />
     </div>

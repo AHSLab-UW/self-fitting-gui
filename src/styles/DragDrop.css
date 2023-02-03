@@ -3,11 +3,20 @@ h3 {
 }
 
 /* disable mobile scroll */
-html, body {
+html, body, .grid {
     overflow-x: hidden;
 }
 
-/* make grid center horizontally */
-.grid {
+body, .grid {
+    position: relative;
+}
+
+.grid, .dot{
     margin: 0 auto;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    touch-action: none;
 }
