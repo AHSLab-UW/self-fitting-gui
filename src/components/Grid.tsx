@@ -39,8 +39,8 @@ const Grid = () => {
         console.log("screen: ", toScreenPosition(coordinates, gridSize, gridSize/2, 0));
 
         setDotStyle({
-          left: toScreenPosition(coordinates, gridSize, gridSize/2, 0).x - gridSize/2 - gridSize/24,
-          top: toScreenPosition(coordinates, gridSize, gridSize/2, 0).y - gridSize/24,
+          left: toScreenPosition(coordinates, gridSize, gridSize/2, 0).x - 62 * gridSize / 100,
+          top: toScreenPosition(coordinates, gridSize, gridSize/2, 0).y - gridSize / 8,
           from: { left: 0, top: 0 },
         });
     }, [coordinates]);
@@ -80,7 +80,7 @@ const Grid = () => {
         display: 'grid',
         gridTemplateColumns: `repeat(3, 1fr)`,
         gridTemplateRows: `repeat(3, 1fr)`,
-        gap: `${gridSize / 30}px ${gridSize / 30}px`,
+        gap: `${gridSize / 75}px ${gridSize / 75}px`,
       }}
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
@@ -104,8 +104,8 @@ const Grid = () => {
         className="dot"
         style={{
           position: 'absolute',
-          width: `${gridSize / 10}px`,
-          height: `${gridSize / 10}px`,
+          width: `${gridSize / 4}px`,
+          height: `${gridSize / 4}px`,
           background: 'red',
           borderRadius: '50%',
           transitionDuration: '0s',
