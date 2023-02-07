@@ -17,6 +17,8 @@ export default function Home() {
       <Link to="/dev">Command Demo</Link>
       <div></div>
       <Link to="/VideoPage">Video Page</Link>
+      <div></div>
+      <Link to="/progress">Progress Bar Demo</Link>
     </>
   )
 }

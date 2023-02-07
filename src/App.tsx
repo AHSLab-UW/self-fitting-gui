@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import DragDrop from './pages/DragDrop'
 import Dev from './pages/Dev'
 import Welcome from './pages/Welcome'
+import Progress from './pages/Progress'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/welcome" element={<Welcome />}></Route>
         <Route path="/dev" element={<Dev />}></Route>
         <Route path="/drag-drop-demo" element={<DragDrop />}></Route>
+        <Route path="/progress" element={<Progress />}></Route>
       </Routes>
     </div>
   )
