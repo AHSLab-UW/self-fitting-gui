@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import shenImg from "../assets/imgs/shen.jpeg"
+import shenImg from "../assets/imgs/shen.jpg"
+import logoImg from "../assets/imgs/logo.jpg"
 import Button from '../components/Button'
 
 import '../styles/Home.css'
+import ProgressBar from '../components/ProgressBar'
 
 export default function Home() {
   const test = ["Jason", "is", "very", "awesome"];
@@ -11,7 +13,7 @@ export default function Home() {
     <>
       <div>Home!</div>
       <img className="shen" src={shenImg} alt="shen" />
-
+      <img className="logo" src={logoImg} alt="logo" />
       <div></div>
       <Link to="/welcome">Welcome</Link>
       <div></div>
@@ -26,6 +28,7 @@ export default function Home() {
             <Button title={item} />
           </>;
         })}
+        < ProgressBar />
 
     </>
   )

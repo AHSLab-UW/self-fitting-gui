@@ -1,3 +1,8 @@
 .shen {
     width: 100px;
 }
+
+.logo{
+    width: 50px;
+    position: absolute; top: 12pt; left: 24pt;
+}

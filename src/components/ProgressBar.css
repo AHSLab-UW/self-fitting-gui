@@ -1,0 +1,102 @@
+/*.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .step {
+    width: calc(100% / 5 - 10px);
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .step:hover {
+    transform: scale(1.1);
+  }
+  
+  .active {
+    transform: scale(1.2);
+    font-weight: bold;
+  } */
+
+
+  .step {
+    color: rgb(190, 190, 190);
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(206, 206, 206);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.step.active {
+    background-color: #664DE5;
+    color: white;
+    border-style: none;
+}
+
+.progress-bar {
+    height: 2px;
+    width: 30%;
+    line-height: 1;
+    border-radius: 10px;
+    position: relative;
+    background-color: rgb(207, 207, 207);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 0;
+    margin: 20px auto;
+}
+
+.progress-bar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    position: absolute;
+    transform: translateX(-50%);
+    transition-property: all;
+    transition-timing-function: ease;
+}
+
+.progress-bar .RSPBprogressBarText {
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.progress-bar .RSPBprogression {
+    position: absolute;
+    transition: width 0.3s ease;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background: #664DE5;
+    z-index: -1;
+}
+
+@media screen and (max-width: 480px) {
+    .step{
+        width: 15px;
+        height: 15px;
+        font-size: 6px;
+    }
+}
+  
