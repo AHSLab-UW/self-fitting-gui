@@ -1,4 +1,5 @@
 import React from 'react'
+import { sendCommand } from '../Command';
 
 export default function Dev() {
   return (
@@ -8,14 +9,7 @@ export default function Dev() {
         const target = e.target as typeof e.target & {
           command: { value: string };
         };
-        fetch(`/device?command=${target.command.value}`)
-        .then((res) => res.json())
-        .then((data) => {
-           console.log(data);
-        })
-        .catch((err) => {
-           console.log(err.message);
-        });
+        sendCommand(target.command.value);
       }}>
         <input type="text" name="command"/>
         <button type="submit">Send</button>
