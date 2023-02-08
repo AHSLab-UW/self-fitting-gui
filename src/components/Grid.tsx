@@ -12,7 +12,7 @@ const toScreenPosition = (
   gridSize: number,
   xOffset: number,
   yOffset: number,
-  range: number = 25
+  range: number = 30
 ) => {
   return {
     x: (coordinates.x / range + 1) * (gridSize / 2) + xOffset,
@@ -25,7 +25,7 @@ const toStatePosition = (
   gridSize: number,
   xOffset: number,
   yOffset: number,
-  range: number = 25
+  range: number = 30
 ) => {
   return {
     x: ((coordinates.x - xOffset) / (gridSize / 2) - 1) * range,
@@ -94,7 +94,7 @@ const Grid = () => {
     let intervalId: NodeJS.Timeout | undefined;
 
     if (down) {
-      intervalId = setInterval(sendGridCommand, 100, a, coordinates, math.matrix([0,0,0,0,0,0]));
+      intervalId = setInterval(sendGridCommand, 100, a, coordinates, math.matrix([10,10,10,10,10,10]));
     } else {
       clearInterval(intervalId);
     }
