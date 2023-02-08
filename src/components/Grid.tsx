@@ -118,8 +118,8 @@ const Grid = () => {
 
   const handleEnd = () => {
     setCoordinates({
-      x: math.round(coordinates.x / 16.7) * 16.7,
-      y: math.round(coordinates.y / 16.7) * 16.7,
+      x: math.round(coordinates.x / 20) * 20,
+      y: math.round(coordinates.y / 20) * 20,
     });
     console.log("end")
     setDown(false);
