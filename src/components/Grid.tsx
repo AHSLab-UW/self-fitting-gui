@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { sendCommand, sendGridCommand } from "../Command";
 import * as math from 'mathjs';
 
+
+const RANGE = 30;
+const GRID_OFFSET = (RANGE / 3 * 2);
+
 export interface Coordinates {
   x: number;
   y: number;
@@ -12,7 +16,7 @@ const toScreenPosition = (
   gridSize: number,
   xOffset: number,
   yOffset: number,
-  range: number = 30
+  range: number = RANGE
 ) => {
   return {
     x: (coordinates.x / range + 1) * (gridSize / 2) + xOffset,
@@ -25,11 +29,18 @@ const toStatePosition = (
   gridSize: number,
   xOffset: number,
   yOffset: number,
-  range: number = 30
+  range: number = RANGE
 ) => {
+
+  const stateX = ((coordinates.x - xOffset) / (gridSize / 2) - 1) * range;
+  const stateY = ((coordinates.y + yOffset) / (gridSize / 2) - 1) * range;
+
+  // cap x and y to range
+  const cappedX = Math.min(Math.max(stateX, -range), range);
+  const cappedY = Math.min(Math.max(stateY, -range), range);
   return {
-    x: ((coordinates.x - xOffset) / (gridSize / 2) - 1) * range,
-    y: ((coordinates.y + yOffset) / (gridSize / 2) - 1) * range,
+    x: cappedX,
+    y: cappedY,
   };
 };
 
@@ -72,11 +83,12 @@ const Grid = () => {
 
   useEffect(() => {
     // print both state and screen coordinates
-    console.log("state: ", coordinates);
-    console.log(
-      "screen: ",
-      toScreenPosition(coordinates, gridSize, gridSize / 2, 0)
-    );
+    
+    // console.log("state: ", coordinates);
+    // console.log(
+    //   "screen: ",
+    //   toScreenPosition(coordinates, gridSize, gridSize / 2, 0)
+    // );
 
     setDotStyle({
       left:
@@ -117,11 +129,18 @@ const Grid = () => {
   }
 
   const handleEnd = () => {
+    // if negative ceil if positive floor
+    let snapX = math.round(coordinates.x / GRID_OFFSET) * GRID_OFFSET;
+    let snapY = math.round(coordinates.y / GRID_OFFSET) * GRID_OFFSET;
+  
+    // cap to offset
+    snapX = Math.min(Math.max(snapX, -GRID_OFFSET), GRID_OFFSET);
+    snapY = Math.min(Math.max(snapY, -GRID_OFFSET), GRID_OFFSET);
+
     setCoordinates({
-      x: math.round(coordinates.x / 20) * 20,
-      y: math.round(coordinates.y / 20) * 20,
+      x: snapX,
+      y: snapY,
     });
-    console.log("end")
     setDown(false);
   };
 

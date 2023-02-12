@@ -4,7 +4,7 @@ h3 {
 
 /* disable mobile scroll */
 html, body, .grid {
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 body, .grid {

@@ -2,10 +2,10 @@ import { Coordinates } from "./components/Grid";
 import * as math from "mathjs";
 
 export const sendCommand = async(command: string) => {
-  console.log("sending command: ", command);
+  // console.log("sending command: ", command);
   return fetch(`/device?command=${command}`)
     .then((data) => {
-      console.log(data);
+      // console.log(data);
     })
     .catch((err) => {
       console.log(err.message);
