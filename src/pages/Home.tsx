@@ -21,6 +21,8 @@ export default function Home() {
       <Link to="/progress">Progress Bar Demo</Link>
       <div></div>
       <Link to="/dropdown">drop down menu</Link>
+      <div></div>
+      <Link to="/sidebar">Sidebar</Link>
     </>
   )
 }

@@ -6,6 +6,7 @@ import Dev from './pages/Dev'
 import Welcome from './pages/Welcome'
 import Progress from './pages/Progress'
 import DropdownMenu from './pages/DropdownMenu'
+import Sidebar from './pages/Sidebar'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/drag-drop-demo" element={<DragDrop />}></Route>
         <Route path="/progress" element={<Progress />}></Route>
         <Route path="/dropdown" element={<DropdownMenu/>}></Route>
+        <Route path="/sidebar" element={<Sidebar/>}></Route>
       </Routes>
     </div>
   )
