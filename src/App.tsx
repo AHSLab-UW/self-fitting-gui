@@ -1,27 +1,51 @@
-import './styles/App.css'
-import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import DragDrop from './pages/DragDrop'
-import Dev from './pages/Dev'
-import Welcome from './pages/Welcome'
-import Progress from './pages/Progress'
-import DropdownMenu from './pages/DropdownMenu'
-import Sidebar from './pages/Sidebar'
+import "./styles/App.css";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import Fitting from "./pages/Fitting";
+import Welcome from "./pages/Welcome";
+
+import CollapsingSidebar from "./components/CollapsingSidebar";
+import MultiStepProgressBar from "./components/ProgressBar";
+import Intro1 from "./pages/Intro1";
+import Intro2 from "./pages/Intro2";
+import Intro3 from "./pages/Intro3";
+import Select from "./pages/Select";
+import Adjust from "./pages/Adjust";
+import Prompt from "./pages/Prompt";
+import Finish from "./pages/Finish";
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const [step, setStep] = useState(1);
+
   return (
     <div className="App">
+      <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
+      {/* <MultiStepProgressBar step={step} /> */}
+
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/welcome" element={<Welcome />}></Route>
-        <Route path="/dev" element={<Dev />}></Route>
-        <Route path="/drag-drop-demo" element={<DragDrop />}></Route>
-        <Route path="/progress" element={<Progress />}></Route>
-        <Route path="/dropdown" element={<DropdownMenu/>}></Route>
-        <Route path="/sidebar" element={<Sidebar/>}></Route>
+        <Route path="/" element={<Welcome />}></Route>
+        <Route path="/intro1" element={<Intro1 />}></Route>
+        <Route path="/intro2" element={<Intro2 />}></Route>
+        <Route path="/intro3" element={<Intro3 />}></Route>
+        <Route path="/select" element={<Select />}></Route>
+        <Route path="/fit" element={<Fitting />}></Route>
+        <Route path="/adjust" element={<Adjust />}></Route>
+        <Route path="/prompt" element={<Prompt />}></Route>
+        <Route path="/finish" element={<Finish/>}></Route>
       </Routes>
+
+      {/* <button onClick={() => setStep(step + 1)}>Next</button> */}
+
+      {/* <button onClick={() => toggleSidebar()}>Toggle sidebar</button> */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

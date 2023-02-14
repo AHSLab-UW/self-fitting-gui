@@ -8,7 +8,7 @@
     "build": "tsc && vite build --base=/self-fitting-gui/",
     "device": "vite build",
     "preview": "vite preview",
-    "host": "vite preview --host"
+    "host": "vite --host"
   },
   "dependencies": {
     "mathjs": "^11.5.1",
