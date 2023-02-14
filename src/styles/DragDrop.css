@@ -1,3 +1,22 @@
 h3 {
     font-size: 20em;
 }
+
+/* disable mobile scroll */
+html, body, .grid {
+    overflow: hidden;
+}
+
+body, .grid {
+    position: relative;
+}
+
+.grid, .dot{
+    margin: 0 auto;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    touch-action: none;
+}

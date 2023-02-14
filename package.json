@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc && vite build --base=/self-fitting-gui/",
     "device": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "host": "vite preview --host"
   },
   "dependencies": {
+    "mathjs": "^11.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
