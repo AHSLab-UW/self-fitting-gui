@@ -119,7 +119,7 @@ const Grid = () => {
       toStatePosition(
         {
           x: x,
-          y: y
+          y: y - 7
         },
         gridSize,
         gridSize / 2,

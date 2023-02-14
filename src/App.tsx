@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
-      <MultiStepProgressBar step={step} />
+      {/* <MultiStepProgressBar step={step} /> */}
 
       <Routes>
         <Route path="/" element={<Welcome />}></Route>
@@ -41,9 +41,9 @@ function App() {
         <Route path="/finish" element={<Finish/>}></Route>
       </Routes>
 
-      <button onClick={() => setStep(step + 1)}>Next</button>
+      {/* <button onClick={() => setStep(step + 1)}>Next</button> */}
 
-      <button onClick={() => toggleSidebar()}>Toggle sidebar</button>
+      {/* <button onClick={() => toggleSidebar()}>Toggle sidebar</button> */}
     </div>
   );
 }
