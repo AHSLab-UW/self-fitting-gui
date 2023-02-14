@@ -16,7 +16,13 @@ export default function Home() {
       <div></div>
       <Link to="/dev">Command Demo</Link>
       <div></div>
-      <Link to="/pagevideo">VideoPage</Link>
+      <Link to="/VideoPage">Video Page</Link>
+      <div></div>
+      <Link to="/progress">Progress Bar Demo</Link>
+      <div></div>
+      <Link to="/dropdown">drop down menu</Link>
+      <div></div>
+      <Link to="/sidebar">Sidebar</Link>
     </>
   )
 }
