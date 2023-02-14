@@ -7,7 +7,7 @@ interface Props {
     closeModal: Function
 }
 
-const Dropdown = (props: Props) => {
+const CollapsingSidebar = (props: Props) => {
   let className = "sidebar"
   if (props.open) {
     className += " open"
@@ -38,4 +38,4 @@ const Dropdown = (props: Props) => {
   );
 };
 
-export default Dropdown;
+export default CollapsingSidebar;
