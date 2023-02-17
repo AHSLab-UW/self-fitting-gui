@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { sendCommand, sendGridCommand } from "../Command";
 import * as math from 'mathjs';
 
-
 const RANGE = 30;
 const GRID_OFFSET = (RANGE / 3 * 2);
+const DOT_OFFSET_Y = 7;
 
 export interface Coordinates {
   x: number;
@@ -119,7 +119,7 @@ const Grid = () => {
       toStatePosition(
         {
           x: x,
-          y: y - 7
+          y: y - DOT_OFFSET_Y
         },
         gridSize,
         gridSize / 2,
