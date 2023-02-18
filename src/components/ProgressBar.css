@@ -1,6 +1,7 @@
 .progress-bar-container {
   height: 20px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;

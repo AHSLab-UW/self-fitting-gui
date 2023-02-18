@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./NextButton.css";
 
@@ -10,7 +9,7 @@ interface Props {
 
 export const NextButton = ({ to, text, onclick }: Props) => {
   return (
-    <Link to={to} className="next-button" onClick={onclick}>
+    <Link to={to} className="big-button" onClick={onclick}>
       {text} &gt;
     </Link>
   );

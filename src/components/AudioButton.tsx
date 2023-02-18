@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import stim from "../assets/audio/stimulus.wav";
 
-const AudioButton = () => {
+interface Props {
+  stim: string;
+}
+
+const AudioButton = ({ stim }: Props) => {
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [sourceNode, setSourceNode] = useState<AudioBufferSourceNode | null>(
@@ -34,7 +37,9 @@ const AudioButton = () => {
 
   return (
     <div>
-      <button onClick={playAudio}>Play Audio</button>
+      <button className="big-button" onClick={playAudio}>
+        Play Audio
+      </button>
     </div>
   );
 };

@@ -2,37 +2,52 @@ import { useEffect, useState } from "react";
 import { sendCommand, sendGridCommand } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
+import AudioButton from "./AudioButton";
+import stim from "../assets/audio/stimulus.wav";
+
+const MAX_STEP = 30;
 
 const RANGE = 30;
-const GRID_OFFSET = (RANGE / 3) * 2;
-const DOT_OFFSET_Y = 7;
+const GRID_CALC = (RANGE / 3) * 2;
 
 export interface Coordinates {
   x: number;
   y: number;
 }
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 const toScreenPosition = (
   coordinates: Coordinates,
   gridSize: number,
-  xOffset: number,
   yOffset: number,
   range: number = RANGE
 ) => {
   return {
-    x: (coordinates.x / range + 1) * (gridSize / 2) + xOffset,
-    y: (coordinates.y / range + 1) * (gridSize / 2) - yOffset,
+    x:
+      (coordinates.x / range) * (gridSize / 2) +
+      getWindowDimensions().width / 2 -
+      gridSize / 8,
+    y: (coordinates.y / range) * (gridSize / 2) - yOffset,
   };
 };
 
 const toStatePosition = (
   coordinates: Coordinates,
   gridSize: number,
-  xOffset: number,
   yOffset: number,
   range: number = RANGE
 ) => {
-  const stateX = ((coordinates.x - xOffset) / (gridSize / 2) - 1) * range;
+  const stateX =
+    ((coordinates.x + gridSize / 8 - getWindowDimensions().width / 2) /
+      (gridSize / 2)) *
+    range;
   const stateY = ((coordinates.y + yOffset) / (gridSize / 2) - 1) * range;
 
   // cap x and y to range
@@ -50,6 +65,10 @@ const Grid = () => {
   const [gridSize, setGridSize] = useState(300);
   const [dotStyle, setDotStyle] = useState({});
 
+  const [step, setStep] = useState(0);
+  const [currG, setCurrG] = useState(math.matrix([10, 10, 10, 10, 10, 10]));
+  const [gLast, setGLast] = useState(math.matrix([10, 10, 10, 10, 10, 10]));
+
   const [a, setA] = useState(
     math.matrix([
       [0, 0],
@@ -62,7 +81,7 @@ const Grid = () => {
   );
 
   useEffect(() => {
-    setGridSize(window.innerWidth / 2);
+    setGridSize((window.innerWidth / 3) * 2);
     setCoordinates({
       x: 0,
       y: 0,
@@ -99,22 +118,11 @@ const Grid = () => {
   }, []);
 
   useEffect(() => {
-    // print both state and screen coordinates
-
-    // console.log("state: ", coordinates);
-    // console.log(
-    //   "screen: ",
-    //   toScreenPosition(coordinates, gridSize, gridSize / 2, 0)
-    // );
-
+    // set dot position based on state
+    const screenPos = toScreenPosition(coordinates, gridSize, -178);
     setDotStyle({
-      left:
-        toScreenPosition(coordinates, gridSize, gridSize / 2, 0).x -
-        (62 * gridSize) / 100,
-      top:
-        toScreenPosition(coordinates, gridSize, gridSize / 2, 0).y -
-        gridSize / 8,
-      from: { left: 0, top: 0 },
+      left: screenPos.x,
+      top: screenPos.y,
     });
   }, [coordinates]);
 
@@ -124,11 +132,8 @@ const Grid = () => {
 
     if (down) {
       intervalId = setInterval(
-        sendGridCommand,
-        100,
-        a,
-        coordinates,
-        math.matrix([10, 10, 10, 10, 10, 10])
+        () => setCurrG(sendGridCommand(a, coordinates, gLast)),
+        100
       );
     } else {
       clearInterval(intervalId);
@@ -138,27 +143,27 @@ const Grid = () => {
   }, [down]);
 
   const setCoordinatesFromEvent = (x: number, y: number) => {
+    // set state from screen touch position
     setCoordinates(
       toStatePosition(
         {
-          x: x,
-          y: y - DOT_OFFSET_Y,
+          x: x - 35,
+          y: y,
         },
         gridSize,
-        gridSize / 2,
-        0
+        -70
       )
     );
   };
 
   const handleEnd = () => {
     // if negative ceil if positive floor
-    let snapX = math.round(coordinates.x / GRID_OFFSET) * GRID_OFFSET;
-    let snapY = math.round(coordinates.y / GRID_OFFSET) * GRID_OFFSET;
+    let snapX = math.round(coordinates.x / GRID_CALC) * GRID_CALC;
+    let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(Math.max(snapX, -GRID_OFFSET), GRID_OFFSET);
-    snapY = Math.min(Math.max(snapY, -GRID_OFFSET), GRID_OFFSET);
+    snapX = Math.min(Math.max(snapX, -GRID_CALC), GRID_CALC);
+    snapY = Math.min(Math.max(snapY, -GRID_CALC), GRID_CALC);
 
     setCoordinates({
       x: snapX,
@@ -169,7 +174,7 @@ const Grid = () => {
 
   return (
     <>
-      <ProgressBar steps={20} currentStep={7} />
+      <ProgressBar steps={MAX_STEP} currentStep={step} />
 
       <div
         className="grid"
@@ -213,16 +218,25 @@ const Grid = () => {
         <div
           className="dot"
           style={{
-            position: "absolute",
+            position: "fixed",
             width: `${gridSize / 4}px`,
             height: `${gridSize / 4}px`,
             background: "red",
             borderRadius: "50%",
-            transitionDuration: "0s",
             ...dotStyle,
           }}
         />
       </div>
+      <AudioButton stim={stim} />
+
+      <button
+        onClick={() => {
+          setStep(step + 1);
+          setGLast(currG);
+        }}
+      >
+        Next Step
+      </button>
     </>
   );
 };
