@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Slider.css";
+import "./ImageSlider.css";
 
 interface Image {
   src: string;

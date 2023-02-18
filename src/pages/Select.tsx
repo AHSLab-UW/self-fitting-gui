@@ -1,5 +1,10 @@
+import { NextButton } from "../components/NextButton";
+
 export default function Select() {
   return (
-    <h1>Select</h1>
-  )
+    <div>
+      <h1>Select</h1>
+      <NextButton to="/fit" text="Next" />
+    </div>
+  );
 }

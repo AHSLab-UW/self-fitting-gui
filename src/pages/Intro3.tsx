@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { sendCommand } from "../Command";
 import { AudioMeter } from "../components/AudioMeter";
+import { NextButton } from "../components/NextButton";
 
 export default function Intro3() {
   const [vol, setVol] = useState([0, 0]);
@@ -33,11 +34,12 @@ export default function Intro3() {
   }, []);
 
   return (
-    <>
+    <div>
       <h1>{vol[0] + "," + vol[1]}</h1>
       <div>
         <AudioMeter val={40} max={40} />
       </div>
-    </>
+      <NextButton to="/select" text="Next" />
+    </div>
   );
 }

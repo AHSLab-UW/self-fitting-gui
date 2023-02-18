@@ -1,5 +1,10 @@
+import { NextButton } from "../components/NextButton";
+
 export default function Prompt() {
   return (
-    <h1>Prompt</h1>
-  )
+    <div>
+      <h1>Prompt</h1>
+      <NextButton to="/finish" text="Next" />
+    </div>
+  );
 }
