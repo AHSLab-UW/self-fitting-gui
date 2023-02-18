@@ -3,3 +3,14 @@
   margin: 0 auto;
   text-align: center;
 }
+
+body {
+  background: linear-gradient(to bottom, #FFFFFF, #475E98);
+}
+
+.App {
+  height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

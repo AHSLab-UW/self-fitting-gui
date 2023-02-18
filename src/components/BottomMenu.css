@@ -1,0 +1,28 @@
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+}
+
+.bottom-menu button {
+  width: 100%;
+  padding: 10px;
+  background-color: #edeaea;
+  border: none;
+}
+
+.bottom-menu button:hover {
+  background-color: #d6d3d3;
+}
+
+.button-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

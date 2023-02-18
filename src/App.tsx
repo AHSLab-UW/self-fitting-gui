@@ -2,8 +2,6 @@ import "./styles/App.css";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import CollapsingSidebar from "./components/CollapsingSidebar";
-
 import Fitting from "./pages/Fitting";
 import Welcome from "./pages/Welcome";
 import Intro1 from "./pages/Intro1";
@@ -13,7 +11,10 @@ import Select from "./pages/Select";
 import Adjust from "./pages/Adjust";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
+
+import CollapsingSidebar from "./components/CollapsingSidebar";
 import { NextButton } from "./components/NextButton";
+import BottomMenu from "./components/BottomMenu";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -51,7 +52,12 @@ function App() {
         onclick={() => setCurrPage(currPage + 1)}
       />
 
-      {/* <button onClick={() => toggleSidebar()}>Toggle sidebar</button> */}
+      <BottomMenu
+        menuCallback={toggleSidebar}
+        batteryCallback={() => {}}
+        helpCallback={() => {}}
+        settingCallback={() => {}}
+      />
     </div>
   );
 }
