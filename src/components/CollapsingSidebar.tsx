@@ -1,6 +1,7 @@
 import "./CollapsingSidebar.css";
 import closeIcon from "../assets/imgs/close.png";
 import ear from "../assets/imgs/ear-03.png";
+import { Link } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -28,23 +29,21 @@ const CollapsingSidebar = (props: Props) => {
         </div>
       </div>
       <div className="sidebar-body">
-        <ul>
-          <li>
-            <a href="#">Link 1</a>
-          </li>
-          <li>
-            <a href="#">Link 2</a>
-          </li>
-          <li>
-            <a href="#">Link 3</a>
-          </li>
-          <li>
-            <a href="#">Link 4</a>
-          </li>
-          <li>
-            <a href="#">Link 5</a>
-          </li>
-        </ul>
+        <Link to="/intro1">Intro 1</Link>
+        <div></div>
+        <Link to="/intro2">Intro 2</Link>
+        <div></div>
+        <Link to="/intro3">Intro 3</Link>
+        <div></div>
+        <Link to="/select">Select</Link>
+        <div></div>
+        <Link to="/fit">Fitting</Link>
+        <div></div>
+        <Link to="/adjust">Adjust</Link>
+        <div></div>
+        <Link to="/prompt">Prompt</Link>
+        <div></div>
+        <Link to="/finish">Finish</Link>
       </div>
       <div className="sidebar-footer" style={{ marginBottom: 100 }}>
         <p>UW Applied Hearing Science Lab</p>
