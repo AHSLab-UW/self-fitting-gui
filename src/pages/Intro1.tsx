@@ -27,12 +27,28 @@ export default function Intro1() {
         ]}
       />
       <div className="player-container">
-        <ReactPlayer ref={playerRef} url={demo} playing={playing} />
-        <button className="big-button" onClick={togglePlaying}>
+        <ReactPlayer
+          ref={playerRef}
+          url={demo}
+          playing={playing}
+          style={{ marginBottom: 20 }}
+        />
+        <button
+          className="big-button"
+          onClick={togglePlaying}
+          style={{ marginRight: 20 }}
+        >
           {playing ? <FaPause /> : <FaPlay />}
         </button>
 
-        <button className="big-button" onClick={() => playerRef.current ? playerRef.current?.seekTo(0, "seconds") : undefined}>
+        <button
+          className="big-button"
+          onClick={() =>
+            playerRef.current
+              ? playerRef.current?.seekTo(0, "seconds")
+              : undefined
+          }
+        >
           <GrRotateRight />
         </button>
       </div>
