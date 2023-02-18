@@ -13,7 +13,6 @@ import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
 
 import CollapsingSidebar from "./components/CollapsingSidebar";
-import { NextButton } from "./components/NextButton";
 import BottomMenu from "./components/BottomMenu";
 
 const routes = [
@@ -30,7 +29,6 @@ const routes = [
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currPage, setCurrPage] = useState(0);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -45,12 +43,6 @@ function App() {
           <Route key={route.name} path={route.path} element={route.element} />
         ))}
       </Routes>
-
-      <NextButton
-        to={routes[currPage + 1].path}
-        text="Next"
-        onclick={() => setCurrPage(currPage + 1)}
-      />
 
       <BottomMenu
         menuCallback={toggleSidebar}
