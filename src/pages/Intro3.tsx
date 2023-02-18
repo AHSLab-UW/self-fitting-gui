@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { sendCommand } from "../Command";
+import { AudioMeter } from "../components/AudioMeter";
 
 export default function Intro3() {
   const [vol, setVol] = useState([0, 0]);
@@ -15,16 +16,14 @@ export default function Intro3() {
 
       const data = await raw.text();
 
-      console.log("data: ", data);
-
       const regex = new RegExp(/\[(.*?)\]/);
       const match = regex.exec(data);
-      
+
       console.log(match);
 
       if (match) {
         const arr = JSON.parse("[" + match[1].replace(/\s/g, ",") + "]");
-        setVol(arr)
+        setVol(arr);
       } else {
         console.log("No array found in the string.");
       }
@@ -33,5 +32,12 @@ export default function Intro3() {
     return () => clearInterval(intervalId);
   }, []);
 
-  return <h1>{vol[0] + "," + vol[1]}</h1>;
+  return (
+    <>
+      <h1>{vol[0] + "," + vol[1]}</h1>
+      <div>
+        <AudioMeter val={40} max={40} />
+      </div>
+    </>
+  );
 }

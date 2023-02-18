@@ -1,0 +1,55 @@
+.bar-off,
+.bar-on {
+  height: 50px;
+  width: 10px;
+  background-color: lightgray;
+  margin-right: 5px;
+}
+
+.bar-on {
+  background: green;
+}
+
+.bar-on-0 {
+  background: green;
+}
+
+.bar-on-1 {
+  background: green;
+}
+
+.bar-on-2 {
+  background: greenyellow;
+}
+
+.bar-on-3 {
+  background: greenyellow;
+}
+
+.bar-on-4 {
+  background: yellow;
+}
+
+.bar-on-5 {
+  background: yellow;
+}
+
+.bar-on-6 {
+  background: orange;
+}
+
+.bar-on-7 {
+  background: orange;
+}
+
+.bar-on-8 {
+  background: red;
+}
+
+.bar-on-9 {
+  background: red;
+}
+
+.audio-progress {
+  display: flex;
+}
