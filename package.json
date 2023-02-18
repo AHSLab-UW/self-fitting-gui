@@ -14,8 +14,7 @@
     "mathjs": "^11.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.6.2",
-    "react-step-progress-bar": "^1.0.3"
+    "react-router-dom": "^6.6.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

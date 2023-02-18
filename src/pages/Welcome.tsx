@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { NextButton } from "../components/NextButton";
 import "../styles/Welcome.css";
 
 export default function Welcome() {
@@ -21,8 +20,6 @@ export default function Welcome() {
       <Link to="/prompt">Prompt</Link>
       <div></div>
       <Link to="/finish">Finish</Link>
-      <div></div>
-      <NextButton to="/intro1" text="Next" />
     </div>
   );
 }

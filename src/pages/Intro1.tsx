@@ -2,7 +2,6 @@ import Slider from "../components/ImageSlider";
 import shen from "../assets/imgs/shen.jpeg";
 
 import "../styles/Intro1.css";
-import { NextButton } from "../components/NextButton";
 
 export default function Intro1() {
   return (
@@ -14,7 +13,6 @@ export default function Intro1() {
           { src: shen, alt: "shen" },
         ]}
       />
-      <NextButton to="/intro2" text="Next" />
     </div>
   );
 }

@@ -1,54 +1,17 @@
-import React from "react";
 import "./ProgressBar.css";
-import { ProgressBar, Step } from "react-step-progress-bar";
 
 interface Props {
-  step: number
+  steps: number;
+  currentStep: number;
 }
 
-const MultiStepProgressBar = ({ step } : Props) => {
-  const stepPercentage = (step / 4) * 100;
+export const ProgressBar = ({ steps, currentStep }: Props) => {
+  const percentComplete = Math.floor((currentStep / steps) * 100);
 
   return (
-    <ProgressBar percent={stepPercentage}>
-      <Step>
-        {({ accomplished, index }) => (
-          <div
-            className={`indexedStep ${accomplished ? "accomplished" : null}`}
-          >
-            {index + 1}
-          </div>
-        )}
-      </Step>
-      <Step>
-        {({ accomplished, index }) => (
-          <div
-            className={`indexedStep ${accomplished ? "accomplished" : null}`}
-          >
-            {index + 1}
-          </div>
-        )}
-      </Step>
-      <Step>
-        {({ accomplished, index }) => (
-          <div
-            className={`indexedStep ${accomplished ? "accomplished" : null}`}
-          >
-            {index + 1}
-          </div>
-        )}
-      </Step>
-      <Step>
-        {({ accomplished, index }) => (
-          <div
-            className={`indexedStep ${accomplished ? "accomplished" : null}`}
-          >
-            {index + 1}
-          </div>
-        )}
-      </Step>
-    </ProgressBar>
+    <div className="progress-bar-container">
+      <div className="progress-bar-fill" style={{ width: `${percentComplete}%` }} />
+      <div className="progress-bar-text">{`${percentComplete}% Complete`}</div>
+    </div>
   );
 };
-
-export default MultiStepProgressBar;
