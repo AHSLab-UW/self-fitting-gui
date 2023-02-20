@@ -1,0 +1,7 @@
+.finish-container {
+    display: flex;
+    height: 90%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

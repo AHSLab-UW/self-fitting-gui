@@ -1,5 +1,10 @@
+import "../styles/Finish.css";
+
 export default function Finish() {
   return (
-    <h1>Finish</h1>
-  )
+    <div className="finish-container">
+      <h1>Well Done!</h1>
+      <h3>Your device is now ready to use! </h3>
+    </div>
+  );
 }

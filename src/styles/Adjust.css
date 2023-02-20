@@ -1,0 +1,53 @@
+.vertical-slider {
+  height: 40vh;
+  width: 50px;
+  border: 1px solid grey;
+}
+
+.example-thumb {
+  font-size: 0.9em;
+  text-align: center;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  border: 5px solid gray;
+  box-sizing: border-box;
+}
+
+.example-thumb.active {
+  background-color: grey;
+}
+
+.example-track {
+  position: relative;
+  background: #f00;
+}
+
+.example-track.example-track-1 {
+  background: #000;
+}
+
+.example-track.example-track-2 {
+  background: #0f0;
+}
+
+.vertical-slider .example-thumb {
+  left: -5px;
+  width: 60px;
+  line-height: 40px;
+  height: 60px;
+  border-radius: 100%;
+  background-color: white;
+}
+
+.vertical-slider .example-track {
+  left: 15px;
+  width: 20px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

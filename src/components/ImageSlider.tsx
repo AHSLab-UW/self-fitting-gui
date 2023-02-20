@@ -10,7 +10,7 @@ interface SliderProps {
   images: Image[];
 }
 
-const Slider: React.FC<SliderProps> = ({ images }) => {
+const ImageSlider: React.FC<SliderProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -43,4 +43,4 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
   );
 };
 
-export default Slider;
+export default ImageSlider;

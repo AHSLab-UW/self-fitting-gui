@@ -37,7 +37,7 @@ const AudioButton = ({ stim }: Props) => {
 
   return (
     <div>
-      <button className="big-button" onClick={playAudio}>
+      <button className="big-button top-space" onClick={playAudio}>
         Play Audio
       </button>
     </div>

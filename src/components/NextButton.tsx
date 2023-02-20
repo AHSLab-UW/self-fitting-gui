@@ -10,7 +10,7 @@ interface Props {
 
 export const NextButton = ({ to, text, onclick, style}: Props) => {
   return (
-    <Link style={style} to={to} className="big-button" onClick={onclick}>
+    <Link style={style} to={to} className="big-button top-space" onClick={onclick}>
       {text} &gt;
     </Link>
   );

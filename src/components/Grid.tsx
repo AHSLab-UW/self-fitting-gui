@@ -230,6 +230,7 @@ const Grid = () => {
       <AudioButton stim={stim} />
 
       <button
+        className="top-space"
         onClick={() => {
           setStep(step + 1);
           setGLast(currG);
