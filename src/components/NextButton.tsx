@@ -4,12 +4,13 @@ import "./NextButton.css";
 interface Props {
   to: string;
   text: string;
+  style?: React.CSSProperties;
   onclick?: () => void;
 }
 
-export const NextButton = ({ to, text, onclick }: Props) => {
+export const NextButton = ({ to, text, onclick, style}: Props) => {
   return (
-    <Link to={to} className="big-button" onClick={onclick}>
+    <Link style={style} to={to} className="big-button" onClick={onclick}>
       {text} &gt;
     </Link>
   );

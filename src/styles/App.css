@@ -14,3 +14,29 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 }
+
+h1 {
+  font-size: 3em;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 450;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.bottom-space {
+  margin-bottom: 1rem;
+}
+
+.top-space {
+  margin-top: 1rem;
+}

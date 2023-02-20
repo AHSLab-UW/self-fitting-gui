@@ -1,7 +1,3 @@
-h3 {
-    font-size: 20em;
-}
-
 /* disable mobile scroll */
 html, body, .grid {
     overflow: hidden;
