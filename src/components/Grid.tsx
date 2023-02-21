@@ -81,7 +81,7 @@ const Grid = () => {
   );
 
   useEffect(() => {
-    setGridSize((window.innerWidth / 3) * 2);
+    setGridSize((window.innerWidth /4.5) * 2);
     setCoordinates({
       x: 0,
       y: 0,
@@ -184,7 +184,7 @@ const Grid = () => {
           display: "grid",
           gridTemplateColumns: `repeat(3, 1fr)`,
           gridTemplateRows: `repeat(3, 1fr)`,
-          gap: `${gridSize / 75}px ${gridSize / 75}px`,
+          gap: `${gridSize / 70}px ${gridSize / 70}px`,
         }}
         onTouchStart={(e) => {
           setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
@@ -212,9 +212,11 @@ const Grid = () => {
               height: "100%",
               border: `${gridSize / 150}px solid black`,
               boxSizing: "border-box",
+              background: "white",
             }}
           />
         ))}
+        
         <div
           className="dot"
           style={{
