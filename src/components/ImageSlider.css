@@ -1,59 +1,111 @@
 .slider {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide.active {
+  display: block;
+  animation-name: slideIn;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: rgb(29, 65, 132);
+  font-size: 18px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/*.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
   }
-  
-  .slide {
-    display: none;
-    position: absolute;
-    top: 0;
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+} */
+.image-carousel {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  display: flex;
+  position: relative;
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.image-container.forward {
+  animation-name: slideInRight;
+}
+
+.image-container.backward {
+  animation-name: slideInLeft;
+}
+
+@keyframes slideInRight {
+  from {
+    left: -500px;
+  }
+  to {
     left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
-  
-  .slide.active {
-    display: block;
-    animation-name: slideIn;
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    left: 500px;
   }
-  
-  .prev,
-  .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    color: black;
-    font-size: 18px;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    z-index: 1;
-  }
-  
-  .prev {
+  to {
     left: 0;
   }
-  
-  .next {
-    right: 0;
-  }
-  
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0%);
-    }
-  }
-  
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.image.active {
+  opacity: 1;
+}
+
