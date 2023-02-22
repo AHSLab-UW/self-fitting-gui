@@ -3,15 +3,16 @@ import "./AudioMeter.css";
 
 interface Props {
   val: number;
+  min: number;
   max: number;
 }
-export const AudioMeter = ({ val, max }: Props) => {
+export const AudioMeter = ({ val, min = 0, max }: Props) => {
   const [bars, setBars] = useState<string[]>(Array(10));
   useEffect(() => {
     let newBars = [];
 
     for (var i = 0; i < bars.length; i++) {
-      if (val / (max / bars.length) > i) {
+      if ((val - min) / ((max - min) / bars.length) > i) {
         newBars.push("on");
       } else {
         newBars.push("off");
