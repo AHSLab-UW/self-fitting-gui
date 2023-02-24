@@ -2,6 +2,7 @@ import "../styles/Welcome.css";
 import ear from "../assets/imgs/ear-03.png";
 import { NextButton } from "../components/NextButton";
 
+
 export default function Welcome() {
   return (
     <div style={{ marginTop: 50 }}>
