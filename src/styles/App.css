@@ -40,3 +40,10 @@ h3 {
 .top-space {
   margin-top: 1rem;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

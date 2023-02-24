@@ -16,12 +16,15 @@ export const sendCommand = (command: string) => {
 export const sendGridCommand = (
   a: math.Matrix,
   coordinate: Coordinates,
+  gainDelta: number,
   glast: math.Matrix
 ) => {
   // multiply a by coordinate
   const coord = [coordinate.x, coordinate.y];
   const b = math.multiply(a, math.matrix(coord));
-  const g = math.add(b, glast);
+  const gSelect = math.add(b, glast);
+
+  const g = math.add(gSelect, gainDelta) as math.Matrix;
 
   let gaintable_og = "";
   for (let i = 0; i < g.size()[0]; i++) {
@@ -31,6 +34,7 @@ export const sendGridCommand = (
   gaintable_og = gaintable_og.substring(0, gaintable_og.length - 1);
   gaintable_og = "[" + gaintable_og + "]";
 
+  console.log("g:", g);
   sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
-  return g;
-}
+  return gSelect;
+};

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { sendCommand } from "../Command";
+import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
 import { NextButton } from "../components/NextButton";
+import stim from "../assets/audio/stimulus.wav";
 
 export default function Intro3() {
   const [vol, setVol] = useState([0, 0]);
-  // get volumn passively every 100ms
+  const [runningAverage, setRunningAverage] = useState<number[]>([]);
+  const [average, setAverage] = useState(0);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | undefined;
@@ -24,21 +27,45 @@ export default function Intro3() {
 
       if (match) {
         const arr = JSON.parse("[" + match[1].replace(/\s/g, ",") + "]");
+
+        // Calculate the running average of the past 10 numbers
+        const newRunningAverage = [
+          ...runningAverage,
+          (arr[0] + arr[1]) / 2,
+        ].slice(-10);
+        const sum = newRunningAverage.reduce(
+          (accumulator, currentValue) => accumulator + currentValue
+        );
+        const average = sum / newRunningAverage.length;
+        setAverage(average);
+        setRunningAverage(newRunningAverage);
+
         setVol(arr);
       } else {
         console.log("No array found in the string.");
       }
-    }, 200);
+    }, 100);
 
     return () => clearInterval(intervalId);
   }, []);
 
+  const renderNotif = () => {
+    if (average < 10) {
+      return <h3>"You are too quiet. Please raise your phone volume."</h3>;
+    } else if (average > 40) {
+      return <h3>"You are too loud. Please lower your phone volume."</h3>;
+    } else {
+      return <h3>Perfect! Your volume is at a good level!</h3>;
+    }
+  };
+
   return (
     <>
-      <h1>{vol[0] + "," + vol[1]}</h1>
-      <div>
-        <AudioMeter val={40} max={40} />
+      <h3>{renderNotif()}</h3>
+      <div className="container">
+        <AudioMeter val={Math.min((vol[0] + vol[1]) / 2, 50)} min={0} max={50} />
       </div>
+      <AudioButton stim={stim} />
       <NextButton to="/select" text="Next" />
     </>
   );

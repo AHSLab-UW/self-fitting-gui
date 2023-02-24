@@ -4,11 +4,16 @@ import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import AudioButton from "./AudioButton";
 import stim from "../assets/audio/stimulus.wav";
+import { getRandomColor } from "../Colors";
 
 const MAX_STEP = 30;
 
 const RANGE = 30;
 const GRID_CALC = (RANGE / 3) * 2;
+
+interface Props {
+  gainDelta: number;
+}
 
 export interface Coordinates {
   x: number;
@@ -59,15 +64,44 @@ const toStatePosition = (
   };
 };
 
-const Grid = () => {
+const getCoefficient = () => {
+  // === Tuning Parameters ===
+  // Generate an array of 6 random numbers with mean 0 and standard deviation 1
+  let arr = math.random([6], -1, 1);
+
+  // Subtract the mean of the array from each element to make the sum of all elements equal to 0
+  let sum = math.sum(arr);
+  arr = arr.map((x) => x - sum / 6);
+
+  // Convert the array to a matrix
+  let matrix = math.matrix(arr);
+
+  // Reshape the matrix into a 6 x 2 matrix
+  let reshapedMatrix = math.zeros([6, 2]);
+  reshapedMatrix = math.subset(
+    reshapedMatrix,
+    math.index(math.range(0, 3), 0),
+    matrix.subset(math.index(math.range(0, 3)))
+  );
+  reshapedMatrix = math.subset(
+    reshapedMatrix,
+    math.index(math.range(3, 6), 1),
+    matrix.subset(math.index(math.range(3, 6)))
+  );
+
+  return math.matrix(reshapedMatrix);
+};
+
+const Grid = ({ gainDelta }: Props) => {
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
   const [down, setDown] = useState(false);
   const [gridSize, setGridSize] = useState(300);
   const [dotStyle, setDotStyle] = useState({});
+  const [dotColor, setDotColor] = useState("#ff0000");
 
   const [step, setStep] = useState(0);
-  const [currG, setCurrG] = useState(math.matrix([10, 10, 10, 10, 10, 10]));
-  const [gLast, setGLast] = useState(math.matrix([10, 10, 10, 10, 10, 10]));
+  const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
+  const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
 
   const [a, setA] = useState(
     math.matrix([
@@ -87,31 +121,7 @@ const Grid = () => {
       y: 0,
     });
 
-    // === Tuning Parameters ===
-    // Generate an array of 6 random numbers with mean 0 and standard deviation 1
-    let arr = math.random([6], -1, 1);
-
-    // Subtract the mean of the array from each element to make the sum of all elements equal to 0
-    let sum = math.sum(arr);
-    arr = arr.map((x) => x - sum / 6);
-
-    // Convert the array to a matrix
-    let matrix = math.matrix(arr);
-
-    // Reshape the matrix into a 6 x 2 matrix
-    let reshapedMatrix = math.zeros([6, 2]);
-    reshapedMatrix = math.subset(
-      reshapedMatrix,
-      math.index(math.range(0, 3), 0),
-      matrix.subset(math.index(math.range(0, 3)))
-    );
-    reshapedMatrix = math.subset(
-      reshapedMatrix,
-      math.index(math.range(3, 6), 1),
-      matrix.subset(math.index(math.range(3, 6)))
-    );
-
-    setA(math.matrix(reshapedMatrix));
+    setA(getCoefficient());
 
     sendCommand("?read:/home/mha/self_fit.cfg");
     sendCommand("cmd=start");
@@ -128,19 +138,12 @@ const Grid = () => {
 
   // send command
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | undefined;
-
-    if (down) {
-      intervalId = setInterval(
-        () => setCurrG(sendGridCommand(a, coordinates, gLast)),
-        100
-      );
-    } else {
-      clearInterval(intervalId);
-    }
-
+    let intervalId = setInterval(
+      () => setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast)),
+      100
+    );
     return () => clearInterval(intervalId);
-  }, [down]);
+  });
 
   const setCoordinatesFromEvent = (x: number, y: number) => {
     // set state from screen touch position
@@ -223,7 +226,7 @@ const Grid = () => {
             position: "fixed",
             width: `${gridSize / 4}px`,
             height: `${gridSize / 4}px`,
-            background: "red",
+            background: dotColor,
             borderRadius: "50%",
             ...dotStyle,
           }}
@@ -235,7 +238,12 @@ const Grid = () => {
         className="top-space"
         onClick={() => {
           setStep(step + 1);
+          
           setGLast(currG);
+          setA(getCoefficient());
+
+          setCoordinates({ x: 0, y: 0 });
+          setDotColor(getRandomColor());
         }}
       >
         Next Step
