@@ -1,11 +1,14 @@
 .sidebar {
-  max-width: 60vw;
+  font-family: "Times New Roman", Times, serif;
+  ;;max-width: 60vw;
   position: fixed;
   top: 0;
   left: 0;
   width: 400px;
   height: 100%;
-  background: #fff;
+  background: div;
+    background-color: RGB(212, 214, 218);
+    opacity: 1;
   box-shadow: 4px 0px 8px #00000033;
   opacity: 0;
   display: flex;
@@ -45,14 +48,14 @@
   justify-content: center;
 
   border-radius: 10px !important;
-  border: #000 solid 1px !important;
+  border: #000000 solid 1px !important;
   text-decoration: none;
 
   margin-bottom: 10px;
 }
 
 .link:hover {
-  color: blue;
+  color: rgb(85, 114, 170);
   cursor: pointer;
 }
 
