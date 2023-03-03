@@ -14,7 +14,7 @@ export default function Welcome() {
       <h3>Let's get started!</h3>
 
       <NextButton
-        to="/intro1"
+        to="/name"
         text="Next"
       />
     </div>
