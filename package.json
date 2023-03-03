@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build-web": "vite build --base=/self-fitting-gui/",
+    "build-web": "tsc && vite build --base=/self-fitting-gui/",
     "preview": "vite preview",
     "host": "vite --host"
   },
