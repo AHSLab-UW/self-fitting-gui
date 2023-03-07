@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Fitting from "./pages/Fitting";
 import Welcome from "./pages/Welcome";
-import Intro1 from "./pages/Intro1";
+import Intro1 from "./pages/ConnectToYourDeivec1";
 import Intro2 from "./pages/Intro2";
 import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
