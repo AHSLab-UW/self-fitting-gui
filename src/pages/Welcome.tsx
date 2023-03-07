@@ -19,7 +19,7 @@ export default function Welcome() {
   <h1>Self Fitting Hearing Aid</h1>
       <h3>Let's get started!</h3>
       <NextButton
-        to="/intro1"
+        to="/name"
         text="Next"
       />
     </div>
