@@ -30,25 +30,25 @@ const CollapsingSidebar = (props: Props) => {
       </div>
       <div className="sidebar-body">
         <Link className="link" to="/intro1">
-          Intro 1
+          Connect To Your Devices, 1/2
         </Link>
         <Link className="link" to="/intro2">
-          Intro 2
+        Connect To Your Devices, 2/2
         </Link>
         <Link className="link" to="/intro3">
-          Intro 3
+          Audio Play
         </Link>
         <Link className="link" to="/select">
-          Select
+          Select Location
         </Link>
         <Link className="link" to="/fit">
-          Fitting
+          Sound Fitting
         </Link>
         <Link className="link" to="/adjust">
-          Adjust
+          Volumn Adjust
         </Link>
         <Link className="link" to="/prompt">
-          Prompt
+          Reset Settings
         </Link>
         <Link className="link" to="/finish">
           Finish

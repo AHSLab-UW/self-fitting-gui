@@ -3,16 +3,16 @@
   align-items: center;
   justify-content: center;
 
-  min-width: 80px;
-  min-height: 35px;
+  min-width: 90px;
+  min-height: 15px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #5c6977;
   color: #fff;
 
   text-decoration: none;
   text-align: center;
   border-radius: 7px;
-  font-size: 25px;
+  font-size: 15px;
   font-weight: bold;
   transition: background-color 0.3s ease;
   border: none;
