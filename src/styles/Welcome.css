@@ -1,12 +1,14 @@
 .welcome-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    background-image: url('../assets/imgs/homepageHand.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top;
-    padding-top: 0px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: top;
+  padding-top: 0px;
+}
+
+.space-top {
+  margin-top: 150px;
+}
