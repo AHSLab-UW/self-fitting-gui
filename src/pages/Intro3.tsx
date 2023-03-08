@@ -23,8 +23,6 @@ export default function Intro3() {
       const regex = new RegExp(/\[(.*?)\]/);
       const match = regex.exec(data);
 
-      console.log(match);
-
       if (match) {
         const arr = JSON.parse("[" + match[1].replace(/\s/g, ",") + "]");
 
@@ -50,9 +48,9 @@ export default function Intro3() {
   }, []);
 
   const renderNotif = () => {
-    if (average < 10) {
+    if (average < 40) {
       return <h3>"You are too quiet. Please raise your phone volume."</h3>;
-    } else if (average > 40) {
+    } else if (average > 80) {
       return <h3>"You are too loud. Please lower your phone volume."</h3>;
     } else {
       return <h3>Perfect! Your volume is at a good level!</h3>;
@@ -62,8 +60,11 @@ export default function Intro3() {
   return (
     <>
       <h3>{renderNotif()}</h3>
+      <h1>
+        {average}
+      </h1>
       <div className="container">
-        <AudioMeter val={Math.min((vol[0] + vol[1]) / 2, 50)} min={0} max={50} />
+        <AudioMeter val={Math.min((vol[0] + vol[1]) / 2, 100)} min={20} max={100} />
       </div>
       <AudioButton stim={stim} />
       <NextButton to="/select" text="Next" />
