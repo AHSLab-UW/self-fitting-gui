@@ -18,6 +18,7 @@ export default function Fitting({}: Props) {
         <Grid gainDelta={volume} />
       </div>
 
+<<<<<<< Updated upstream
       <h3>Adjust Volume</h3>
       <div className="flex-row">
         <button
@@ -27,6 +28,11 @@ export default function Fitting({}: Props) {
           -
         </button>
 
+=======
+      <div>
+        <h3>Adjust Volume</h3>
+        <button className = "volume" onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 5))}>+</button>
+>>>>>>> Stashed changes
         <div>
           <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
         </div>
@@ -42,3 +48,5 @@ export default function Fitting({}: Props) {
     </div>
   );
 }
+
+

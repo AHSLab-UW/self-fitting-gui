@@ -15,6 +15,7 @@ body, .grid {
     -o-user-drag: none;
     touch-action: none;
 }
+<<<<<<< Updated upstream
 
 .flex-row {
     display: flex;
@@ -43,3 +44,8 @@ body, .grid {
     cursor: pointer;
     font-size: xx-large;
 }
+=======
+.volume{
+    background-color: bisque;
+}
+>>>>>>> Stashed changes

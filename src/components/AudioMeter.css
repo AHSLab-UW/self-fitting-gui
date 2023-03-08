@@ -1,17 +1,17 @@
 .bar-off,
 .bar-on {
-  height: 50px;
-  width: 10px;
+  height: 80px;
+  width: 7px;
   background-color: lightgray;
   margin-right: 5px;
 }
 
 .bar-on {
-  background: green;
+  background: rgb(25, 33, 113);
 }
 
 .bar-on-0 {
-  background: green;
+  background: rgb(36, 42, 106);
 }
 
 .bar-on-1 {
