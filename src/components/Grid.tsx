@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendCommand, sendGridCommand } from "../Command";
+import { sendCommand, sendGridCommand, storeInformation } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import AudioButton from "./AudioButton";
@@ -115,7 +115,7 @@ const Grid = ({ gainDelta }: Props) => {
   );
 
   useEffect(() => {
-    setGridSize((window.innerWidth /4.5) * 2);
+    setGridSize((window.innerWidth / 4.5) * 2);
     setCoordinates({
       x: 0,
       y: 0,
@@ -138,10 +138,10 @@ const Grid = ({ gainDelta }: Props) => {
 
   // send command
   useEffect(() => {
-    let intervalId = setInterval(
-      () => setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast)),
-      100
-    );
+    let intervalId = setInterval(() => {
+      setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast));
+      storeInformation(a, coordinates, gainDelta, gLast, step);
+    }, 100);
     return () => clearInterval(intervalId);
   });
 
@@ -219,7 +219,7 @@ const Grid = ({ gainDelta }: Props) => {
             }}
           />
         ))}
-        
+
         <div
           className="dot"
           style={{
@@ -238,7 +238,7 @@ const Grid = ({ gainDelta }: Props) => {
         className="top-space"
         onClick={() => {
           setStep(step + 1);
-          
+
           setGLast(currG);
           setA(getCoefficient());
 

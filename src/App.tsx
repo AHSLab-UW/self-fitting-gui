@@ -17,6 +17,7 @@ import BottomMenu from "./components/BottomMenu";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
+  { path: "/name", name: "Name", element: <Name /> },
   { path: "/intro1", name: "Intro 1", element: <Intro1 /> },
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },

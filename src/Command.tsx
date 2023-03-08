@@ -38,3 +38,22 @@ export const sendGridCommand = (
   sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
   return gSelect;
 };
+
+// send server the time, the name, a, coordinate, gainDelta, and glast
+export const storeInformation = (
+  a: math.Matrix,
+  coordinate: Coordinates,
+  gainDelta: number,
+  glast: math.Matrix,
+  step: number
+) => {
+  // get the current time
+  let date = new Date();
+  let time = date.getTime();
+  let name = localStorage.getItem("name");
+
+  // send command to server at endpoint /store
+  return fetch(
+    `/store?time=${time}&name=${name}&a=${a}&coordinate=${coordinate}&gainDelta=${gainDelta}&glast=${glast}&step=${step}`
+  );
+};
