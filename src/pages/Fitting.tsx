@@ -13,21 +13,40 @@ export default function Fitting({}: Props) {
   const [volume, setVolume] = useState(MIN_VOLUME);
 
   return (
-    <>
+    <div className="flex-column">
       <div>
-        <Grid gainDelta={volume}/>
+        <Grid gainDelta={volume} />
       </div>
 
+<<<<<<< Updated upstream
+      <h3>Adjust Volume</h3>
+      <div className="flex-row">
+        <button
+          className="volume-button"
+          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 5))}
+        >
+          -
+        </button>
+
+=======
       <div>
         <h3>Adjust Volume</h3>
-        <button onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 5))}>Decrease</button>
+        <button className = "volume" onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 5))}>+</button>
+>>>>>>> Stashed changes
         <div>
           <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
         </div>
-        <button onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 5))}>Increase</button>
+        <button
+          className="volume-button"
+          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 5))}
+        >
+          +
+        </button>
       </div>
 
       <NextButton to="/adjust" text="Next" />
-    </>
+    </div>
   );
 }
+
+

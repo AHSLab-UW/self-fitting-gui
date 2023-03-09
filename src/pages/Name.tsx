@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import "../styles/Name.css";
 import { NextButton } from "../components/NextButton";
+import { sendCommand } from "../Command";
 
 export default function Name() {
   const [name, setName] = useState("");
@@ -24,7 +25,11 @@ export default function Name() {
         <NextButton
           to="/intro1"
           text="Submit"
-          onclick={() => localStorage.setItem("name", name)}
+          onclick={() => {
+            localStorage.setItem("name", name);
+            sendCommand("?read:/home/mha/self_fit.cfg");
+            sendCommand("cmd=start");
+          }}
         />
       ) : null}
     </div>

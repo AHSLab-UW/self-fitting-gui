@@ -13,6 +13,39 @@ body, .grid {
     -khtml-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
-    user-drag: none;
     touch-action: none;
 }
+<<<<<<< Updated upstream
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 40vw;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+
+.volume-button {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #000;
+    box-shadow: 0 0 10px #000;
+    cursor: pointer;
+    font-size: xx-large;
+}
+=======
+.volume{
+    background-color: bisque;
+}
+>>>>>>> Stashed changes

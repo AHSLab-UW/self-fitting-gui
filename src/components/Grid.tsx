@@ -122,9 +122,6 @@ const Grid = ({ gainDelta }: Props) => {
     });
 
     setA(getCoefficient());
-
-    sendCommand("?read:/home/mha/self_fit.cfg");
-    sendCommand("cmd=start");
   }, []);
 
   useEffect(() => {
