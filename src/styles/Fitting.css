@@ -34,12 +34,12 @@ body, .grid {
 }
 
 .volume-button {
-    width: 5vw;
-    height: 5vw;
+    width: 2vw;
+    height: 2vw;
     border-radius: 50%;
-    background-color: #fff;
-    border: 1px solid #000;
-    box-shadow: 0 0 10px #000;
+    background-color: #b4b8bf;
+    border: 1px solid #5b6388;
+    box-shadow: 0 0 5px #394058;
     cursor: pointer;
-    font-size: xx-large;
+    font-size: 40px;
 }

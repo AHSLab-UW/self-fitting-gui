@@ -18,7 +18,7 @@ export default function Fitting({}: Props) {
         <Grid gainDelta={volume} />
       </div>
 
-      <h3>Adjust Volume</h3>
+      <h3>Press To Adjust Volume</h3>
       <div className="flex-row">
         <button
           className="volume-button"

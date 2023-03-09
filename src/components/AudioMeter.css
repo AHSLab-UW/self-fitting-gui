@@ -1,55 +1,85 @@
 .bar-off,
 .bar-on {
-  height: 80px;
-  width: 7px;
-  background-color: lightgray;
-  margin-right: 5px;
+  height: 40px;
+  width: 15px;
+  background-color: rgb(177, 187, 209);
+  margin-right: 10px;
 }
 
 .bar-on {
-  background: rgb(25, 33, 113);
+  background: rgb(104, 113, 154);
 }
 
 .bar-on-0 {
-  background: rgb(36, 42, 106);
+  background: rgb(87, 98, 151);
 }
 
 .bar-on-1 {
-  background: green;
+  background:rgb(69, 83, 152);
 }
 
 .bar-on-2 {
-  background: greenyellow;
+  background: rgb(48, 65, 152);
 }
 
 .bar-on-3 {
-  background: greenyellow;
+  background: rgb(31, 51, 151);
 }
 
 .bar-on-4 {
-  background: yellow;
+  background: rgb(23, 48, 174);
 }
 
 .bar-on-5 {
-  background: yellow;
+  background: rgb(13, 40, 174);
 }
 
 .bar-on-6 {
-  background: orange;
+  background: rgb(43, 23, 174);
 }
 
 .bar-on-7 {
-  background: orange;
+  background: rgb(73, 23, 174);
 }
 
 .bar-on-8 {
-  background: red;
+  background:rgb(93, 23, 174);
 }
 
 .bar-on-9 {
-  background: red;
+  background: rgb(113, 23, 174);
 }
 
+.bar-on-10 {
+  background: rgb(133, 23, 174);
+}
+.bar-on-11 {
+  background: rgb(153, 23, 174);
+}
+.bar-on-12 {
+  background: rgb(150, 24, 150);
+}
+.bar-on-13 {
+  background: rgb(150, 24, 170);
+}
+.bar-on-14 {
+  background: rgb(150, 24, 190);
+}
+.bar-on-15 {
+  background: rgb(124, 18, 157);
+}
+.bar-on-16 {
+  background: rgb(105, 12, 133);
+}
+.bar-on-17 {
+  background: rgb(108, 11, 113);
+}
+.bar-on-18 {
+  background: rgb(113, 11, 94);
+}
+.bar-on-19 {
+  background: rgb(113, 11, 57);
+}
 .audio-progress {
   display: flex;
 }

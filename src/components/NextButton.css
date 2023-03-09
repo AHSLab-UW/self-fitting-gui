@@ -3,10 +3,10 @@
   align-items: center;
   justify-content: center;
 
-  min-width: 90px;
+  min-width: 150px;
   min-height: 15px;
   padding: 10px 20px;
-  background-color: #5c6977;
+  background-color: #5a88ba;
   color: #fff;
 
   text-decoration: none;
@@ -19,5 +19,5 @@
 }
 
 .big-button:hover {
-  background-color: #0965c7;
+  background-color: #5c6977;
 }

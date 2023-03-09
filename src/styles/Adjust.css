@@ -1,30 +1,29 @@
 .vertical-slider {
   height: 40vh;
   width: 50px;
-  border: 1px solid grey;
 }
 
 .example-thumb {
   font-size: 0.9em;
   text-align: center;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   color: white;
   cursor: pointer;
-  border: 5px solid gray;
+  border:  10px solid rgb(57, 90, 161);
   box-sizing: border-box;
 }
 
 .example-thumb.active {
-  background-color: grey;
+  background-color: rgb(187, 189, 198);
 }
 
 .example-track {
   position: relative;
-  background: #f00;
+  background:  rgb(57, 90, 161);
 }
 
 .example-track.example-track-1 {
-  background: #000;
+  background: #9296ab;
 }
 
 .example-track.example-track-2 {
@@ -37,7 +36,7 @@
   line-height: 40px;
   height: 60px;
   border-radius: 100%;
-  background-color: white;
+  background-color: rgb(57, 90, 161);
 }
 
 .vertical-slider .example-track {

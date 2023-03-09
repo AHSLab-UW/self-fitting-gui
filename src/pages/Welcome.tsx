@@ -15,9 +15,9 @@ export default function Welcome() {
           alt={"logo"}
           style={{ maxWidth: 150, marginBottom: 30 }}
         ></img>
-        <h1 className="space-top">Self Fitting Hearing Aid</h1>
-        <h3>Let's get started!</h3>
-        <NextButton to="/name" text="Next" />
+        <h2 className="space-top">Self Fitting Hearing Aid</h2>
+        <h3></h3>
+        <NextButton to="/name" text="Let's Get Started  "/>
       </div>
     </div>
   );
