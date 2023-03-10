@@ -5,11 +5,10 @@ import "../styles/Adjust.css";
 export default function Adjust() {
   return (
     <>
-      <h3>
-        Well Done! Now one last adjustment please. Move the slider until it
-        sounds most comfortable.
-      </h3>
-
+   <br> 
+   </br>
+   <br> 
+   </br>
       <div className="slider-container">
         <ReactSlider
           className="vertical-slider"
@@ -21,6 +20,10 @@ export default function Adjust() {
           minDistance={10}
         />
       </div>
+      <p className="adjust-text">
+  Well Done! Now one last adjustment please. Move the slider until it sounds
+  most comfortable.
+</p>
 
       <NextButton to="/prompt" text="Next" />
     </>
