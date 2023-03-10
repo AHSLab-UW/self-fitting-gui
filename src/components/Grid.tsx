@@ -46,11 +46,12 @@ const toScreenPosition = (
 const toStatePosition = (
   coordinates: Coordinates,
   gridSize: number,
+  xOffset: number,
   yOffset: number,
   range: number = RANGE
 ) => {
   const stateX =
-    ((coordinates.x + gridSize / 8 - getWindowDimensions().width / 2) /
+    ((coordinates.x + xOffset - getWindowDimensions().width / 2) /
       (gridSize / 2)) *
     range;
   const stateY = ((coordinates.y + yOffset) / (gridSize / 2) - 1) * range;
@@ -126,7 +127,7 @@ const Grid = ({ gainDelta }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, -178);
+    const screenPos = toScreenPosition(coordinates, gridSize, -215);
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
@@ -151,7 +152,8 @@ const Grid = ({ gainDelta }: Props) => {
           y: y,
         },
         gridSize,
-        -70
+        37,
+        -75
       )
     );
   };
