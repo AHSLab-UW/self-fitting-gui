@@ -9,7 +9,7 @@ import { getRandomColor } from "../Colors";
 const MAX_STEP = 30;
 
 const RANGE = 30;
-const GRID_CALC = (RANGE / 3) * 2;
+const GRID_CALC = (RANGE / 5) * 2;
 
 interface Props {
   gainDelta: number;
@@ -31,6 +31,7 @@ function getWindowDimensions() {
 const toScreenPosition = (
   coordinates: Coordinates,
   gridSize: number,
+  xOffset: number,
   yOffset: number,
   range: number = RANGE
 ) => {
@@ -38,7 +39,7 @@ const toScreenPosition = (
     x:
       (coordinates.x / range) * (gridSize / 2) +
       getWindowDimensions().width / 2 -
-      gridSize / 8,
+      xOffset,
     y: (coordinates.y / range) * (gridSize / 2) - yOffset,
   };
 };
@@ -127,11 +128,12 @@ const Grid = ({ gainDelta }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, -215);
+    const screenPos = toScreenPosition(coordinates, gridSize, 25, -235);
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
     });
+
   }, [coordinates]);
 
   // send command
@@ -153,7 +155,7 @@ const Grid = ({ gainDelta }: Props) => {
         },
         gridSize,
         0,
-        -75
+        -80
       )
     );
   };
@@ -164,9 +166,9 @@ const Grid = ({ gainDelta }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(Math.max(snapX, -GRID_CALC), GRID_CALC);
-    snapY = Math.min(Math.max(snapY, -GRID_CALC), GRID_CALC);
-
+    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2) , GRID_CALC * 2);
+    snapY = Math.min(Math.max(snapY, -GRID_CALC * 2), GRID_CALC * 2);
+  
     setCoordinates({
       x: snapX,
       y: snapY,
@@ -184,8 +186,8 @@ const Grid = ({ gainDelta }: Props) => {
           width: `${gridSize}px`,
           height: `${gridSize}px`,
           display: "grid",
-          gridTemplateColumns: `repeat(3, 1fr)`,
-          gridTemplateRows: `repeat(3, 1fr)`,
+          gridTemplateColumns: `repeat(5, 1fr)`,
+          gridTemplateRows: `repeat(5, 1fr)`,
           gap: `${gridSize / 70}px ${gridSize / 70}px`,
         }}
         onTouchStart={(e) => {
@@ -206,7 +208,7 @@ const Grid = ({ gainDelta }: Props) => {
         }}
         onMouseUp={handleEnd}
       >
-        {Array.from({ length: 9 }).map((_, index) => (
+        {Array.from({ length: 25 }).map((_, index) => (
           <div
             key={index}
             style={{
@@ -223,8 +225,8 @@ const Grid = ({ gainDelta }: Props) => {
           className="dot"
           style={{
             position: "fixed",
-            width: `${gridSize / 4}px`,
-            height: `${gridSize / 4}px`,
+            width: `${gridSize / 7}px`,
+            height: `${gridSize / 7}px`,
             background: dotColor,
             borderRadius: "50%",
             ...dotStyle,

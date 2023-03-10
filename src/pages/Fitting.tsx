@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AudioMeter } from "../components/AudioMeter";
-import Grid from "../components/Grid";
+import Grid from "../components/Grid5";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 
