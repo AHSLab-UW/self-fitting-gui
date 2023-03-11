@@ -28,7 +28,7 @@ export default function Select() {
         
       />
 
-      <NextButton to="/fit" text="Next" />
+      <NextButton to="/fit-select" text="Next" />
     </>
   );
 }

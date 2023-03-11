@@ -2,23 +2,24 @@ import { useState } from "react";
 import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
 import Grid from "../components/Grid";
-import { NextButton } from "../components/NextButton";
+import Grid5 from "../components/Grid5";
+
 import "../styles/Fitting.css";
 
 import stim from "../assets/audio/stimulus.wav";
 
-type Props = {};
+type Props = { grid5: boolean };
 
 const MIN_VOLUME = -25;
 const MAX_VOLUME = 25;
 
-export default function Fitting({}: Props) {
+export default function Fitting({ grid5 }: Props) {
   const [volume, setVolume] = useState(MIN_VOLUME);
 
   return (
     <div className="flex-column">
       <div>
-        <Grid gainDelta={volume} />
+        {grid5 ? <Grid5 gainDelta={volume} /> : <Grid gainDelta={volume} />}
       </div>
 
       <h3>Press To Adjust Volume</h3>

@@ -15,6 +15,7 @@ import Finish from "./pages/Finish";
 
 import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
+import FittingSelect from "./pages/FittingSelect";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -23,7 +24,9 @@ const routes = [
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
-  { path: "/fit", name: "Fitting", element: <Fitting /> },
+  { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
+  { path: "/fit", name: "Fitting", element: <Fitting grid5={false} /> },
+  { path: "/fit5", name: "Fitting 5", element: <Fitting grid5={true} /> },
   { path: "/adjust", name: "Adjust", element: <Adjust /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },

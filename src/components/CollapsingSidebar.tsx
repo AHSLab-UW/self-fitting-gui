@@ -29,6 +29,12 @@ const CollapsingSidebar = (props: Props) => {
         </div>
       </div>
       <div className="sidebar-body">
+        <Link className="link" to="/">
+          Home
+        </Link>
+        <Link className="link" to="/name">
+          Name
+        </Link>
         <Link className="link" to="/intro1">
           Connect To Your Devices, 1/2
         </Link>
@@ -40,6 +46,9 @@ const CollapsingSidebar = (props: Props) => {
         </Link>
         <Link className="link" to="/select">
           Select Location
+        </Link>
+        <Link className="link" to="/fit-select">
+          Sound Fitting Select
         </Link>
         <Link className="link" to="/fit">
           Sound Fitting
