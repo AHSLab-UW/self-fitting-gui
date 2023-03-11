@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { sendCommand, sendGridCommand, storeInformation } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
-import AudioButton from "./AudioButton";
-import stim from "../assets/audio/stimulus.wav";
 import { getRandomColor } from "../Colors";
+import { NextButton } from "./NextButton";
 
 const MAX_STEP = 30;
 
@@ -231,22 +230,25 @@ const Grid = ({ gainDelta }: Props) => {
           }}
         />
       </div>
-      <AudioButton stim={stim} />
 
-      <button
-        className="top-space"
-        onClick={() => {
-          setStep(step + 1);
+      {step < MAX_STEP ? (
+        <button
+          className="big-button top-space"
+          onClick={() => {
+            setStep(step + 1);
 
-          setGLast(currG);
-          setA(getCoefficient());
+            setGLast(currG);
+            setA(getCoefficient());
 
-          setCoordinates({ x: 0, y: 0 });
-          setDotColor(getRandomColor());
-        }}
-      >
-        Next Step
-      </button>
+            setCoordinates({ x: 0, y: 0 });
+            setDotColor(getRandomColor());
+          }}
+        >
+          Next Step
+        </button>
+      ) : (
+        <NextButton to="/adjust" text="Next" />
+      )}
     </>
   );
 };

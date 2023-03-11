@@ -1,8 +1,11 @@
 import { useState } from "react";
+import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
-import Grid from "../components/Grid5";
+import Grid from "../components/Grid";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
+
+import stim from "../assets/audio/stimulus.wav";
 
 type Props = {};
 
@@ -37,10 +40,8 @@ export default function Fitting({}: Props) {
           +
         </button>
       </div>
-
-      <NextButton to="/adjust" text="Next" />
+      <div className="top-space"></div>
+      <AudioButton stim={stim} />
     </div>
   );
 }
-
-

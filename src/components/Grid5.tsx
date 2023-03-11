@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { sendCommand, sendGridCommand, storeInformation } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
-import AudioButton from "./AudioButton";
-import stim from "../assets/audio/stimulus.wav";
 import { getRandomColor } from "../Colors";
+import { NextButton } from "./NextButton";
 
 const MAX_STEP = 30;
 
@@ -133,7 +132,6 @@ const Grid = ({ gainDelta }: Props) => {
       left: screenPos.x,
       top: screenPos.y,
     });
-
   }, [coordinates]);
 
   // send command
@@ -166,9 +164,9 @@ const Grid = ({ gainDelta }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2) , GRID_CALC * 2);
+    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2), GRID_CALC * 2);
     snapY = Math.min(Math.max(snapY, -GRID_CALC * 2), GRID_CALC * 2);
-  
+
     setCoordinates({
       x: snapX,
       y: snapY,
@@ -233,22 +231,37 @@ const Grid = ({ gainDelta }: Props) => {
           }}
         />
       </div>
-      <AudioButton stim={stim} />
 
-      <button
-        className="top-space"
-        onClick={() => {
-          setStep(step + 1);
+      {step < MAX_STEP ? (
+        <button
+          className="big-button top-space"
+          onClick={() => {
+            setStep(step + 1);
 
-          setGLast(currG);
-          setA(getCoefficient());
+            setGLast(currG);
+            setA(getCoefficient());
 
-          setCoordinates({ x: 0, y: 0 });
-          setDotColor(getRandomColor());
-        }}
-      >
-        Next Step
-      </button>
+            setCoordinates({ x: 0, y: 0 });
+            setDotColor(getRandomColor());
+          }}
+        >
+          Next Step
+        </button>
+      ) : (
+        <NextButton
+          onclick={() => {
+            setStep(step + 1);
+
+            setGLast(currG);
+            setA(getCoefficient());
+
+            setCoordinates({ x: 0, y: 0 });
+            setDotColor(getRandomColor());
+          }}
+          to="/adjust"
+          text="Continue"
+        />
+      )}
     </>
   );
 };
