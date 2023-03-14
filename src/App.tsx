@@ -9,7 +9,6 @@ import Name from "./pages/Name";
 import Intro2 from "./pages/Intro2";
 import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
-import Adjust from "./pages/Adjust";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
 
@@ -27,7 +26,6 @@ const routes = [
   { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
   { path: "/fit", name: "Fitting", element: <Fitting grid5={false} /> },
   { path: "/fit5", name: "Fitting 5", element: <Fitting grid5={true} /> },
-  { path: "/adjust", name: "Adjust", element: <Adjust /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
 ];

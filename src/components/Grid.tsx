@@ -3,15 +3,15 @@ import { sendStep, sendGridCommand } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
-import { NextButton } from "./NextButton";
 
 const MAX_STEP = 30;
 
 const RANGE = 30;
-const GRID_CALC = (RANGE / 3) * 2;
 
 interface Props {
+  grid5: boolean;
   gainDelta: number;
+  setFitted: (fitted: boolean) => void;
 }
 
 export interface Coordinates {
@@ -30,6 +30,7 @@ function getWindowDimensions() {
 const toScreenPosition = (
   coordinates: Coordinates,
   gridSize: number,
+  xOffset: number,
   yOffset: number,
   range: number = RANGE
 ) => {
@@ -37,7 +38,7 @@ const toScreenPosition = (
     x:
       (coordinates.x / range) * (gridSize / 2) +
       getWindowDimensions().width / 2 -
-      gridSize / 8,
+      xOffset,
     y: (coordinates.y / range) * (gridSize / 2) - yOffset,
   };
 };
@@ -92,7 +93,9 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ gainDelta }: Props) => {
+const Grid = ({ grid5, gainDelta, setFitted }: Props) => {
+  const GRID_CALC = (RANGE / (grid5 ? 5 : 3)) * 2;
+
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
   const [down, setDown] = useState(false);
   const [gridSize, setGridSize] = useState(300);
@@ -126,7 +129,7 @@ const Grid = ({ gainDelta }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, -215);
+    const screenPos = toScreenPosition(coordinates, gridSize, 25, grid5 ? -235 : -215);
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
@@ -151,7 +154,7 @@ const Grid = ({ gainDelta }: Props) => {
         },
         gridSize,
         0,
-        -75
+        -80
       )
     );
   };
@@ -162,8 +165,8 @@ const Grid = ({ gainDelta }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(Math.max(snapX, -GRID_CALC), GRID_CALC);
-    snapY = Math.min(Math.max(snapY, -GRID_CALC), GRID_CALC);
+    snapX = Math.min(Math.max(snapX, (grid5 ? -GRID_CALC * 2 : -GRID_CALC)), (grid5 ? GRID_CALC * 2 : GRID_CALC));
+    snapY = Math.min(Math.max(snapY, (grid5 ? -GRID_CALC * 2 : -GRID_CALC)), (grid5 ? GRID_CALC * 2 : GRID_CALC));
 
     setCoordinates({
       x: snapX,
@@ -182,8 +185,8 @@ const Grid = ({ gainDelta }: Props) => {
           width: `${gridSize}px`,
           height: `${gridSize}px`,
           display: "grid",
-          gridTemplateColumns: `repeat(3, 1fr)`,
-          gridTemplateRows: `repeat(3, 1fr)`,
+          gridTemplateColumns: `repeat(${grid5 ? 5 : 3}, 1fr)`,
+          gridTemplateRows: `repeat(${grid5 ? 5 : 3}, 1fr)`,
           gap: `${gridSize / 70}px ${gridSize / 70}px`,
         }}
         onTouchStart={(e) => {
@@ -204,7 +207,7 @@ const Grid = ({ gainDelta }: Props) => {
         }}
         onMouseUp={handleEnd}
       >
-        {Array.from({ length: 9 }).map((_, index) => (
+        {Array.from({ length: (grid5 ? 25 : 9) }).map((_, index) => (
           <div
             key={index}
             style={{
@@ -221,8 +224,8 @@ const Grid = ({ gainDelta }: Props) => {
           className="dot"
           style={{
             position: "fixed",
-            width: `${gridSize / 4}px`,
-            height: `${gridSize / 4}px`,
+            width: `${gridSize / (grid5 ? 7 : 4)}px`,
+            height: `${gridSize / (grid5 ? 7 : 4)}px`,
             background: dotColor,
             borderRadius: "50%",
             ...dotStyle,
@@ -241,16 +244,20 @@ const Grid = ({ gainDelta }: Props) => {
 
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
-
-            sendStep(currG, step);
           }}
         >
           Next Step
         </button>
       ) : (
-        <NextButton onclick={() => {
-          // store information
-        }} to="/adjust" text="Next" />
+        <button className="big-button top-space"
+          onClick={() => {
+            setStep(step + 1);
+            sendStep(currG, step);
+            setFitted(true);
+          }}
+        >
+          Continue
+        </button>
       )}
     </>
   );
