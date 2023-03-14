@@ -48,12 +48,12 @@ export const sendGridCommand = (
   return gSelect;
 };
 
-export const sendG = (
+export const sendStep = (
   g: math.Matrix,
   step: number
 ) => {
   let name = localStorage.getItem("name");
   fetch(
-    `/storeg?name=${name}&step=${step}&g=${g}`
+    `/storestep?name=${name}&step=${step}&g=${g}`
   );
 };

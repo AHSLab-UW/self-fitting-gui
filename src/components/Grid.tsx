@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendG, sendGridCommand } from "../Command";
+import { sendStep, sendGridCommand } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
@@ -242,13 +242,15 @@ const Grid = ({ gainDelta }: Props) => {
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
 
-            sendG(currG, step);
+            sendStep(currG, step);
           }}
         >
           Next Step
         </button>
       ) : (
-        <NextButton to="/adjust" text="Next" />
+        <NextButton onclick={() => {
+          // store information
+        }} to="/adjust" text="Next" />
       )}
     </>
   );
