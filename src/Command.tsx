@@ -54,6 +54,6 @@ export const sendG = (
 ) => {
   let name = localStorage.getItem("name");
   fetch(
-    `/storeg?name=${name}&g=${g}`
+    `/storeg?name=${name}&step=${step}&g=${g}`
   );
 };
