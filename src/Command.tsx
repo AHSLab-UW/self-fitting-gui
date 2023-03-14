@@ -47,3 +47,13 @@ export const sendGridCommand = (
   );
   return gSelect;
 };
+
+export const sendG = (
+  g: math.Matrix,
+  step: number
+) => {
+  let name = localStorage.getItem("name");
+  fetch(
+    `/storeg?name=${name}&g=${g}`
+  );
+};

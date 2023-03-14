@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendGridCommand } from "../Command";
+import { sendG, sendGridCommand } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
@@ -241,6 +241,8 @@ const Grid = ({ gainDelta }: Props) => {
 
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
+
+            sendG(currG, step);
           }}
         >
           Next Step
