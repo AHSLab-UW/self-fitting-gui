@@ -17,7 +17,8 @@ export const sendGridCommand = (
   a: math.Matrix,
   coordinate: Coordinates,
   gainDelta: number,
-  glast: math.Matrix
+  glast: math.Matrix,
+  step: number
 ) => {
   // multiply a by coordinate
   const coord = [coordinate.x, coordinate.y];
@@ -34,26 +35,15 @@ export const sendGridCommand = (
   gaintable_og = gaintable_og.substring(0, gaintable_og.length - 1);
   gaintable_og = "[" + gaintable_og + "]";
 
-  console.log("g:", g);
-  sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
-  return gSelect;
-};
-
-// send server the time, the name, a, coordinate, gainDelta, and glast
-export const storeInformation = (
-  a: math.Matrix,
-  coordinate: Coordinates,
-  gainDelta: number,
-  glast: math.Matrix,
-  step: number
-) => {
   // get the current time
   let date = new Date();
   let time = date.getTime();
   let name = localStorage.getItem("name");
 
   // send command to server at endpoint /store
-  return fetch(
-    `/store?time=${time}&name=${name}&a=${a}&coordinate=${coordinate}&gainDelta=${gainDelta}&glast=${glast}&step=${step}`
+  sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
+  fetch(
+    `/store?time=${time}&name=${name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
   );
+  return gSelect;
 };

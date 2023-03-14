@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendCommand, sendGridCommand, storeInformation } from "../Command";
+import { sendGridCommand } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
@@ -136,8 +136,7 @@ const Grid = ({ gainDelta }: Props) => {
   // send command
   useEffect(() => {
     let intervalId = setInterval(() => {
-      setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast));
-      storeInformation(a, coordinates, gainDelta, gLast, step);
+      setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast, step));
     }, 100);
     return () => clearInterval(intervalId);
   });
