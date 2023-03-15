@@ -41,6 +41,10 @@ h3 {
   margin-top: 1rem;
 }
 
+.space-top {
+  margin-top: 150px;
+}
+
 .container {
   display: flex;
   flex-direction: column;

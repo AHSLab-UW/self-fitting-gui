@@ -27,6 +27,19 @@ export const sendGridCommand = (
 
   const g = math.add(gSelect, gainDelta) as math.Matrix;
 
+  sendG(g);
+  // get the current time
+  let date = new Date();
+  let time = date.getTime();
+  let name = localStorage.getItem("name");
+
+  fetch(
+    `/store?time=${time}&name=${name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
+  );
+  return gSelect;
+};
+
+export const sendG = (g: math.Matrix) => {
   let gaintable_og = "";
   for (let i = 0; i < g.size()[0]; i++) {
     gaintable_og += `[${g.get([i])} ${g.get([i])} ${g.get([i])}];`;
@@ -35,17 +48,8 @@ export const sendGridCommand = (
   gaintable_og = gaintable_og.substring(0, gaintable_og.length - 1);
   gaintable_og = "[" + gaintable_og + "]";
 
-  // get the current time
-  let date = new Date();
-  let time = date.getTime();
-  let name = localStorage.getItem("name");
-
   // send command to server at endpoint /store
   sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
-  fetch(
-    `/store?time=${time}&name=${name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
-  );
-  return gSelect;
 };
 
 export const sendStep = (

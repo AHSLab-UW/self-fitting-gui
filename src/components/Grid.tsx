@@ -12,6 +12,7 @@ interface Props {
   grid5: boolean;
   gainDelta: number;
   setFitted: (fitted: boolean) => void;
+  setNewG: (gMatrix: math.Matrix) => void;
 }
 
 export interface Coordinates {
@@ -93,7 +94,7 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ grid5, gainDelta, setFitted }: Props) => {
+const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
   const GRID_CALC = (RANGE / (grid5 ? 5 : 3)) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -244,6 +245,9 @@ const Grid = ({ grid5, gainDelta, setFitted }: Props) => {
 
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
+
+            // save g to gmatrix
+            setNewG(currG);
           }}
         >
           Next Step
