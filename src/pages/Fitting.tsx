@@ -13,7 +13,7 @@ import "../styles/Fitting.css";
 import "../components/Slider.css";
 
 import stim from "../assets/audio/stimulus.wav";
-import { sendG } from "../Command";
+import { sendFinalG, sendG } from "../Command";
 
 type Props = { grid5: boolean };
 
