@@ -238,6 +238,10 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
         <button
           className="big-button top-space"
           onClick={() => {
+            const gFinal = math.add(currG, gainDelta) as math.Matrix
+            sendStep(gFinal, step);
+            setNewG(gFinal);
+
             setStep(step + 1);
 
             setGLast(currG);
@@ -245,9 +249,6 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
 
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
-
-            // save g to gmatrix
-            setNewG(currG);
           }}
         >
           Next Step
@@ -255,8 +256,6 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
       ) : (
         <button className="big-button top-space"
           onClick={() => {
-            setStep(step + 1);
-            sendStep(currG, step);
             setFitted(true);
           }}
         >

@@ -30,6 +30,7 @@ export default function Fitting({ grid5 }: Props) {
   // volume page
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
   const [a, setA] = useState<number[]>([]);
+  const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
 
   useEffect(() => {
     if (fitted) {
@@ -42,7 +43,7 @@ export default function Fitting({ grid5 }: Props) {
 
       // convert to math.js matrix
       const gMatrix25Matrix = math.matrix(gMatrix25);
-      console.log("gMatrix25Matrix", gMatrix25Matrix)
+      console.log("gMatrix25Matrix", gMatrix25Matrix);
 
       // take the average of the gMatrix row 5 - 30 axis 1
       const gAvg = math.mean(gMatrix25Matrix, 0);
@@ -123,7 +124,14 @@ export default function Fitting({ grid5 }: Props) {
           orientation="vertical"
           pearling
           minDistance={10}
-          onChange={(val) => {}}
+          min={-10}
+          max={10}
+          onChange={(val) => {
+            const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
+            sendG(finalG);
+            setFinalG(finalG);
+            console.log("finalG", finalG);
+          }}
         />
       </div>
       <p className="adjust-text">
@@ -131,7 +139,7 @@ export default function Fitting({ grid5 }: Props) {
         sounds most comfortable.
       </p>
 
-      <NextButton to="/prompt" text="Next" />
+      <NextButton onclick={() => sendFinalG(finalG)} to="/prompt" text="Next" />
     </>
   );
 }

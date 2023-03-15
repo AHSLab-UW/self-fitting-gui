@@ -52,12 +52,11 @@ export const sendG = (g: math.Matrix) => {
   sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
 };
 
-export const sendStep = (
-  g: math.Matrix,
-  step: number
-) => {
-  let name = localStorage.getItem("name");
-  fetch(
-    `/storestep?name=${name}&step=${step}&g=${g}`
-  );
+export const sendStep = (g: math.Matrix, step: number) => {
+  const name = localStorage.getItem("name");
+  fetch(`/storestep?name=${name}&step=${step}&g=${g}`);
+};
+
+export const sendFinalG = (g: math.Matrix) => {
+  sendStep(g, 100)
 };
