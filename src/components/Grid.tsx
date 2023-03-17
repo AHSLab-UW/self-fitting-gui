@@ -103,6 +103,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
   const [dotStyle, setDotStyle] = useState({});
   const [dotColor, setDotColor] = useState("#ff0000");
 
+  const [selectedGrid, setSelectedGrid] = useState(-1);
+
   const [step, setStep] = useState(0);
   const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
   const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
@@ -132,11 +134,109 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, 25, grid5 ? -235 : -215);
+    const screenPos = toScreenPosition(
+      coordinates,
+      gridSize,
+      25,
+      grid5 ? -235 : -215
+    );
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
     });
+
+    let snapX = math.round(coordinates.x / GRID_CALC) * GRID_CALC;
+    let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
+
+    if (grid5) {
+      if (snapY < -20) {
+        if (snapX < -20) {
+          setSelectedGrid(0);
+        } else if (snapX < -10) {
+          setSelectedGrid(1);
+        } else if (snapX == 0) {
+          setSelectedGrid(2);
+        } else if (snapX < 15) {
+          setSelectedGrid(3);
+        } else {
+          setSelectedGrid(4);
+        }
+      } else if (snapY < -10) {
+        if (snapX < -20) {
+          setSelectedGrid(5);
+        } else if (snapX < -10) {
+          setSelectedGrid(6);
+        } else if (snapX == 0) {
+          setSelectedGrid(7);
+        } else if (snapX < 15) {
+          setSelectedGrid(8);
+        } else {
+          setSelectedGrid(9);
+        }
+      } else if (snapY == 0) {
+        if (snapX < -20) {
+          setSelectedGrid(10);
+        } else if (snapX < -10) {
+          setSelectedGrid(11);
+        } else if (snapX == 0) {
+          setSelectedGrid(12);
+        } else if (snapX < 15) {
+          setSelectedGrid(13);
+        } else {
+          setSelectedGrid(14);
+        }
+      } else if (snapY <= 20) {
+        if (snapX < -20) {
+          setSelectedGrid(15);
+        } else if (snapX < -10) {
+          setSelectedGrid(16);
+        } else if (snapX == 0) {
+          setSelectedGrid(17);
+        } else if (snapX < 15) {
+          setSelectedGrid(18);
+        } else {
+          setSelectedGrid(19);
+        }
+      } else {
+        if (snapX < -20) {
+          setSelectedGrid(20);
+        } else if (snapX < -10) {
+          setSelectedGrid(21);
+        } else if (snapX == 0) {
+          setSelectedGrid(22);
+        } else if (snapX < 15) {
+          setSelectedGrid(23);
+        } else {
+          setSelectedGrid(24);
+        }
+      }
+    } else {
+      if (snapY < 0) {
+        if (snapX < 0) {
+          setSelectedGrid(0);
+        } else if (snapX == 0) {
+          setSelectedGrid(1);
+        } else {
+          setSelectedGrid(2);
+        }
+      } else if (snapY == 0) {
+        if (snapX < 0) {
+          setSelectedGrid(3);
+        } else if (snapX == 0) {
+          setSelectedGrid(4);
+        } else {
+          setSelectedGrid(5);
+        }
+      } else {
+        if (snapX < 0) {
+          setSelectedGrid(6);
+        } else if (snapX == 0) {
+          setSelectedGrid(7);
+        } else {
+          setSelectedGrid(8);
+        }
+      }
+    }
   }, [coordinates]);
 
   // send command
@@ -168,8 +268,14 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(Math.max(snapX, (grid5 ? -GRID_CALC * 2 : -GRID_CALC)), (grid5 ? GRID_CALC * 2 : GRID_CALC));
-    snapY = Math.min(Math.max(snapY, (grid5 ? -GRID_CALC * 2 : -GRID_CALC)), (grid5 ? GRID_CALC * 2 : GRID_CALC));
+    snapX = Math.min(
+      Math.max(snapX, grid5 ? -GRID_CALC * 2 : -GRID_CALC),
+      grid5 ? GRID_CALC * 2 : GRID_CALC
+    );
+    snapY = Math.min(
+      Math.max(snapY, grid5 ? -GRID_CALC * 2 : -GRID_CALC),
+      grid5 ? GRID_CALC * 2 : GRID_CALC
+    );
 
     setCoordinates({
       x: snapX,
@@ -210,7 +316,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
         }}
         onMouseUp={handleEnd}
       >
-        {Array.from({ length: (grid5 ? 25 : 9) }).map((_, index) => (
+        {Array.from({ length: grid5 ? 25 : 9 }).map((_, index) => (
           <div
             key={index}
             style={{
@@ -218,7 +324,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
               height: "100%",
               border: `${gridSize / 150}px solid black`,
               boxSizing: "border-box",
-              background: "white",
+              background: index === selectedGrid ? "gray" : "white",
             }}
           />
         ))}
@@ -240,7 +346,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
         <button
           className="big-button top-space"
           onClick={() => {
-            const gFinal = math.add(currG, gainDelta) as math.Matrix
+            const gFinal = math.add(currG, gainDelta) as math.Matrix;
             sendStep(gFinal, step);
             setNewG(gFinal);
 
@@ -256,7 +362,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
           Next Step
         </button>
       ) : (
-        <button className="big-button top-space"
+        <button
+          className="big-button top-space"
           onClick={() => {
             setFitted(true);
           }}
