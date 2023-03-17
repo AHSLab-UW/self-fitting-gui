@@ -126,6 +126,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
     });
 
     setA(getCoefficient());
+
+    localStorage.setItem("grid5", grid5 ? "5x5" : "3x3");
   }, []);
 
   useEffect(() => {

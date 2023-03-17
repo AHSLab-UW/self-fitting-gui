@@ -31,10 +31,14 @@ export const sendGridCommand = (
   // get the current time
   let date = new Date();
   let time = date.getTime();
-  let name = localStorage.getItem("name");
+
+  const name = localStorage.getItem("name");
+  const grid = localStorage.getItem("grid");
+
+  const file_name = name ? name : "null" + "-" + grid ? grid : "empty";
 
   fetch(
-    `/store?time=${time}&name=${name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
+    `/store?time=${time}&name=${file_name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
   );
   return gSelect;
 };
@@ -54,7 +58,11 @@ export const sendG = (g: math.Matrix) => {
 
 export const sendStep = (g: math.Matrix, step: number) => {
   const name = localStorage.getItem("name");
-  fetch(`/storestep?name=${name}&step=${step}&g=${g}`);
+  const grid = localStorage.getItem("grid");
+
+  const file_name = name ? name : "null" + "-" + grid ? grid : "empty";
+
+  fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
 };
 
 export const sendFinalG = (g: math.Matrix) => {
