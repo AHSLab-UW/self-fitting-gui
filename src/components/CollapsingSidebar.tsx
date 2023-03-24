@@ -17,7 +17,12 @@ const CollapsingSidebar = (props: Props) => {
   return (
     <div className={className}>
       <div className="sidebar-header">
-        {/* Text on left, close icon on right */}
+        {localStorage.getItem("name") ? localStorage.getItem("name") : "[Name]"}
+        {' '}
+        {localStorage.getItem("scene") ? localStorage.getItem("scene") : "[Scene]"}
+        {' '}
+        {localStorage.getItem("grid") ? localStorage.getItem("grid") : "[Grid]"}
+        
         <div className="space-between">
           <img src={ear} alt={"logo"} style={{ maxWidth: 50 }}></img>
           <img

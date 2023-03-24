@@ -1,34 +1,19 @@
-import ImageSlider from "../components/ImageSlider";
-
-import shen from "../assets/imgs/shen.jpeg";
-import ear from "../assets/imgs/ear-03.png";
-import resturant from "../assets/imgs/resturant.png";
-import hiking from "../assets/imgs/hiking.png";
-import concert from "../assets/imgs/concert.png";
+import driving from "../assets/imgs/driving.jpg";
+import resturant from "../assets/imgs/restaurant.jpg";
 
 import { NextButton } from "../components/NextButton";
-
-
+import ImageCarousel from "../components/ImageCarousel";
 
 export default function Select() {
   return (
     <>
       <h3>Scroll through the scenes and select the option that best fits</h3>
-      <ImageSlider
+      <ImageCarousel
         images={[
-          { src: shen, alt: "shen" },
-          { src: ear, alt: "ear" },
+          { src: driving, alt: "driving" },
           { src: resturant, alt: "resturant" },
-          { src: hiking, alt: "hiking" },
-          { src: concert, alt: "concert" }
-
-          
         ]}
-
-        
       />
-
-      <NextButton to="/fit-select" text="Next" />
     </>
   );
 }

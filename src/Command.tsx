@@ -58,13 +58,20 @@ export const sendG = (g: math.Matrix) => {
 
 export const sendStep = (g: math.Matrix, step: number) => {
   const name = localStorage.getItem("name");
+  const scene = localStorage.getItem("scene");
   const grid = localStorage.getItem("grid");
 
-  const file_name = name ? name : "null" + "-" + grid ? grid : "empty";
+  const file_name = name
+    ? name
+    : "null" + "-" + scene
+    ? scene
+    : "null" + grid
+    ? grid
+    : "null";
 
   fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
 };
 
 export const sendFinalG = (g: math.Matrix) => {
-  sendStep(g, 100)
+  sendStep(g, 100);
 };
