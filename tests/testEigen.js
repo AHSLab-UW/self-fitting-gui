@@ -40,5 +40,5 @@ const eigenvector = pca.getEigenvectors();
 console.log("eigenvector", eigenvector);
 
 // get the first column of the eigenvector
-const maxEigenVector = eigenvector.getColumnVector(0);
+const maxEigenVector = eigenvector.getColumn(0);
 console.log("maxEigenVector", maxEigenVector);

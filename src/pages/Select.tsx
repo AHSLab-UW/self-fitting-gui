@@ -1,7 +1,6 @@
 import driving from "../assets/imgs/driving.jpg";
-import resturant from "../assets/imgs/restaurant.jpg";
+import restaurant from "../assets/imgs/restaurant.jpg";
 
-import { NextButton } from "../components/NextButton";
 import ImageCarousel from "../components/ImageCarousel";
 
 export default function Select() {
@@ -11,7 +10,7 @@ export default function Select() {
       <ImageCarousel
         images={[
           { src: driving, alt: "driving" },
-          { src: resturant, alt: "resturant" },
+          { src: restaurant, alt: "restaurant" },
         ]}
       />
     </>
