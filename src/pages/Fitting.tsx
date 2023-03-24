@@ -50,6 +50,7 @@ export default function Fitting({ grid5 }: Props) {
       console.log("gAvg", gAvg);
 
       setGAvg(gAvg);
+      setFinalG(gAvg);
       sendG(gAvg);
 
       // convert math.js matrix to javascript array
