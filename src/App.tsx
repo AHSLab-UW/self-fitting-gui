@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Fitting from "./pages/Fitting";
 import Welcome from "./pages/Welcome";
@@ -15,6 +15,7 @@ import Finish from "./pages/Finish";
 import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
 import FittingSelect from "./pages/FittingSelect";
+import Admin from "./pages/Admin";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -28,10 +29,12 @@ const routes = [
   { path: "/fit5", name: "Fitting 5", element: <Fitting grid5={true} /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
+  { path: "/admin", name: "Admin", element: <Admin />}
 ];
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  let navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -51,7 +54,7 @@ function App() {
         menuCallback={toggleSidebar}
         batteryCallback={() => {}}
         helpCallback={() => {}}
-        settingCallback={() => {}}
+        settingCallback={() => navigate("/admin")}
       />
     </div>
   );
