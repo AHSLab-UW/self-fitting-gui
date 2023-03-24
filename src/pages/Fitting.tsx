@@ -63,14 +63,8 @@ export default function Fitting({ grid5 }: Props) {
       const eigenvector = pca.getEigenvectors();
       console.log("eigenvector", eigenvector);
 
-      // get the index of the row with the highest eigenvalue
-      const maxEigenIndex = pca
-        .getEigenvalues()
-        .indexOf(Math.max(...pca.getEigenvalues()));
-      console.log("maxEigenIndex", maxEigenIndex);
-
-      // get the eigenvector with the highest eigenvalue
-      const maxEigenVector = eigenvector.getRow(maxEigenIndex);
+      // get the first column of the eigenvector
+      const maxEigenVector = eigenvector.getColumn(0);
       console.log("maxEigenVector", maxEigenVector);
 
       setA(maxEigenVector);
