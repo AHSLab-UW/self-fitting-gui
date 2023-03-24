@@ -33,9 +33,17 @@ export const sendGridCommand = (
   let time = date.getTime();
 
   const name = localStorage.getItem("name");
+  const scene = localStorage.getItem("scene");
   const grid = localStorage.getItem("grid");
 
-  const file_name = name ? name : "null" + "-" + grid ? grid : "empty";
+  const file_name = name
+    ? name
+    : "null" + "-" + scene
+    ? scene
+    : "null" + "-" + grid
+    ? grid
+    : "null";
+  console.log(file_name);
 
   fetch(
     `/store?time=${time}&name=${file_name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
@@ -65,9 +73,11 @@ export const sendStep = (g: math.Matrix, step: number) => {
     ? name
     : "null" + "-" + scene
     ? scene
-    : "null" + grid
+    : "null" + "-" + grid
     ? grid
     : "null";
+
+  console.log(file_name);
 
   fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
 };

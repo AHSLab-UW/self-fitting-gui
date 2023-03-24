@@ -60,11 +60,13 @@ export default function Intro3() {
   return (
     <>
       <h3>{renderNotif()}</h3>
-      <h1>
-        {average}
-      </h1>
-      <div className="container">
-        <AudioMeter val={Math.min((vol[0] + vol[1]) / 2, 100)} min={20} max={100} />
+      <h1>{average}</h1>
+      <div>
+        <AudioMeter
+          val={Math.min((vol[0] + vol[1]) / 2, 100)}
+          min={20}
+          max={100}
+        />
       </div>
       <AudioButton stim={stim} />
       <NextButton to="/select" text="Next" />
