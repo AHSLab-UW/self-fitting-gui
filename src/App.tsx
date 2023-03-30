@@ -54,7 +54,12 @@ function App() {
         menuCallback={toggleSidebar}
         batteryCallback={() => {}}
         helpCallback={() => {}}
-        settingCallback={() => navigate("/admin")}
+        settingCallback={() => {
+          const name = localStorage.getItem("name");
+          if (name === "admin") {
+            navigate("/admin")
+          }
+        }}
       />
     </div>
   );

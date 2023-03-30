@@ -20,6 +20,8 @@ export const sendGridCommand = (
   glast: math.Matrix,
   step: number
 ) => {
+  if (localStorage.getItem("name") === "admin") return;
+
   // multiply a by coordinate
   const coord = [coordinate.x, coordinate.y];
   const b = math.multiply(a, math.matrix(coord));
@@ -50,6 +52,8 @@ export const sendGridCommand = (
 };
 
 export const sendG = (g: math.Matrix) => {
+  if (localStorage.getItem("name") === "admin") return;
+
   let gaintable_og = "";
   for (let i = 0; i < g.size()[0]; i++) {
     gaintable_og += `[${g.get([i])} ${g.get([i])} ${g.get([i])}];`;
@@ -63,6 +67,8 @@ export const sendG = (g: math.Matrix) => {
 };
 
 export const sendStep = (g: math.Matrix, step: number) => {
+  if (localStorage.getItem("name") === "admin") return;
+
   const name = localStorage.getItem("name");
   const scene = localStorage.getItem("scene");
   const grid = localStorage.getItem("grid");

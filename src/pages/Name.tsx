@@ -4,11 +4,12 @@
 import { useState } from "react";
 
 import "../styles/Name.css";
-import { NextButton } from "../components/NextButton";
 import { sendCommand } from "../Command";
+import { useNavigate } from "react-router-dom";
 
 export default function Name() {
   const [name, setName] = useState("");
+  let navigate = useNavigate();
 
   return (
     <div style={{ marginTop: 50 }}>
@@ -22,15 +23,19 @@ export default function Name() {
 
       <br />
       {name !== "" ? (
-        <NextButton
-          to="/intro1"
-          text="Submit"
-          onclick={() => {
+        <button
+        className="big-button"
+          onClick={() => {
             localStorage.setItem("name", name);
-            sendCommand("?read:/home/mha/self_fit.cfg");
-            sendCommand("cmd=start");
+            if (name === "admin") {
+              navigate("/admin")
+            } else {
+              navigate("/select")
+              sendCommand("?read:/home/mha/self_fit.cfg");
+              sendCommand("cmd=start");
+            }
           }}
-        />
+        >Next</button>
       ) : null}
     </div>
   );
