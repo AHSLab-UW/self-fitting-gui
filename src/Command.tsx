@@ -20,7 +20,7 @@ export const sendGridCommand = (
   glast: math.Matrix,
   step: number
 ) => {
-  if (localStorage.getItem("name") === "admin") return;
+  if (localStorage.getItem("name") === "admin") return new math.Matrix();
 
   // multiply a by coordinate
   const coord = [coordinate.x, coordinate.y];

@@ -4,10 +4,29 @@ import React, { useState } from "react";
 
 type Props = {};
 
+const bands = [250,500,1000,2000,4000,8000]
+
 export default function Admin({}: Props) {
   const [data, setData] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
 
+  function createCSVFile(csvData: string) {
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    return url;
+  }
+  
+  function handleExportClick(csvData: string) {
+    const csvUrl = createCSVFile(csvData);
+    const link = document.createElement('a');
+    link.href = csvUrl;
+    link.download = name + "_self-fit-final.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  
   return (
     <div>
       <h1>Admin</h1>
@@ -17,7 +36,9 @@ export default function Admin({}: Props) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+      <div className="top-space"></div>
       <button
+        className="big-button"
         onClick={() => {
           fetch(`/admin?name=${name}`)
             .then((res) => res.json())
@@ -42,6 +63,26 @@ export default function Admin({}: Props) {
       <p>{data[2]}</p>
       <h2>Driving 5x5</h2>
       <p>{data[3]}</p>
+
+      <button
+        className="big-button"
+        onClick={() => {
+          let csv = "Bands,SF_3x3_Res,SF_5x5_Res,SF_3x3_Trf,SF_5x5_Trf\n";
+          for (let i = 0; i < bands.length; i++) {
+            csv += bands[i]
+            for (let j = 0; j < 4; j++) {
+              if (data[j] != null) {
+                const arr = JSON.parse(data[j]) as number[];
+                csv += Math.round(arr[i])
+              }
+              csv += ","
+            }
+            csv += "\n"
+          }
+
+          handleExportClick(csv);
+        }}
+      >Export</button>
     </div>
   );
 }
