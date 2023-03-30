@@ -69,9 +69,11 @@ export default function Admin({}: Props) {
         onClick={() => {
           let csv = "Bands,SF_3x3_Res,SF_5x5_Res,SF_3x3_Trf,SF_5x5_Trf\n";
           for (let i = 0; i < bands.length; i++) {
-            csv += bands[i]
+            csv += bands[i] + ","
             for (let j = 0; j < 4; j++) {
-              if (data[j] != null) {
+              console.log(data[j])
+
+              if (data[j] && data[j].length > 0 && data[j] !== "[]") {
                 const arr = JSON.parse(data[j]) as number[];
                 csv += Math.round(arr[i])
               }
@@ -80,7 +82,6 @@ export default function Admin({}: Props) {
             csv += "\n"
           }
 
-          console.log(csv)
           handleExportClick(csv);
         }}
       >Export</button>
