@@ -109,8 +109,8 @@ export default function Fitting({ grid5 }: Props) {
           +
         </button>
       </div>
-      <div className="top-space"></div>
-      <AudioButton stim={stim} />
+      {/* <div className="top-space"></div>
+      <AudioButton stim={stim} /> */}
     </div>
   ) : (
     <>

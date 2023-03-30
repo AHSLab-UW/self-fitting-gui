@@ -80,6 +80,7 @@ export default function Admin({}: Props) {
             csv += "\n"
           }
 
+          console.log(csv)
           handleExportClick(csv);
         }}
       >Export</button>
