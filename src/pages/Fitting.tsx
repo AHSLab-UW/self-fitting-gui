@@ -57,6 +57,8 @@ export default function Fitting({ grid5 }: Props) {
       const g25Arr = gMatrix25Matrix.toArray() as number[][];
       console.log("g25Arr", g25Arr);
 
+      /*
+
       // use ml-pca to find the eigenvector
       const pca = new PCA(g25Arr);
 
@@ -69,6 +71,8 @@ export default function Fitting({ grid5 }: Props) {
       console.log("maxEigenVector", maxEigenVector);
 
       setA(maxEigenVector);
+
+      */
     }
   }, [fitted]);
 
@@ -122,7 +126,9 @@ export default function Fitting({ grid5 }: Props) {
           min={-10}
           max={10}
           onChange={(val) => {
-            const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
+            // const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
+
+            const finalG = math.add(gAvg, val) as math.Matrix;
             sendG(finalG);
             setFinalG(finalG);
             console.log("finalG", finalG);
