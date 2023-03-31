@@ -71,14 +71,14 @@ export default function Admin({}: Props) {
           for (let i = 0; i < bands.length; i++) {
             csv += bands[i] + ","
             for (let j = 0; j < 4; j++) {
-              console.log(data[j])
-
               if (data[j] && data[j].length > 0 && data[j] !== "[]") {
                 const arr = JSON.parse(data[j]) as number[];
-                csv += Math.round(arr[i])
+                if (arr && arr[i])
+                  csv += Math.round(arr[i])
               }
               csv += ","
             }
+            csv = csv.substring(0, csv.length - 1);
             csv += "\n"
           }
 
