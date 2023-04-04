@@ -121,7 +121,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
   );
 
   useEffect(() => {
-    setGridSize((window.innerWidth / 4.5) * 2);
+    setGridSize((window.innerWidth / 2.75) * 2);
     setCoordinates({
       x: 0,
       y: 0,
@@ -137,8 +137,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
     const screenPos = toScreenPosition(
       coordinates,
       gridSize,
-      grid5 ? 25 : 45,
-      grid5 ? -235 : -215
+      grid5 ? 38 : 67,
+      grid5 ? -318 : -287
     );
     setDotStyle({
       left: screenPos.x,
