@@ -17,14 +17,14 @@ import { sendFinalG, sendG } from "../Command";
 
 type Props = { grid5: boolean };
 
-const MIN_VOLUME = -25;
+const MIN_VOLUME = -15;
 const MAX_VOLUME = 25;
 
 export default function Fitting({ grid5 }: Props) {
   const [fitted, setFitted] = useState(false);
 
   // fititng page
-  const [volume, setVolume] = useState(MIN_VOLUME);
+  const [volume, setVolume] = useState(0);
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
 
   // volume page
@@ -90,21 +90,21 @@ export default function Fitting({ grid5 }: Props) {
         />
       </div>
 
-      <h3>Press To Adjust Volume</h3>
+      <h3 className="top-space">Press To Adjust Volume</h3>
       <div className="flex-row">
         <button
           className="volume-button"
-          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 5))}
+          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 2))}
         >
           -
         </button>
 
-        <div>
+        <div className="top-space">
           <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
         </div>
         <button
           className="volume-button"
-          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 5))}
+          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 2))}
         >
           +
         </button>
