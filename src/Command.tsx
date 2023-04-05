@@ -27,17 +27,7 @@ export const sendGridCommand = (
   const b = math.multiply(a, math.matrix(coord));
   const gSelect = math.add(b, glast);
 
-  let g = math.add(gSelect, gainDelta) as math.Matrix;
-  
-  g = g.map((value) => {
-    if (value > 25) {
-      return 25;
-    } else if (value < -15) {
-      return -15;
-    } else {
-      return value;
-    }
-  });
+  const g = math.add(gSelect, gainDelta) as math.Matrix;
 
   sendG(g);
   // get the current time
@@ -61,7 +51,17 @@ export const sendGridCommand = (
   return gSelect;
 };
 
-export const sendG = (g: math.Matrix) => {
+export const sendG = (g_unclipped: math.Matrix) => {
+  const g = g_unclipped.map((value) => {
+    if (value > 25) {
+      return 25;
+    } else if (value < -15) {
+      return -15;
+    } else {
+      return value;
+    }
+  });
+
   if (localStorage.getItem("name") === "admin") return;
 
   let gaintable_og = "";
