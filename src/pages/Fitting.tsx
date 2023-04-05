@@ -129,7 +129,17 @@ export default function Fitting({ grid5 }: Props) {
           onChange={(val) => {
             // const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
 
-            const finalG = math.add(gAvg, val) as math.Matrix;
+            let finalG = math.add(gAvg, val) as math.Matrix;
+            finalG = finalG.map((value) => {
+              if (value > 20) {
+                return 20;
+              } else if (value < -15) {
+                return -15;
+              } else {
+                return value;
+              }
+            });
+
             sendG(finalG);
             setFinalG(finalG);
             console.log("finalG", finalG);
