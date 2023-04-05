@@ -6,7 +6,7 @@ import { getRandomColor } from "../Colors";
 
 const MAX_STEP = 30;
 
-const RANGE = 30;
+const RANGE = 20;
 
 interface Props {
   grid5: boolean;
@@ -149,62 +149,62 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     if (grid5) {
-      if (snapY < -20) {
-        if (snapX < -20) {
+      if (snapY < -1*RANGE/5*3) {
+        if (snapX < -1*RANGE/5*3) {
           setSelectedGrid(0);
-        } else if (snapX < -10) {
+        } else if (snapX < -1*RANGE/5) {
           setSelectedGrid(1);
         } else if (snapX == 0) {
           setSelectedGrid(2);
-        } else if (snapX < 15) {
+        } else if (snapX < RANGE/5*3) {
           setSelectedGrid(3);
         } else {
           setSelectedGrid(4);
         }
-      } else if (snapY < -10) {
-        if (snapX < -20) {
+      } else if (snapY < -1*RANGE/5) {
+        if (snapX < -1*RANGE/5*3) {
           setSelectedGrid(5);
-        } else if (snapX < -10) {
+        } else if (snapX < -1*RANGE/5) {
           setSelectedGrid(6);
         } else if (snapX == 0) {
           setSelectedGrid(7);
-        } else if (snapX < 15) {
+        } else if (snapX < RANGE/5*3) {
           setSelectedGrid(8);
         } else {
           setSelectedGrid(9);
         }
-      } else if (snapY == 0) {
-        if (snapX < -20) {
+      } else if (snapY === 0) {
+        if (snapX < -1*RANGE/5*3) {
           setSelectedGrid(10);
-        } else if (snapX < -10) {
+        } else if (snapX < -1*RANGE/5) {
           setSelectedGrid(11);
         } else if (snapX == 0) {
           setSelectedGrid(12);
-        } else if (snapX < 15) {
+        } else if (snapX < RANGE/5*3) {
           setSelectedGrid(13);
         } else {
           setSelectedGrid(14);
         }
-      } else if (snapY <= 20) {
-        if (snapX < -20) {
+      } else if (snapY < RANGE/5*3) {
+        if (snapX < -1*RANGE/5*3) {
           setSelectedGrid(15);
-        } else if (snapX < -10) {
+        } else if (snapX < -1*RANGE/5) {
           setSelectedGrid(16);
         } else if (snapX == 0) {
           setSelectedGrid(17);
-        } else if (snapX < 15) {
+        } else if (snapX < RANGE/5*3) {
           setSelectedGrid(18);
         } else {
           setSelectedGrid(19);
         }
       } else {
-        if (snapX < -20) {
+        if (snapX < -1*RANGE/5*3) {
           setSelectedGrid(20);
-        } else if (snapX < -10) {
+        } else if (snapX < -1*RANGE/5) {
           setSelectedGrid(21);
         } else if (snapX == 0) {
           setSelectedGrid(22);
-        } else if (snapX < 15) {
+        } else if (snapX < RANGE/5*3) {
           setSelectedGrid(23);
         } else {
           setSelectedGrid(24);
