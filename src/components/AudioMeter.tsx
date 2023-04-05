@@ -20,7 +20,7 @@ export const AudioMeter = ({ val, min = 0, max }: Props) => {
     }
 
     setBars(newBars);
-  });
+  }, [val]);
 
   return (
     <div className="audio-progress">
