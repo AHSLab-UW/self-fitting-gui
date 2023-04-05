@@ -137,8 +137,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
     const screenPos = toScreenPosition(
       coordinates,
       gridSize,
-      grid5 ? 38 : 67,
-      grid5 ? -318 : -287
+      grid5 ? 40 : 70,
+      grid5 ? -333: -300
     );
     setDotStyle({
       left: screenPos.x,
