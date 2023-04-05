@@ -114,7 +114,7 @@ export default function Fitting({ grid5 }: Props) {
     </div>
   ) : (
     <>
-      <div className="slider-container">
+      <div className="slider-container top-space">
         <ReactSlider
           className="vertical-slider"
           thumbClassName="example-thumb"
@@ -125,6 +125,7 @@ export default function Fitting({ grid5 }: Props) {
           minDistance={10}
           min={-10}
           max={10}
+          invert={true}
           onChange={(val) => {
             // const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
 

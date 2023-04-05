@@ -96,3 +96,7 @@ export const sendStep = (g: math.Matrix, step: number) => {
 export const sendFinalG = (g: math.Matrix) => {
   sendStep(g, 100);
 };
+
+export const resetG = () => {
+  sendG(math.zeros(6, 1) as math.Matrix);
+}
