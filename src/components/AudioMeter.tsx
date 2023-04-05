@@ -7,7 +7,7 @@ interface Props {
   max: number;
 }
 export const AudioMeter = ({ val, min = 0, max }: Props) => {
-  const [bars, setBars] = useState<string[]>(Array(20));
+  const [bars, setBars] = useState<string[]>(Array(15));
   useEffect(() => {
     let newBars = [];
 

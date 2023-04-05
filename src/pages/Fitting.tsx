@@ -18,7 +18,7 @@ import { sendFinalG, sendG } from "../Command";
 type Props = { grid5: boolean };
 
 const MIN_VOLUME = -15;
-const MAX_VOLUME = 25;
+const MAX_VOLUME = 15;
 
 export default function Fitting({ grid5 }: Props) {
   const [fitted, setFitted] = useState(false);
