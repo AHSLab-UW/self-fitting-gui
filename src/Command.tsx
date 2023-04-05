@@ -100,7 +100,17 @@ export const sendStep = (g: math.Matrix, step: number) => {
     "-" +
     (grid ? grid : "null");
 
-  fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
+    const g_clipped = g.map((value) => {
+      if (value > 20) {
+        return 20;
+      } else if (value < -15) {
+        return -15;
+      } else {
+        return value;
+      }
+    });
+
+  fetch(`/storestep?name=${file_name}&step=${step}&g=${g_clipped}`);
 };
 
 export const sendFinalG = (g: math.Matrix) => {
@@ -108,5 +118,5 @@ export const sendFinalG = (g: math.Matrix) => {
 };
 
 export const resetG = () => {
-  sendG(math.zeros(6, 1) as math.Matrix);
+  sendG(math.zeros(6) as math.Matrix);
 }
