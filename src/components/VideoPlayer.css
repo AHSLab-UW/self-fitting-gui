@@ -18,3 +18,7 @@
 .react-player video {
   position: relative;
 }
+
+h3 {
+  color: #f2f3c0;
+}

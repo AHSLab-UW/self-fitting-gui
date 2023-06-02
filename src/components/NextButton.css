@@ -6,8 +6,8 @@
   min-width: 150px;
   min-height: 15px;
   padding: 10px 20px;
-  background-color: #25345F;
-  color: #fff;
+  background-color: #F3B71B;
+  color: #00030B;
 
   text-decoration: none;
   text-align: center;
@@ -19,5 +19,5 @@
 }
 
 .big-button:hover {
-  background-color: #5c6977;
+  background-color: #f1c70c;
 }

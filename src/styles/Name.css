@@ -1,7 +1,8 @@
 .name-input {
     width: 100%;
-    height: 10%;
-    border: 1px solid #ccc;
+    height: 100%;
+    border: 1px solid #060116;
+    background-color: white;
     border-radius: 4px;
     padding: 12px 30px;
     box-sizing: border-box;
@@ -9,4 +10,7 @@
     margin-bottom: 16px;
     resize: vertical;
     font-size: xx-large;
+}
+h1 {
+    color: #f2f3c0
 }

@@ -12,8 +12,8 @@ export default function Name() {
   let navigate = useNavigate();
 
   return (
-    <div style={{ marginTop: 50 }}>
-      <h1>What is your name?</h1>
+    <div style={{ marginTop: 200 }}>
+      <h1>What is your name? </h1>
       <input
         className="name-input"
         type="text"

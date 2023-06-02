@@ -5,7 +5,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #FFFFFF, #475E98);
+  background: linear-gradient(to bottom, #394c7d, #00030B);
 }
 
 .App {
@@ -24,6 +24,7 @@ h1 {
 h2 {
   font-size: 2em;
   font-weight: 450;
+  color: #f2f3c0;
   line-height: 1.1;
 }
 
