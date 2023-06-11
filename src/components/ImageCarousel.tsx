@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { NextButton } from "./NextButton";
+import arrowLeftImage from "../assets/imgs/arrowL.png"; // Import the left arrow image
+import arrowRightImage from "../assets/imgs/arrowR.png"; // Import the right arrow image
 
 interface Image {
   src: string;
@@ -12,15 +14,20 @@ interface ImageCarouselProps {
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   function handlePreviousImage() {
-    setCurrentImageIndex(
-      currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1
-    );
+    if(currentImageIndex != 0){
+      setCurrentImageIndex((currentImageIndex - 1));
+    }
   }
 
   function handleNextImage() {
-    setCurrentImageIndex((currentImageIndex + 1) % images.length);
+    if(currentImageIndex != images.length - 1){
+      setCurrentImageIndex((currentImageIndex + 1));
+    }
   }
 
   function handleSelectImage(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -28,49 +35,123 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
     setCurrentImageIndex(selectedImageIndex);
   }
 
+  function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    touchStartXRef.current = event.touches[0].clientX;
+    setIsSwiping(true);
+  }
+
+  function handleTouchMove(event: React.TouchEvent<HTMLDivElement>) {
+    if (isSwiping) {
+      const touchCurrentX = event.touches[0].clientX;
+      const touchStartX = touchStartXRef.current;
+      const diffX = touchStartX && touchCurrentX - touchStartX;
+      if (carouselRef.current) {
+        carouselRef.current.style.transform = `translateX(calc(-${currentImageIndex * 100}% + ${diffX}px))`;
+      }
+    }
+  }
+
+  function handleTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
+    if (isSwiping) {
+      const touchEndX = event.changedTouches[0].clientX;
+      const touchStartX = touchStartXRef.current;
+      const diffX = touchStartX && touchEndX - touchStartX;
+
+      if (diffX && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          handlePreviousImage();
+        } else {
+          handleNextImage();
+        }
+      }
+
+      setIsSwiping(false);
+      if (carouselRef.current) {
+        carouselRef.current.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+      }
+    }
+  }
+
   const imageStyles: React.CSSProperties = {
     display: "block",
     margin: "auto",
-    width: "50vw",
-    height: "50vw",
+    width: "100%",
+    height: "auto",
     objectFit: "cover",
+    transition: "transform 0.3s ease",
   };
+
+  const arrowStyles: React.CSSProperties = {
+      position: "absolute",
+      top: "50%",
+      right: "5px",
+      transform: "translateY(-50%)",
+      width: "40px",
+      height: "40px",
+      cursor: "pointer",
+      zIndex: 1,
+  };
+
 
   return (
     <>
-      <div style={{ position: "relative" }}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button onClick={handlePreviousImage}> Prev </button>
-          <img
-            src={images[currentImageIndex].src}
-            alt={images[currentImageIndex].alt}
-            style={imageStyles}
-          />
-          <button onClick={handleNextImage}>Next</button>
-        </div>
+        <img
+          src={arrowLeftImage}
+          alt="Previous"
+          onClick={handlePreviousImage}
+          style={{
+            position: "absolute",
+            top: "45%",
+            right: "100%",
+            transform: "translateY(-50%)",
+            width: "40px",
+            height: "40px",
+            cursor: "pointer",
+            zIndex: 1,
+          }}
+        />
+      <div
+        style={{ position: "relative", overflow: "hidden" }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Carousel container */}
         <div
+          ref={carouselRef}
           style={{
             display: "flex",
-            justifyContent: "center",
-            marginTop: "1rem",
+            transform: `translateX(-${currentImageIndex * 100}%)`,
+            transition: isSwiping ? "none" : "transform 0.3s ease",
           }}
         >
-          <label htmlFor="imageSelect">Select image:</label>
-          <select
-            id="imageSelect"
-            value={currentImageIndex}
-            onChange={handleSelectImage}
-          >
-            {images.map((image, index) => (
-              <option key={index} value={index}>
-                {image.alt}
-              </option>
-            ))}
-          </select>
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image.src}
+              alt={image.alt}
+              style={imageStyles}
+            />
+          ))}
         </div>
       </div>
+      <img
+          src={arrowRightImage}
+          alt="Next"
+          onClick={handleNextImage}
+          style={{
+            position: "absolute",
+            top: "45%",
+            left: "100%",
+            transform: "translateY(-50%)",
+            width: "40px",
+            height: "40px",
+            cursor: "pointer",
+            zIndex: 1,
+          }}
+        />
 
-      <NextButton
+            <NextButton
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);
         }}
@@ -80,5 +161,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
     </>
   );
 };
+
 
 export default ImageCarousel;
