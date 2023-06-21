@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { NextButton } from "../components/NextButton";
 
 export default function Prompt() {
-  let navigate = useNavigate();
+  let navigate = useNavigate(); 
   return (
     <div>
       <h3>Would you like to exit the app or customize another scene?</h3>

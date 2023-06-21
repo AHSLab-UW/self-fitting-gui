@@ -7,7 +7,7 @@ export default function Select() {
 
   return (
     <>
-      <h3>Scroll through the scenes and select the option that best fits</h3>
+      <h3 style={{marginTop: 100}}>Scroll through the scenes and select the option that best fits</h3>
       <div style={{ position: "relative" }}>
         <ImageCarousel
           images={[

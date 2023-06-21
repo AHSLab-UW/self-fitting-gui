@@ -41,9 +41,15 @@ body, .grid {
     border-radius: 50%;
     margin-left: 20px;
     margin-right: 20px;
-    background-color: #b4b8bf;
-    border: 1px solid #5b6388;
-    box-shadow: 0 0 5px #394058;
+    background-color: beige;
     cursor: pointer;
     font-size: 40px;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+  

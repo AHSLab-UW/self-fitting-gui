@@ -17,36 +17,9 @@
   background-color: rgb(187, 189, 198);
 }
 
-/*.example-track {
-  position: relative;
-  background: linear-gradient(to bottom, #607D8B, #263238);
-}*/
 .example-track {
   position: relative;
-  background-image: linear-gradient(to right, #617ccf,#495fa1, #2c49a0,#1a3b7c);
-  background-size: 400% 400%;
-  animation: gradient 2s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-
-.example-track.example-track-1 {
-  background: #9296ab;
-}
-
-.example-track.example-track-2 {
-  background: #0f0;
+  background-image: linear-gradient(to bottom, yellow, red);
 }
 
 .vertical-slider .example-thumb {

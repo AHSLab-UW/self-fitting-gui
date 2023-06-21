@@ -15,7 +15,7 @@ import "../components/Slider.css";
 import stim from "../assets/audio/stimulus.wav";
 import { sendFinalG, sendG } from "../Command";
 
-type Props = { grid5: boolean; setFinalG: (finalG: math.Matrix) => void;};
+type Props = { grid5: boolean };
 
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
@@ -28,28 +28,25 @@ export default function Fitting({ grid5 }: Props) {
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
 
   // volume page
-  const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
-  const [a, setA] = useState<number[]>([]);
+
   const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
 
   useEffect(() => {
     if (fitted) {
-      /*
+      // 14 x 6 number[]
+      console.log("gMatrix", gMatrix);
 
-      // use ml-pca to find the eigenvector
-      const pca = new PCA(g25Arr);
+      // convert to math.js matrix
+      const gMatrixMatrix = math.matrix(gMatrix);
+      console.log("gMatrixMatrix", gMatrixMatrix);
 
-      // get the eigenvector
-      const eigenvector = pca.getEigenvectors();
-      console.log("eigenvector", eigenvector);
 
-      // get the first column of the eigenvector
-      const maxEigenVector = eigenvector.getColumn(0);
-      console.log("maxEigenVector", maxEigenVector);
+      setFinalG(gMatrixMatrix);
 
-      setA(maxEigenVector);
+      // convert math.js matrix to javascript array
+      const gArr = gMatrixMatrix.toArray() as number[][];
+      console.log("gArr", gArr);
 
-      */
     }
   }, [fitted]);
 
@@ -57,14 +54,15 @@ export default function Fitting({ grid5 }: Props) {
     <div className="flex-column">
       <div>
         <Grid
+          grid5={grid5}
+          gainDelta={volume}
+          setNewG={(currG) => {
+            // append new g to existing gMatrix
+            setGMatrix([...gMatrix, currG.toArray() as number[]]);
+          }}
           setFitted={setFitted}
-          setFinalG={setFinalG}
-          setStep={setStep}
         />
       </div>
-
-      {/* <div className="top-space"></div>
-      <AudioButton stim={stim} /> */}
     </div>
   ) : (
     <>
@@ -83,7 +81,7 @@ export default function Fitting({ grid5 }: Props) {
           onChange={(val) => {
             // const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
 
-            let finalG = math.add(gAvg, val) as math.Matrix;
+            let finalG = math.add(gMatrix, val) as math.Matrix;
             finalG = finalG.map((value) => {
               if (value > 20) {
                 return 20;

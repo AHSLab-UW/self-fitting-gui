@@ -81,18 +81,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
     transition: "transform 0.3s ease",
   };
 
-  const arrowStyles: React.CSSProperties = {
-      position: "absolute",
-      top: "50%",
-      right: "5px",
-      transform: "translateY(-50%)",
-      width: "40px",
-      height: "40px",
-      cursor: "pointer",
-      zIndex: 1,
-  };
-
-
   return (
     <>
         <img
@@ -104,10 +92,11 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             top: "45%",
             right: "100%",
             transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
+            width: "60px",
+            height: "60px",
             cursor: "pointer",
             zIndex: 1,
+            marginRight: 25,            
           }}
         />
       <div
@@ -144,13 +133,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             top: "45%",
             left: "100%",
             transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
+            width: "60px",
+            height: "60px",
             cursor: "pointer",
             zIndex: 1,
+            marginLeft: 25
           }}
         />
-
             <NextButton
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);

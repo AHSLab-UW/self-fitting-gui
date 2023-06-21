@@ -21,7 +21,7 @@ export default function Intro1() {
       </div>
       
       <VideoPlayer url={isLeft ? left : right} />
-      <NextButton style={{ marginTop: 30 }} to="/intro2" text="Next" />
+      <NextButton style={{ marginTop: 20 }} to="/intro2" text="Next" />
     </>
   );
 }
