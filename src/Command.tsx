@@ -1,4 +1,3 @@
-import { Coordinates } from "./components/Grid";
 import * as math from "mathjs";
 
 export const sendCommand = (command: string) => {

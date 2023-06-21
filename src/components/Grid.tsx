@@ -3,17 +3,17 @@ import './Grid.css';
 import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
 import "./NextButton.css";
+import { sendStep } from '../Command';
 
 
 interface Props {
     setFitted: (fitted: boolean) => void;
     setFinalG: (finalG: math.Matrix) => void;
-    setStep: (aggregateGain: math.Matrix) => void;
 }
 
 const MAX_STEP = 14;
 
-const Grid = ({setFitted, setFinalG, setStep}: Props) => {
+const Grid = ({setFitted, setFinalG}: Props) => {
   // coordinate determines the gain values for two frequency bands
   const [coordinate, setCoordinate] = useState<[number, number] | null>(null);
   // trial number
@@ -132,7 +132,7 @@ const Grid = ({setFitted, setFinalG, setStep}: Props) => {
         return;
       }
     }
-    setStep(math.matrix(aggregateGain));
+    sendStep(math.matrix(aggregateGain), trialNum);
     setTrialNum(trialNum + 1);
     setCoordinate([0, 0]);
     setLastClickedIndex(null);

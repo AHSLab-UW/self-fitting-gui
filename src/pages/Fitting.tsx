@@ -31,6 +31,7 @@ export default function Fitting({ grid5 }: Props) {
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
   const [a, setA] = useState<number[]>([]);
   const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
+  const [step, setStep] = useState<math.Matrix>(math.matrix([]));
 
   useEffect(() => {
     if (fitted) {
@@ -59,7 +60,6 @@ export default function Fitting({ grid5 }: Props) {
         <Grid
           setFitted={setFitted}
           setFinalG={setFinalG}
-          setStep={setStep}
         />
       </div>
 
