@@ -90,7 +90,7 @@ export default function Fitting({ grid5 }: Props) {
         />
       </div>
 
-      <h3 className="top-space">Press To Adjust Volume</h3>
+      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>Volume </h3> 
       <div className="flex-row">
         <button
           className="volume-button"

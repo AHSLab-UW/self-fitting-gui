@@ -13,7 +13,7 @@ export default function Name() {
 
   return (
     <div style={{ marginTop: 200 }}>
-      <h1>What is your name? </h1>
+      <h1 className="name-question"> What is your name? </h1>
       <input
         className="name-input"
         type="text"
