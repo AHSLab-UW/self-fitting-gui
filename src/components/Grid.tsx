@@ -13,6 +13,7 @@ interface Props {
   gainDelta: number;
   setFitted: (fitted: boolean) => void;
   setNewG: (gMatrix: math.Matrix) => void;
+  nextStep: () => void;
 }
 
 export interface Coordinates {
@@ -94,7 +95,7 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
+const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
   const GRID_CALC = (RANGE / (grid5 ? 5 : 3)) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -105,7 +106,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
 
   const [selectedGrid, setSelectedGrid] = useState(-1);
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
   const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
 
@@ -357,6 +358,10 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG }: Props) => {
 
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
+
+            nextStep();
+
+            console.log("g", gLast);
           }}
         >
           Next Step

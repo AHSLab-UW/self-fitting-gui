@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
 import Grid from "../components/Grid";
 
 import * as math from "mathjs";
-import { PCA } from "ml-pca";
 
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
@@ -12,7 +10,6 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
-import stim from "../assets/audio/stimulus.wav";
 import { sendFinalG, sendG } from "../Command";
 
 type Props = { grid5: boolean };
@@ -29,25 +26,17 @@ export default function Fitting({ grid5 }: Props) {
 
   // volume page
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
-  const [a, setA] = useState<number[]>([]);
   const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
 
   useEffect(() => {
     if (fitted) {
       // 30 x 6 number[]
-      console.log("gMatrix", gMatrix);
-
       // get row 5-30
       const gMatrix25 = gMatrix.slice(5);
-      console.log("gMatrix25", gMatrix25);
-
       // convert to math.js matrix
       const gMatrix25Matrix = math.matrix(gMatrix25);
-      console.log("gMatrix25Matrix", gMatrix25Matrix);
-
       // take the average of the gMatrix row 5 - 30 axis 1
       const gAvg = math.mean(gMatrix25Matrix, 0);
-      console.log("gAvg", gAvg);
 
       setGAvg(gAvg);
       setFinalG(gAvg);
@@ -55,24 +44,6 @@ export default function Fitting({ grid5 }: Props) {
 
       // convert math.js matrix to javascript array
       const g25Arr = gMatrix25Matrix.toArray() as number[][];
-      console.log("g25Arr", g25Arr);
-
-      /*
-
-      // use ml-pca to find the eigenvector
-      const pca = new PCA(g25Arr);
-
-      // get the eigenvector
-      const eigenvector = pca.getEigenvectors();
-      console.log("eigenvector", eigenvector);
-
-      // get the first column of the eigenvector
-      const maxEigenVector = eigenvector.getColumn(0);
-      console.log("maxEigenVector", maxEigenVector);
-
-      setA(maxEigenVector);
-
-      */
     }
   }, [fitted]);
 
@@ -87,6 +58,7 @@ export default function Fitting({ grid5 }: Props) {
             setGMatrix([...gMatrix, currG.toArray() as number[]]);
           }}
           setFitted={setFitted}
+          nextStep={() => { setVolume(0);}}
         />
       </div>
 
@@ -109,8 +81,6 @@ export default function Fitting({ grid5 }: Props) {
           +
         </button>
       </div>
-      {/* <div className="top-space"></div>
-      <AudioButton stim={stim} /> */}
     </div>
   ) : (
     <>
@@ -127,8 +97,6 @@ export default function Fitting({ grid5 }: Props) {
           max={10}
           invert={true}
           onChange={(val) => {
-            // const finalG = math.add(gAvg, math.multiply(a, val)) as math.Matrix;
-
             let finalG = math.add(gAvg, val) as math.Matrix;
             finalG = finalG.map((value) => {
               if (value > 20) {
@@ -142,7 +110,6 @@ export default function Fitting({ grid5 }: Props) {
 
             sendG(finalG);
             setFinalG(finalG);
-            console.log("finalG", finalG);
           }}
         />
       </div>

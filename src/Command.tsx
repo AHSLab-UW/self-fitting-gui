@@ -5,7 +5,6 @@ export const sendCommand = (command: string) => {
   // console.log("sending command: ", command);
   return fetch(`/device?command=${command}`)
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((err) => {
@@ -22,11 +21,9 @@ export const sendGridCommand = (
 ) => {
   if (localStorage.getItem("name") === "admin") return new math.Matrix();
 
-  // multiply a by coordinate
   const coord = [coordinate.x, coordinate.y];
   const b = math.multiply(a, math.matrix(coord));
-  const gSelect = math.add(b, glast);
-
+  let gSelect = math.add(b, glast);
   let g = math.add(gSelect, gainDelta) as math.Matrix;
 
   g = g.map((value) => {
@@ -40,6 +37,7 @@ export const sendGridCommand = (
   });
 
   sendG(g);
+  
   // get the current time
   let date = new Date();
   let time = date.getTime();
@@ -58,15 +56,16 @@ export const sendGridCommand = (
   fetch(
     `/store?time=${time}&name=${file_name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
   );
-  return gSelect;
+
+  return g;
 };
 
 export const sendG = (g_unclipped: math.Matrix) => {
   const g = g_unclipped.map((value) => {
-    if (value > 20) {
-      return 20;
-    } else if (value < -15) {
-      return -15;
+    if (value > 25) {
+      return 25;
+    } else if (value < -20) {
+      return -20;
     } else {
       return value;
     }
