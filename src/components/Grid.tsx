@@ -9,7 +9,6 @@ const MAX_STEP = 30;
 const RANGE = 20;
 
 interface Props {
-  grid5: boolean;
   gainDelta: number;
   setFitted: (fitted: boolean) => void;
   setNewG: (gMatrix: math.Matrix) => void;
@@ -95,8 +94,8 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
-  const GRID_CALC = (RANGE / (grid5 ? 5 : 3)) * 2;
+const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
+  const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
   const [down, setDown] = useState(false);
@@ -130,17 +129,12 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
 
     setA(getCoefficient());
 
-    localStorage.setItem("grid", grid5 ? "5x5" : "3x3");
+    localStorage.setItem("grid", "5x5");
   }, []);
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(
-      coordinates,
-      gridSize,
-      grid5 ? 40 : 70,
-      grid5 ? -333: -300
-    );
+    const screenPos = toScreenPosition(coordinates, gridSize, 40, -333);
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
@@ -149,93 +143,65 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
     let snapX = math.round(coordinates.x / GRID_CALC) * GRID_CALC;
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
-    if (grid5) {
-      if (snapY < -1*RANGE/5*3) {
-        if (snapX < -1*RANGE/5*3) {
-          setSelectedGrid(0);
-        } else if (snapX < -1*RANGE/5) {
-          setSelectedGrid(1);
-        } else if (snapX == 0) {
-          setSelectedGrid(2);
-        } else if (snapX < RANGE/5*3) {
-          setSelectedGrid(3);
-        } else {
-          setSelectedGrid(4);
-        }
-      } else if (snapY < -1*RANGE/5) {
-        if (snapX < -1*RANGE/5*3) {
-          setSelectedGrid(5);
-        } else if (snapX < -1*RANGE/5) {
-          setSelectedGrid(6);
-        } else if (snapX == 0) {
-          setSelectedGrid(7);
-        } else if (snapX < RANGE/5*3) {
-          setSelectedGrid(8);
-        } else {
-          setSelectedGrid(9);
-        }
-      } else if (snapY === 0) {
-        if (snapX < -1*RANGE/5*3) {
-          setSelectedGrid(10);
-        } else if (snapX < -1*RANGE/5) {
-          setSelectedGrid(11);
-        } else if (snapX == 0) {
-          setSelectedGrid(12);
-        } else if (snapX < RANGE/5*3) {
-          setSelectedGrid(13);
-        } else {
-          setSelectedGrid(14);
-        }
-      } else if (snapY < RANGE/5*3) {
-        if (snapX < -1*RANGE/5*3) {
-          setSelectedGrid(15);
-        } else if (snapX < -1*RANGE/5) {
-          setSelectedGrid(16);
-        } else if (snapX == 0) {
-          setSelectedGrid(17);
-        } else if (snapX < RANGE/5*3) {
-          setSelectedGrid(18);
-        } else {
-          setSelectedGrid(19);
-        }
+    if (snapY < ((-1 * RANGE) / 5) * 3) {
+      if (snapX < ((-1 * RANGE) / 5) * 3) {
+        setSelectedGrid(0);
+      } else if (snapX < (-1 * RANGE) / 5) {
+        setSelectedGrid(1);
+      } else if (snapX == 0) {
+        setSelectedGrid(2);
+      } else if (snapX < (RANGE / 5) * 3) {
+        setSelectedGrid(3);
       } else {
-        if (snapX < -1*RANGE/5*3) {
-          setSelectedGrid(20);
-        } else if (snapX < -1*RANGE/5) {
-          setSelectedGrid(21);
-        } else if (snapX == 0) {
-          setSelectedGrid(22);
-        } else if (snapX < RANGE/5*3) {
-          setSelectedGrid(23);
-        } else {
-          setSelectedGrid(24);
-        }
+        setSelectedGrid(4);
+      }
+    } else if (snapY < (-1 * RANGE) / 5) {
+      if (snapX < ((-1 * RANGE) / 5) * 3) {
+        setSelectedGrid(5);
+      } else if (snapX < (-1 * RANGE) / 5) {
+        setSelectedGrid(6);
+      } else if (snapX == 0) {
+        setSelectedGrid(7);
+      } else if (snapX < (RANGE / 5) * 3) {
+        setSelectedGrid(8);
+      } else {
+        setSelectedGrid(9);
+      }
+    } else if (snapY === 0) {
+      if (snapX < ((-1 * RANGE) / 5) * 3) {
+        setSelectedGrid(10);
+      } else if (snapX < (-1 * RANGE) / 5) {
+        setSelectedGrid(11);
+      } else if (snapX == 0) {
+        setSelectedGrid(12);
+      } else if (snapX < (RANGE / 5) * 3) {
+        setSelectedGrid(13);
+      } else {
+        setSelectedGrid(14);
+      }
+    } else if (snapY < (RANGE / 5) * 3) {
+      if (snapX < ((-1 * RANGE) / 5) * 3) {
+        setSelectedGrid(15);
+      } else if (snapX < (-1 * RANGE) / 5) {
+        setSelectedGrid(16);
+      } else if (snapX == 0) {
+        setSelectedGrid(17);
+      } else if (snapX < (RANGE / 5) * 3) {
+        setSelectedGrid(18);
+      } else {
+        setSelectedGrid(19);
       }
     } else {
-      if (snapY < 0) {
-        if (snapX < 0) {
-          setSelectedGrid(0);
-        } else if (snapX == 0) {
-          setSelectedGrid(1);
-        } else {
-          setSelectedGrid(2);
-        }
-      } else if (snapY == 0) {
-        if (snapX < 0) {
-          setSelectedGrid(3);
-        } else if (snapX == 0) {
-          setSelectedGrid(4);
-        } else {
-          setSelectedGrid(5);
-        }
+      if (snapX < ((-1 * RANGE) / 5) * 3) {
+        setSelectedGrid(20);
+      } else if (snapX < (-1 * RANGE) / 5) {
+        setSelectedGrid(21);
+      } else if (snapX == 0) {
+        setSelectedGrid(22);
+      } else if (snapX < (RANGE / 5) * 3) {
+        setSelectedGrid(23);
       } else {
-        if (snapX < 0) {
-          setSelectedGrid(6);
-        } else if (snapX == 0) {
-          setSelectedGrid(7);
-        } else {
-          setSelectedGrid(8);
-        }
+        setSelectedGrid(24);
       }
     }
   }, [coordinates]);
@@ -269,14 +235,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
     let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
 
     // cap to offset
-    snapX = Math.min(
-      Math.max(snapX, grid5 ? -GRID_CALC * 2 : -GRID_CALC),
-      grid5 ? GRID_CALC * 2 : GRID_CALC
-    );
-    snapY = Math.min(
-      Math.max(snapY, grid5 ? -GRID_CALC * 2 : -GRID_CALC),
-      grid5 ? GRID_CALC * 2 : GRID_CALC
-    );
+    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2), GRID_CALC * 2);
+    snapY = Math.min(Math.max(snapY, -GRID_CALC * 2), GRID_CALC * 2);
 
     setCoordinates({
       x: snapX,
@@ -295,8 +255,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
           width: `${gridSize}px`,
           height: `${gridSize}px`,
           display: "grid",
-          gridTemplateColumns: `repeat(${grid5 ? 5 : 3}, 1fr)`,
-          gridTemplateRows: `repeat(${grid5 ? 5 : 3}, 1fr)`,
+          gridTemplateColumns: `repeat(${5}, 1fr)`,
+          gridTemplateRows: `repeat(${5}, 1fr)`,
           gap: `${gridSize / 70}px ${gridSize / 70}px`,
         }}
         onTouchStart={(e) => {
@@ -317,7 +277,7 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
         }}
         onMouseUp={handleEnd}
       >
-        {Array.from({ length: grid5 ? 25 : 9 }).map((_, index) => (
+        {Array.from({ length: 25 }).map((_, index) => (
           <div
             key={index}
             style={{
@@ -334,8 +294,8 @@ const Grid = ({ grid5, gainDelta, setFitted, setNewG, nextStep }: Props) => {
           className="dot"
           style={{
             position: "fixed",
-            width: `${gridSize / (grid5 ? 7 : 4)}px`,
-            height: `${gridSize / (grid5 ? 7 : 4)}px`,
+            width: `${gridSize / 7}px`,
+            height: `${gridSize / 7}px`,
             background: dotColor,
             borderRadius: "50%",
             ...dotStyle,

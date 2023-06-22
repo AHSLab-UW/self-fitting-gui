@@ -19,14 +19,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   function handlePreviousImage() {
-    if(currentImageIndex != 0){
-      setCurrentImageIndex((currentImageIndex - 1));
+    if (currentImageIndex != 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
     }
   }
 
   function handleNextImage() {
-    if(currentImageIndex != images.length - 1){
-      setCurrentImageIndex((currentImageIndex + 1));
+    if (currentImageIndex != images.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
     }
   }
 
@@ -46,7 +46,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
       const touchStartX = touchStartXRef.current;
       const diffX = touchStartX && touchCurrentX - touchStartX;
       if (carouselRef.current) {
-        carouselRef.current.style.transform = `translateX(calc(-${currentImageIndex * 100}% + ${diffX}px))`;
+        carouselRef.current.style.transform = `translateX(calc(-${
+          currentImageIndex * 100
+        }% + ${diffX}px))`;
       }
     }
   }
@@ -67,7 +69,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
 
       setIsSwiping(false);
       if (carouselRef.current) {
-        carouselRef.current.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+        carouselRef.current.style.transform = `translateX(-${
+          currentImageIndex * 100
+        }%)`;
       }
     }
   }
@@ -82,34 +86,33 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   };
 
   const arrowStyles: React.CSSProperties = {
-      position: "absolute",
-      top: "50%",
-      right: "5px",
-      transform: "translateY(-50%)",
-      width: "40px",
-      height: "40px",
-      cursor: "pointer",
-      zIndex: 1,
+    position: "absolute",
+    top: "50%",
+    right: "5px",
+    transform: "translateY(-50%)",
+    width: "40px",
+    height: "40px",
+    cursor: "pointer",
+    zIndex: 1,
   };
-
 
   return (
     <>
-        <img
-          src={arrowLeftImage}
-          alt="Previous"
-          onClick={handlePreviousImage}
-          style={{
-            position: "absolute",
-            top: "45%",
-            right: "100%",
-            transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
-            cursor: "pointer",
-            zIndex: 1,
-          }}
-        />
+      <img
+        src={arrowLeftImage}
+        alt="Previous"
+        onClick={handlePreviousImage}
+        style={{
+          position: "absolute",
+          top: "45%",
+          right: "100%",
+          transform: "translateY(-50%)",
+          width: "40px",
+          height: "40px",
+          cursor: "pointer",
+          zIndex: 1,
+        }}
+      />
       <div
         style={{ position: "relative", overflow: "hidden" }}
         onTouchStart={handleTouchStart}
@@ -136,31 +139,30 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         </div>
       </div>
       <img
-          src={arrowRightImage}
-          alt="Next"
-          onClick={handleNextImage}
-          style={{
-            position: "absolute",
-            top: "45%",
-            left: "100%",
-            transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
-            cursor: "pointer",
-            zIndex: 1,
-          }}
-        />
+        src={arrowRightImage}
+        alt="Next"
+        onClick={handleNextImage}
+        style={{
+          position: "absolute",
+          top: "45%",
+          left: "100%",
+          transform: "translateY(-50%)",
+          width: "40px",
+          height: "40px",
+          cursor: "pointer",
+          zIndex: 1,
+        }}
+      />
 
-            <NextButton
+      <NextButton
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);
         }}
-        to="/fit-select"
+        to="/fit-instruct"
         text="Next"
       />
     </>
   );
 };
-
 
 export default ImageCarousel;

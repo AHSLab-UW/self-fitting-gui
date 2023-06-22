@@ -12,12 +12,12 @@ import "../components/Slider.css";
 
 import { sendFinalG, sendG } from "../Command";
 
-type Props = { grid5: boolean };
+type Props = {};
 
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
 
-export default function Fitting({ grid5 }: Props) {
+export default function Fitting({}: Props) {
   const [fitted, setFitted] = useState(false);
 
   // fititng page
@@ -51,18 +51,21 @@ export default function Fitting({ grid5 }: Props) {
     <div className="flex-column">
       <div>
         <Grid
-          grid5={grid5}
           gainDelta={volume}
           setNewG={(currG) => {
             // append new g to existing gMatrix
             setGMatrix([...gMatrix, currG.toArray() as number[]]);
           }}
           setFitted={setFitted}
-          nextStep={() => { setVolume(0);}}
+          nextStep={() => {
+            setVolume(0);
+          }}
         />
       </div>
 
-      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>Volume </h3> 
+      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>
+        Volume{" "}
+      </h3>
       <div className="flex-row">
         <button
           className="volume-button"

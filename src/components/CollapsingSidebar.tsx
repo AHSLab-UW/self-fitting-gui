@@ -51,8 +51,8 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/select">
           Select Location
         </Link>
-        <Link className="link" to="/fit-select">
-          Sound Fitting Select
+        <Link className="link" to="/fit-instruct">
+          Sound Fitting Instruction
         </Link>
         <Link className="link" to="/fit">
           Sound Fitting
