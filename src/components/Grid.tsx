@@ -163,3 +163,11 @@ const Grid = ({setFitted, setFinalG}: Props) => {
 };
 
 export default Grid;
+
+export interface Coordinates {
+
+  x: number;
+
+  y: number;
+
+}
