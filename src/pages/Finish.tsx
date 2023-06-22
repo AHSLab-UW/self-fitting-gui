@@ -1,4 +1,5 @@
 import "../styles/Finish.css";
+import smile from "../assets/imgs/Smiling Face Enhanced.png";
 
 /*export default function Finish() {
   return (
@@ -12,17 +13,12 @@ import "../styles/Finish.css";
 export default function Finish() {
   return (
     <div className="finish-container">
-      <h1>
-        <span className="title-word title-word-1">Well</span>
-        <span className="title-word title-word-2">Done,</span>
-        <span className="title-word title-word-3">Thank</span>
-        <span className="title-word title-word-4">You</span>
-        <span className="title-word title-word-1">for</span>
-        <span className="title-word title-word-2">Using</span>
-        <span className="title-word title-word-3">the</span>
-        <span className="title-word title-word-4">Product!</span>
+      <div className="image">
+        <img src={smile} alt="smiling face" style={{ maxWidth: 310, marginTop: 150 }}></img>
+      </div>
+      <h1 style={{ marginTop: -590 }}> Well done, thank you!
       </h1>
-      <h3>Your device is now ready to use!</h3>
+      <h4>Your device is now ready to use!</h4>
     </div>
   );
 }

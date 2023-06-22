@@ -3,14 +3,23 @@
     height: 100%;
     border: 1px solid #060116;
     background-color: white;
-    border-radius: 4px;
+    border-radius: 5px;
     padding: 12px 30px;
     box-sizing: border-box;
-    margin-top: 6px;
+    margin-top: -5px;
     margin-bottom: 16px;
     resize: vertical;
     font-size: xx-large;
+    font-family:Arial, Helvetica, sans-serif;
 }
-h1 {
-    color: #f2f3c0
+.name-question {
+    color: #f2f3c0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+}
+.big-button {
+    margin-top: 40px;
+    min-width: 200px;
+    min-height: 50px;
 }
