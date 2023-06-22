@@ -1,5 +1,6 @@
-.pick {
+.title {
+  margin-top: 100px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
   color: #f2f3c0;
-  font-size: 60px;
+  font-size: 2rem;
 }

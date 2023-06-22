@@ -19,14 +19,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   function handlePreviousImage() {
-    if(currentImageIndex != 0){
-      setCurrentImageIndex((currentImageIndex - 1));
+    if (currentImageIndex != 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
     }
   }
 
   function handleNextImage() {
-    if(currentImageIndex != images.length - 1){
-      setCurrentImageIndex((currentImageIndex + 1));
+    if (currentImageIndex != images.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
     }
   }
 
@@ -46,7 +46,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
       const touchStartX = touchStartXRef.current;
       const diffX = touchStartX && touchCurrentX - touchStartX;
       if (carouselRef.current) {
-        carouselRef.current.style.transform = `translateX(calc(-${currentImageIndex * 100}% + ${diffX}px))`;
+        carouselRef.current.style.transform = `translateX(calc(-${
+          currentImageIndex * 100
+        }% + ${diffX}px))`;
       }
     }
   }
@@ -67,7 +69,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
 
       setIsSwiping(false);
       if (carouselRef.current) {
-        carouselRef.current.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+        carouselRef.current.style.transform = `translateX(-${
+          currentImageIndex * 100
+        }%)`;
       }
     }
   }
@@ -144,12 +148,11 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);
         }}
-        to="/fit-select"
+        to="/fit-instruct"
         text="Next"
       />
     </>
   );
 };
-
 
 export default ImageCarousel;

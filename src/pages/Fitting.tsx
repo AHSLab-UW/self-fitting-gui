@@ -20,7 +20,7 @@ type Props = { grid5: boolean; setFinalG: (finalG: math.Matrix) => void;};
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
 
-export default function Fitting({ grid5 }: Props) {
+export default function Fitting({}: Props) {
   const [fitted, setFitted] = useState(false);
 
   // fititng page
