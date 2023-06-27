@@ -22,7 +22,6 @@ body, .grid {
     justify-content: space-around;
     align-items: center;
     align-content: center;
-    width: 40vw;
 }
 
 .flex-column {

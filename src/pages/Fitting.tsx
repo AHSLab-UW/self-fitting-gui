@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AudioMeter } from "../components/AudioMeter";
 import Grid from "../components/Grid";
 
 import * as math from "mathjs";
@@ -14,14 +13,11 @@ import { sendFinalG, sendG } from "../Command";
 
 type Props = {};
 
-const MIN_VOLUME = -15;
-const MAX_VOLUME = 15;
 
 export default function Fitting({}: Props) {
   const [fitted, setFitted] = useState(false);
 
   // fititng page
-  const [volume, setVolume] = useState(0);
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
 
   // volume page
@@ -51,38 +47,12 @@ export default function Fitting({}: Props) {
     <div className="flex-column">
       <div>
         <Grid
-          gainDelta={volume}
           setNewG={(currG) => {
             // append new g to existing gMatrix
             setGMatrix([...gMatrix, currG.toArray() as number[]]);
           }}
           setFitted={setFitted}
-          nextStep={() => {
-            setVolume(0);
-          }}
         />
-      </div>
-
-      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>
-        Volume{" "}
-      </h3>
-      <div className="flex-row">
-        <button
-          className="volume-button"
-          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 2))}
-        >
-          -
-        </button>
-
-        <div className="top-space">
-          <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
-        </div>
-        <button
-          className="volume-button"
-          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 2))}
-        >
-          +
-        </button>
       </div>
     </div>
   ) : (

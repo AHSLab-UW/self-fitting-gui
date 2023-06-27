@@ -4,15 +4,18 @@ import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
 
+import { AudioMeter } from "../components/AudioMeter";
+
 const MAX_STEP = 30;
+
+const MIN_VOLUME = -15;
+const MAX_VOLUME = 15;
 
 const RANGE = 20;
 
 interface Props {
-  gainDelta: number;
   setFitted: (fitted: boolean) => void;
   setNewG: (gMatrix: math.Matrix) => void;
-  nextStep: () => void;
 }
 
 export interface Coordinates {
@@ -94,7 +97,7 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
+const Grid = ({ setFitted, setNewG }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -108,6 +111,8 @@ const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
   const [step, setStep] = useState(1);
   const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
   const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
+
+  const [volume, setVolume] = useState(0);
 
   const [a, setA] = useState(
     math.matrix([
@@ -209,7 +214,7 @@ const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
   // send command
   useEffect(() => {
     let intervalId = setInterval(() => {
-      setCurrG(sendGridCommand(a, coordinates, gainDelta, gLast, step));
+      setCurrG(sendGridCommand(a, coordinates, volume, gLast, step));
     }, 100);
     return () => clearInterval(intervalId);
   });
@@ -303,11 +308,33 @@ const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
         />
       </div>
 
+      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>
+        Volume{" "}
+      </h3>
+      <div className="flex-row">
+        <button
+          className="volume-button"
+          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 2))}
+        >
+          -
+        </button>
+
+        <div className="top-space">
+          <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
+        </div>
+        <button
+          className="volume-button"
+          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 2))}
+        >
+          +
+        </button>
+      </div>
+
       {step < MAX_STEP ? (
         <button
           className="big-button top-space"
           onClick={() => {
-            const gFinal = math.add(currG, gainDelta) as math.Matrix;
+            const gFinal = math.add(currG, volume) as math.Matrix;
             sendStep(gFinal, step);
             setNewG(gFinal);
 
@@ -319,9 +346,7 @@ const Grid = ({ gainDelta, setFitted, setNewG, nextStep }: Props) => {
             setCoordinates({ x: 0, y: 0 });
             setDotColor(getRandomColor());
 
-            nextStep();
-
-            console.log("g", gLast);
+            setVolume(0);
           }}
         >
           Next Step
