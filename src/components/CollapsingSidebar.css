@@ -28,7 +28,7 @@
 
 .sidebar-header {
   width: 100%;
-  text-align: center;/*why not working??????*/
+  text-align: center; /*why not working??????*/
   margin-top: 15px;
   font-size: 22px;
 }
@@ -86,5 +86,9 @@
 .icon {
   width: 45px;
   cursor: pointer;
-  margin-top: -30px
+  margin-top: -30px;
+}
+
+.disabled-link {
+  pointer-events: none;
 }

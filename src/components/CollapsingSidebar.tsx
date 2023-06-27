@@ -32,7 +32,7 @@ const CollapsingSidebar = (props: Props) => {
           />
         </div>
       </div>
-      <div className="sidebar-body">
+      <div className={"sidebar-body " + (props.open ? "" : "disabled-link")}>
         <Link className="link" to="/">
           Home
         </Link>
