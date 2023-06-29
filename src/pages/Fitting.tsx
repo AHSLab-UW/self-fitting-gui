@@ -15,7 +15,7 @@ import "../components/Slider.css";
 import stim from "../assets/audio/stimulus.wav";
 import { sendFinalG, sendG } from "../Command";
 
-type Props = { grid5: boolean; setFinalG: (finalG: math.Matrix) => void;};
+type Props = { grid5: boolean;};
 
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
