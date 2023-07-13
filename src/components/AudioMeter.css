@@ -1,8 +1,8 @@
 .bar-off,
 .bar-on {
   height: 40px;
-  width: 15px;
-  background-color: rgb(177, 187, 209);
+  width: 18px;
+  background-color: #00030b;
   margin-right: 10px;
 }
 
@@ -11,59 +11,59 @@
 }
 
 .bar-on-0 {
-  background: rgb(220, 223, 37);
+  background: #FFFB97;
 }
 
 .bar-on-1 {
-  background:rgb(69, 83, 152);
+  background:#FFFA84;
 }
 
 .bar-on-2 {
-  background: rgb(48, 65, 152);
+  background: #FCE25B;
 }
 
 .bar-on-3 {
-  background: rgb(31, 51, 151);
+  background: #FFD832;
 }
 
 .bar-on-4 {
-  background: rgb(23, 48, 174);
+  background: #FFD212;
 }
 
 .bar-on-5 {
-  background: rgb(13, 40, 174);
+  background:#FFCA17;
 }
 
 .bar-on-6 {
-  background: rgb(43, 23, 174);
+  background: #FEBD20;
 }
 
 .bar-on-7 {
-  background: rgb(73, 23, 174);
+  background: #FEBD20;
 }
 
 .bar-on-8 {
-  background:rgb(93, 23, 174);
+  background:#FFAA27;
 }
 
 .bar-on-9 {
-  background: rgb(113, 23, 174);
+  background: #FD9B2C;
 }
 
 .bar-on-10 {
-  background: rgb(133, 23, 174);
+  background: #FF8338;
 }
 .bar-on-11 {
-  background: rgb(153, 23, 174);
+  background: #FE773F;
 }
 .bar-on-12 {
-  background: rgb(150, 24, 150);
+  background: #FF6547;
 }
 .bar-on-13 {
-  background: rgb(150, 24, 170);
+  background: #FF5635;
 }
 .bar-on-14 {
-  background: rgb(150, 24, 190);
+  background: #FF4521;
 }
 .bar-on-15 {
   background: rgb(124, 18, 157);

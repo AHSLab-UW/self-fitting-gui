@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { NextButton } from "./NextButton";
 import arrowLeftImage from "../assets/imgs/arrowL.png"; // Import the left arrow image
 import arrowRightImage from "../assets/imgs/arrowR.png"; // Import the right arrow image
+import '../styles/ImageCarousel.css'; 
 
 interface Image {
   src: string;
@@ -111,6 +112,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
           height: "40px",
           cursor: "pointer",
           zIndex: 1,
+          marginTop: -35,
+          marginRight: 50,
         }}
       />
       <div
@@ -123,6 +126,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         <div
           ref={carouselRef}
           style={{
+            width: 500,
             display: "flex",
             transform: `translateX(-${currentImageIndex * 100}%)`,
             transition: isSwiping ? "none" : "transform 0.3s ease",
@@ -151,10 +155,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
           height: "40px",
           cursor: "pointer",
           zIndex: 1,
+          marginTop: -35,
+          marginLeft: 50,
         }}
       />
-
-      <NextButton
+      <h2>{(currentImageIndex == 0) ? "Outdoor" : "Indoor"}</h2>
+      <NextButton 
+      style={{ marginTop: 70 }}
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);
         }}

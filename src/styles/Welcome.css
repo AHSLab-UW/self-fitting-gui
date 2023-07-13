@@ -2,14 +2,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
+  margin-top: 90;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: top;
   padding-top: 0px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100vw;
+}
+
+.background {
+  position:absolute;
+  left: 10;
+  opacity: 25%;
+  height: 70%;
+  transform: rotate(10deg);
 }
 
 h3 {
   margin-top: -25px;
 }
+
+
+
+
 

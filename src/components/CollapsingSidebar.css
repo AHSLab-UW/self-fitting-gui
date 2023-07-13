@@ -1,5 +1,6 @@
 .sidebar {
   font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 0.5px 0.5px #263356;
   font-weight: normal;
   max-width: 60vw;
   position: fixed;

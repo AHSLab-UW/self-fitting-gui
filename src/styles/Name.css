@@ -14,9 +14,10 @@
 }
 .name-question {
     color: #f2f3c0;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 2px 2px #00030b;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 52px;
 }
 .big-button {
     margin-top: 40px;

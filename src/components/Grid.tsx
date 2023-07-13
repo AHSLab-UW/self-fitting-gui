@@ -6,6 +6,8 @@ import { getRandomColor } from "../Colors";
 
 import { AudioMeter } from "../components/AudioMeter";
 
+import "./Grid.css";
+
 const MAX_STEP = 30;
 
 const MIN_VOLUME = -15;
@@ -139,7 +141,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, 40, -333);
+    const screenPos = toScreenPosition(coordinates, gridSize, 40, -375 /* y offset for position of circle*/);
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
@@ -229,7 +231,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
         },
         gridSize,
         0,
-        -80
+        -120 /* y offset of picking up red cursor */
       )
     );
   };
@@ -253,7 +255,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
   return (
     <>
       <ProgressBar steps={MAX_STEP} currentStep={step} />
-
+      <p className="instructions">Instructions Here</p>
       <div
         className="grid"
         style={{
@@ -332,7 +334,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
 
       {step < MAX_STEP ? (
         <button
-          className="big-button top-space"
+          className="big-button grid-button"
           onClick={() => {
             const gFinal = math.add(currG, volume) as math.Matrix;
             sendStep(gFinal, step);
@@ -349,11 +351,11 @@ const Grid = ({ setFitted, setNewG }: Props) => {
             setVolume(0);
           }}
         >
-          Next Step
+          Next
         </button>
       ) : (
         <button
-          className="big-button top-space"
+          className="big-button grid-button"
           onClick={() => {
             setFitted(true);
           }}

@@ -1,13 +1,14 @@
-import driving from "../assets/imgs/driving.jpg";
-import restaurant from "../assets/imgs/restaurant.jpg";
+import driving from "../assets/imgs/New Driving.jpg";
+import restaurant from "../assets/imgs/New Restaurant.jpg";
 import ImageCarousel from "../components/ImageCarousel";
+import "../styles/Select.css";
 
 
 export default function Select() {
 
   return (
     <>
-      <h3>Scroll through the scenes and select the option that best fits</h3>
+      <h3 className= "selection" style={{ marginTop: 115, marginLeft: -30, marginRight: -30 }}> Swipe and select the scene that best fits </h3>
       <div style={{ position: "relative" }}>
         <ImageCarousel
           images={[

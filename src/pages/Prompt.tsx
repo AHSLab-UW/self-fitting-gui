@@ -7,7 +7,7 @@ export default function Prompt() {
   let navigate = useNavigate();
   return (
     <div>
-      <h3 className="final-prompt" style={{ marginTop: 200 }}>Would you like to exit the app or customize another scene?</h3>
+      <h3 className="final-prompt" style={{ marginTop: 200 }}>Exit the app or customize another scene?</h3>
   
       <button className="big-button" onClick={() => {
         resetG();

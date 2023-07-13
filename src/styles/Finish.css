@@ -21,7 +21,8 @@
 }
 
 h1 {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 2px 2px #00030b;
   color: #f2f3c0;
   font-size: 73px;
   margin-left: -70px;
