@@ -1,6 +1,6 @@
 import "./CollapsingSidebar.css";
 import closeIcon from "../assets/imgs/close.png";
-import ear from "../assets/imgs/ear-03.png";
+import ear from "../assets/imgs/Logo - Blue.png";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -23,7 +23,7 @@ const CollapsingSidebar = (props: Props) => {
           : "[Scene]"}{" "}
         {localStorage.getItem("grid") ? localStorage.getItem("grid") : "[Grid]"}
         <div className="space-between">
-          <img src={ear} alt={"logo"} style={{ maxWidth: 50 }}></img>
+          <img src={ear} alt={"logo"} style={{ maxWidth: 60 }}></img>
           <img
             src={closeIcon}
             alt="Close sidebar"
@@ -51,8 +51,8 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/select">
           Select Location
         </Link>
-        <Link className="link" to="/fit-select">
-          Sound Fitting Select
+        <Link className="link" to="/fit-instruct">
+          Sound Fitting Instruction
         </Link>
         <Link className="link" to="/fit">
           Sound Fitting

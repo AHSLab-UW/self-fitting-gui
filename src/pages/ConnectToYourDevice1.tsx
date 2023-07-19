@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import left from "../assets/videos/FreeConvert - 3.70 MB.mp4";
-import right from "../assets/videos/FreeConvert - 3.70 MB.mp4";
+import left from "../assets/videos/Left-side-w-subtitles_compressed.mp4"
+import right from "../assets/videos/Right side w subtitles (1).mp4"
 
 import "../styles/Intro1.css";
 import { NextButton } from "../components/NextButton";
@@ -12,7 +12,6 @@ export default function Intro1() {
 
   return (
     <>
-      <h3 style={{ marginTop: 40 }}>Select which ear you’d like to start with. Put the hearing aid on your ear and switch it on</h3>
       <div className="player-button-container bottom-space">
         <button className="big-button" style={{ marginRight: 20, marginTop: 15 }} onClick={() => setLeft(true)}>
           Left Ear

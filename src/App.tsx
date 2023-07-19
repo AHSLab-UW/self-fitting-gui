@@ -11,10 +11,11 @@ import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
+import FittingSelect from './pages/FittingSelect';
 
 import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
-import FittingSelect from "./pages/FittingSelect";
+import FittingInstruction from "./pages/FittingInstruction";
 import Admin from "./pages/Admin";
 
 const routes = [
@@ -24,12 +25,11 @@ const routes = [
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
-  { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
-  { path: "/fit", name: "Fitting", element: <Fitting grid5={false} /> },
-  { path: "/fit5", name: "Fitting 5", element: <Fitting grid5={true} /> },
+  { path: "/fit-instruct", name: "Fitting Instruction", element: <FittingInstruction /> },
+  { path: "/fit", name: "Fitting", element: <Fitting /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
-  { path: "/admin", name: "Admin", element: <Admin />}
+  { path: "/admin", name: "Admin", element: <Admin /> },
 ];
 
 function App() {
@@ -57,7 +57,7 @@ function App() {
         settingCallback={() => {
           const name = localStorage.getItem("name");
           if (name === "admin") {
-            navigate("/admin")
+            navigate("/admin");
           }
         }}
       />

@@ -24,7 +24,7 @@ export default function VideoPlayer({ url }: Props) {
           ref={playerRef}
           url={url}
           playing={playing}
-          height={"50vh"}
+          height={"56vh"}
         />
         <div className="player-button-container top-space">
           <button

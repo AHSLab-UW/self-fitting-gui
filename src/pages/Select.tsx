@@ -1,10 +1,15 @@
+
 import driving from "../assets/imgs/driving.jpg";
 import restaurant from "../assets/imgs/restaurant.jpg";
 import ImageCarousel from "../components/ImageCarousel";
+import { sendG } from "../Command";
+import * as math from "mathjs";
+import { send } from "vite";
+import { useState } from "react";
+import getInitial from "../components/Grid";
+import setAggregateGain from "../components/Grid";
 
-
-export default function Select() {
-
+export default function Select(this: any) {
   return (
     <>
       <h3 style={{marginTop: 100}}>Scroll through the scenes and select the option that best fits</h3>

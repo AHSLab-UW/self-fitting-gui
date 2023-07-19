@@ -4,6 +4,7 @@ import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
 import { NextButton } from "../components/NextButton";
 import stim from "../assets/audio/stimulus.wav";
+import "../styles/Intro3.css";
 
 export default function Intro3() {
   const [vol, setVol] = useState([0, 0]);
@@ -49,11 +50,11 @@ export default function Intro3() {
 
   const renderNotif = () => {
     if (average < 40) {
-      return <h3>"You are too quiet. Please raise your phone volume."</h3>;
+      return <h3 className="quiet" style={{ marginTop: 200 }}>"You are too quiet. Please raise your phone volume."</h3>;
     } else if (average > 80) {
-      return <h3>"You are too loud. Please lower your phone volume."</h3>;
+      return <h3 className="loud" style={{ marginTop: 200 }}>"You are too loud. Please lower your phone volume."</h3>;
     } else {
-      return <h3>Perfect! Your volume is at a good level!</h3>;
+      return <h3 className= "perfect" style= {{ marginTop: 200 }}>Perfect! Your volume is at a good level!</h3>;
     }
   };
 

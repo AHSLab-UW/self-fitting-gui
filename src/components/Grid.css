@@ -7,11 +7,26 @@
   margin-left: 10px; /* Adjust the margin as needed */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */    
 }
-  .button-container{
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-  .red{
-    background-color: #FF5C5C;
-  }
-  
+.button-container{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.red{
+  background-color: #FF5C5C;
+}
+.blue{
+  background-color: #8ed0d6;
+}
+.orange{
+  background-color: #FFD580;
+}
+.green{
+  background-color: #95bc80;
+}
+.purple{
+  background-color: #ca8dfd;
+} 
+
+.g2s{
+  color: white;
+}
