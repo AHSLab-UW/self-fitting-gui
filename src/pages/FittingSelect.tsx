@@ -2,7 +2,6 @@ import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import { useState } from "react";
 import math from "mathjs";
-import { sendFirstUpdateG } from "../Command";
 import React from "react";
 import { setInitial } from "../components/Grid";
 const blank_table = [[0, 0, 0],

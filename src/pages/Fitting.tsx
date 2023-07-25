@@ -13,11 +13,15 @@ import "../styles/Fitting.css";
 import "../components/Slider.css";
 
 import stim from "../assets/audio/stimulus.wav";
-import { sendFinalG, sendG } from "../Command";
+import { sendFinalG, sendG, sendStep } from "../Command";
 
 
 const MIN_VOLUME = -15;
-const MAX_VOLUME = 15;
+const MIN_DB = -15;
+var MAX_DB = 30;
+
+const MAX_DB_LF = 30;
+const MAX_DB_HF = 25;
 const blank_table = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0],
@@ -25,6 +29,8 @@ const blank_table = [[0, 0, 0],
 [6, 6, 6],
 [10, 10, 10]]
 let last_arr: number[][] = [];
+let final_arr: number[][] = [];
+let first_arr: number[][] = [];
 
 export function getLast(arr: number[][]) {
   last_arr = arr;
@@ -39,6 +45,12 @@ export default function Fitting() {
     setInitial(blank_table);
   }, blank_table // Empty dependency array to execute the effect only once
   )
+
+  function firstSlider(){
+    sendStep(math.matrix(first_arr), 0)
+    setFitted(1);
+  }
+
 
   return (
     <>
@@ -61,18 +73,25 @@ export default function Fitting() {
                 let gain_table: number[][] = JSON.parse(JSON.stringify(blank_table));
                 for(let i = 0; i < gain_table.length; i++){
                   for(let j = 0; j < 3; j++){
-                    gain_table[i][j] = Math.min(Math.max(gain_table[i][0] + val, -15), 15);
+                    if(i < 3){
+                      MAX_DB = MAX_DB_LF;
+                    }
+                    else{
+                      MAX_DB = MAX_DB_HF
+                    }
+                    gain_table[i][j] = Math.min(Math.max(gain_table[i][j] + val, MIN_DB), MAX_DB);
                   }
                 }
                 console.log("Initial Slider: " + gain_table)
+                first_arr = gain_table;
                 setInitial(gain_table)
               }}
             />
-             <button className={'big-button'}onClick={() => setFitted(1)}>Continue</button>
+             <button className={'big-button'}onClick={() => firstSlider()}>Continue</button>
           </div>
         </div>
       )}
-      {fitted === 1 && (
+      {fitted === 1 && ( 
         <div className="flex-column">
           <div>
             <Grid setFitted={setFitted} />
@@ -96,22 +115,31 @@ export default function Fitting() {
               onChange={(val) => {
                 let gain_table: number[][] = JSON.parse(JSON.stringify(last_arr));
                 for(let i = 0; i < blank_table.length; i++){
-                  gain_table[i][0] = Math.min(Math.max(last_arr[i][0] + val, -15), 15)
-                  gain_table[i][1] = Math.min(Math.max(last_arr[i][1] + val, -15), 15)
-                  gain_table[i][2] = Math.min(Math.max(last_arr[i][2] + val, -15), 15)
+                  if(i < 3){
+                    MAX_DB = MAX_DB_LF;
+                  }
+                  else{
+                    MAX_DB = MAX_DB_HF
+                  }
+                  gain_table[i][0] = Math.min(Math.max(last_arr[i][0] + val, MIN_DB), MAX_DB)
+                  gain_table[i][2] = Math.min(Math.max(last_arr[i][2] + val, MIN_DB), MAX_DB)
+                  gain_table[i][1] = Math.min(Math.max((gain_table[i][0] + gain_table[i][2])/2, MIN_DB), MAX_DB)
                 }
                 console.log("Final Slider: " + gain_table)
                 sendG(matrixFormatter(gain_table));
+                final_arr = gain_table
+                setFinalG(math.matrix(gain_table))
               }}
             />
           </div>
           <p className="adjust-text" style={{ color: "beige" }}>
             Well Done! Now one last adjustment please. Move the slider until it sounds most comfortable.
           </p>
-          <NextButton onclick={() => sendFinalG(finalG)} to="/prompt" text="Next" />
+          <NextButton onclick={() => sendFinalG(math.matrix(final_arr))} to="/prompt" text="Next" />
         </>
       )}
     </>
+
   );
   
 }

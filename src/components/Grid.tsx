@@ -4,7 +4,7 @@ import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
 import "./NextButton.css";
 import { getRandomColor } from "../Colors";
-import { sendG, sendStep } from '../Command';
+import { sendClick, sendG, sendStep } from '../Command';
 import { send } from 'process';
 import { getLast } from '../pages/Fitting';
 
@@ -12,6 +12,10 @@ interface Props {
     setFitted: (fitted: number) => void;
 }
 
+// low freq: 30
+// high freq: 25
+
+let explored_set = new Set();
 let trialNum = 1;
 var initialGain: number[][] = [[0, 0, 0],
 [0, 0, 0],
@@ -34,6 +38,12 @@ const GAIN_INDICES = new Map<number, number[]>([
 ]);
 const MAX_STEP = 16;
 const DB_GAIN = 5;
+const MIN_DB = -15;
+var MAX_DB = 30;
+
+const MAX_DB_LF = 30;
+const MAX_DB_HF = 25;
+
 // buttons map to different gains
 const VALUES = new Map<number, number[]>();
 VALUES.set(0, [1, 0.5, 0]);
@@ -92,6 +102,8 @@ const Grid = ({setFitted}: Props) => {
   const [buttonColor, setButtonColor] = useState<string>('red');
   // if user has finished all trials 
   const [showContinue, setShowContinue] = useState<boolean>(false);
+  // if user has finished all trials 
+  const [isExplored, setIsExplored] = useState<boolean>(false);
   // which option did user click on last, is random to begin
   const [lastClickedIndex, setLastClickedIndex] = useState<number>(3);
   // current summation of all gainDeltas
@@ -101,30 +113,47 @@ const Grid = ({setFitted}: Props) => {
   const [newGain, setNewGain] = useState<number[][]>(initialGain);
 
 
-  const gainClick = (index: number, first: boolean): void => {
+  const gainClick = (index: number): void => {
+    explored_set.add(index);
+    if(explored_set.size != 6){
+      setIsExplored(false);
+    }
+    else{
+      setIsExplored(true);
+    }
     setLastClickedIndex(index)
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
     const coords = VALUES.get(index) || [0, 0, 0];
     const delta = [coords[0] * DB_GAIN, coords[2] * DB_GAIN]
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
-      newGain[i][0] += delta[0]
-      newGain[i][2] += delta[1]
-      newGain[i][1] = (newGain[i][0] + newGain[i][2])/2
+      if(i < 3){
+        MAX_DB = MAX_DB_LF;
+      }
+      else{
+        MAX_DB = MAX_DB_HF
+      }
+      newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta[0], MIN_DB), MAX_DB);
+      newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta[1], MIN_DB), MAX_DB);
+      newGain[i][1] = Math.min(Math.max((newGain[i][0] + newGain[i][2])/2, MIN_DB), MAX_DB);
     }
-    setNewGain(newGain)    
+    setNewGain(newGain)  
     sendG(matrixFormatter(newGain));
+    sendClick(math.matrix(newGain), trialNum, index);
   };
 
   const nextStep = () => {
+    if(explored_set.size != 6){
+      return;
+    }
     // setAggregateGain(newGain)
-    aggregateGain = JSON.parse(JSON.stringify(newGain));;
+    aggregateGain = JSON.parse(JSON.stringify(newGain));
     sendStep(math.matrix(aggregateGain), trialNum);
+    trialNum++;
     if(trialNum == MAX_STEP){
       setShowContinue(true)
       getLast(aggregateGain);
     }
-    trialNum++;
     let randomIndex = Math.floor(Math.random() * 6)
     let randomColor = Math.floor(Math.random() * 5)
     let color = buttonColor
@@ -134,7 +163,9 @@ const Grid = ({setFitted}: Props) => {
       randColor = colors[Math.floor(Math.random() * 5)]
     }
     setButtonColor(randColor)
-    gainClick(randomIndex, true)
+    gainClick(randomIndex)
+    setIsExplored(false);
+    explored_set = new Set();
   }
 
   
@@ -142,19 +173,20 @@ const Grid = ({setFitted}: Props) => {
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
 
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0, false)}>[1, 0]</button>
-      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1, false)}>[1, 1]</button>
+      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}>[1, 0]</button>
+      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}>[1, 1]</button>
       <div></div>
-      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2, false)}>[0, -1]</button>
-      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3, false)}>[0, 0]</button>
-      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4, false)}>[-1, -1]</button>
+      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}>[0, -1]</button>
+      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}>[0, 0]</button>
+      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}>[-1, -1]</button>
       <div></div>
-      <button id="#5" className={`grid-button ${lastClickedIndex === 5 ? buttonColor : ''}`} onClick={() => gainClick(5, false)}>[0, 1]</button>
+      <button id="#5" className={`grid-button ${lastClickedIndex === 5 ? buttonColor : ''}`} onClick={() => gainClick(5)}>[0, 1]</button>
+      {!isExplored ? (<div className={'exploreReminder'}>Please make sure you explore all five options before moving on</div>) : (<></>)}
       <div className='button-container'>
         {showContinue ? (
           <button className={'big-button'}onClick={() => setFitted(2)}>Continue</button>
         ) : (
-          <button onClick={nextStep} className="big-button">Next Step!</button>
+          <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Next Step!</button>
         )}
       </div>
 
