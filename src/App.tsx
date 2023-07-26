@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Fitting from "./pages/Fitting";
@@ -17,6 +17,8 @@ import BottomMenu from "./components/BottomMenu";
 import FittingInstruction from "./pages/FittingInstruction";
 import Admin from "./pages/Admin";
 
+import SplashScreen from "./pages/SplashScreen";
+
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
   { path: "/name", name: "Name", element: <Name /> },
@@ -24,7 +26,11 @@ const routes = [
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
-  { path: "/fit-instruct", name: "Fitting Instruction", element: <FittingInstruction /> },
+  {
+    path: "/fit-instruct",
+    name: "Fitting Instruction",
+    element: <FittingInstruction />,
+  },
   { path: "/fit", name: "Fitting", element: <Fitting /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
@@ -32,7 +38,18 @@ const routes = [
 ];
 
 function App() {
+  const [splashScreen, setSplashScreen] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSplashScreen(false);
+      setFadeOut(true);
+    }, 3000);
+  }, []);
+
   let navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -41,25 +58,36 @@ function App() {
 
   return (
     <div className="App">
-      <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
+      <SplashScreen fadeOut={fadeOut} />
+      {splashScreen ? (
+        <></>
+      ) : (
+        <>
+          <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
 
-      <Routes>
-        {routes.map((route) => (
-          <Route key={route.name} path={route.path} element={route.element} />
-        ))}
-      </Routes>
+          <Routes>
+            {routes.map((route) => (
+              <Route
+                key={route.name}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+          </Routes>
 
-      <BottomMenu
-        menuCallback={toggleSidebar}
-        batteryCallback={() => {}}
-        helpCallback={() => {}}
-        settingCallback={() => {
-          const name = localStorage.getItem("name");
-          if (name === "admin") {
-            navigate("/admin");
-          }
-        }}
-      />
+          <BottomMenu
+            menuCallback={toggleSidebar}
+            batteryCallback={() => {}}
+            helpCallback={() => {}}
+            settingCallback={() => {
+              const name = localStorage.getItem("name");
+              if (name === "admin") {
+                navigate("/admin");
+              }
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
