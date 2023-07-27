@@ -23,4 +23,5 @@ h3 {
 
 .fade-out {
   opacity: 0;
+  pointer-events: none;
 }
