@@ -19,8 +19,8 @@ const MAX_VOLUME = 15;
 
 const RANGE = 20;
 
-export const MIN_CLIP = 20;
-export const MAX_CLIP = 15;
+export const MIN_CLIP = 15;
+export const MAX_CLIP = 20;
 
 interface Props {
   setFitted: (fitted: boolean) => void;
@@ -133,6 +133,18 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       [0, 0],
     ])
   );
+
+  const snapToGrid = (coordinates: Coordinates): Coordinates => {
+    // if negative ceil if positive floor
+    let snapX = math.round(coordinates.x / GRID_CALC) * GRID_CALC;
+    let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
+
+    // cap to offset
+    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2), GRID_CALC * 2);
+    snapY = Math.min(Math.max(snapY, -GRID_CALC * 2), GRID_CALC * 2);
+
+    return { x: snapX, y: snapY };
+  }
 
   useEffect(() => {
     setGridSize((window.innerWidth / 2.75) * 2);
@@ -251,7 +263,9 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
 
       // commands
       sendSetDeviceGainCommand(g);
-      sendStoreLogCommand(a, coordinates, volume, g, gLast, step);
+
+      const snapCoordinate = snapToGrid(coordinates);
+      sendStoreLogCommand(a, snapCoordinate, volume, g, gLast, step);
     }, 100);
     return () => clearInterval(intervalId);
   });
@@ -272,25 +286,19 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   };
 
   const handleEnd = () => {
-    // if negative ceil if positive floor
-    let snapX = math.round(coordinates.x / GRID_CALC) * GRID_CALC;
-    let snapY = math.round(coordinates.y / GRID_CALC) * GRID_CALC;
-
-    // cap to offset
-    snapX = Math.min(Math.max(snapX, -GRID_CALC * 2), GRID_CALC * 2);
-    snapY = Math.min(Math.max(snapY, -GRID_CALC * 2), GRID_CALC * 2);
-
-    setCoordinates({
-      x: snapX,
-      y: snapY,
-    });
+    const snapCoordinates = snapToGrid(coordinates);
+    setCoordinates(snapCoordinates);
     setDown(false);
   };
 
   const nextStep = () => {
-    const gFinal = math.add(currG, volume) as math.Matrix;
-    sendStoreStepCommand(gFinal, step);
-    appendNextG(gFinal);
+    sendStoreStepCommand(currG, step);
+    appendNextG(currG);
+
+    console.log("curr g", currG);
+    console.log("g last: ", gLast);
+    const snap = snapToGrid(coordinates);
+    console.log("snap coordinate", snap);
 
     setGLast(currG);
     setA(getCoefficient());
