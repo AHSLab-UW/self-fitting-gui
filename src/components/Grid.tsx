@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { sendStep, sendGridCommand } from "../Command";
+import {
+  sendStoreStepCommand,
+  sendSetDeviceGainCommand,
+  sendStoreLogCommand,
+} from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
@@ -15,9 +19,12 @@ const MAX_VOLUME = 15;
 
 const RANGE = 20;
 
+const MIN_CLIP = 20;
+const MAX_CLIP = 15;
+
 interface Props {
   setFitted: (fitted: boolean) => void;
-  setNewG: (gMatrix: math.Matrix) => void;
+  appendNextG: (gMatrix: math.Matrix) => void;
 }
 
 export interface Coordinates {
@@ -99,7 +106,7 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ setFitted, setNewG }: Props) => {
+const Grid = ({ setFitted, appendNextG }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -141,7 +148,12 @@ const Grid = ({ setFitted, setNewG }: Props) => {
 
   useEffect(() => {
     // set dot position based on state
-    const screenPos = toScreenPosition(coordinates, gridSize, 40, -375 /* y offset for position of circle*/);
+    const screenPos = toScreenPosition(
+      coordinates,
+      gridSize,
+      40,
+      -375 /* y offset for position of circle*/
+    );
     setDotStyle({
       left: screenPos.x,
       top: screenPos.y,
@@ -216,7 +228,22 @@ const Grid = ({ setFitted, setNewG }: Props) => {
   // send command
   useEffect(() => {
     let intervalId = setInterval(() => {
-      setCurrG(sendGridCommand(a, coordinates, volume, gLast, step));
+      const coord = [coordinates.x, coordinates.y];
+      const b = math.multiply(a, math.matrix(coord));
+      let gSelect = math.add(b, gLast);
+      let g = math.add(gSelect, volume) as math.Matrix;
+
+      // round to integer
+      g = math.round(g) as math.Matrix;
+
+      // clip to range
+      g = math.max(math.min(g, MAX_CLIP), -MIN_CLIP) as math.Matrix;
+
+      setCurrG(g);
+
+      // commands
+      sendSetDeviceGainCommand(g);
+      sendStoreLogCommand(a, coordinates, volume, g, gLast, step);
     }, 100);
     return () => clearInterval(intervalId);
   });
@@ -250,6 +277,20 @@ const Grid = ({ setFitted, setNewG }: Props) => {
       y: snapY,
     });
     setDown(false);
+  };
+
+  const nextStep = () => {
+    const gFinal = math.add(currG, volume) as math.Matrix;
+    sendStoreStepCommand(gFinal, step);
+    appendNextG(gFinal);
+
+    setGLast(currG);
+    setA(getCoefficient());
+
+    setCoordinates({ x: 0, y: 0 });
+    setDotColor(getRandomColor());
+    setStep(step + 1);
+    setVolume(0);
   };
 
   return (
@@ -336,19 +377,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
         <button
           className="big-button grid-button"
           onClick={() => {
-            const gFinal = math.add(currG, volume) as math.Matrix;
-            sendStep(gFinal, step);
-            setNewG(gFinal);
-
-            setStep(step + 1);
-
-            setGLast(currG);
-            setA(getCoefficient());
-
-            setCoordinates({ x: 0, y: 0 });
-            setDotColor(getRandomColor());
-
-            setVolume(0);
+            nextStep();
           }}
         >
           Next
@@ -357,6 +386,7 @@ const Grid = ({ setFitted, setNewG }: Props) => {
         <button
           className="big-button grid-button"
           onClick={() => {
+            nextStep();
             setFitted(true);
           }}
         >

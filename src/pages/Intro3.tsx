@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendCommand } from "../Command";
+import { sendDeviceCommand } from "../Command";
 import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
 import { NextButton } from "../components/NextButton";
@@ -14,7 +14,7 @@ export default function Intro3() {
   useEffect(() => {
     let intervalId: NodeJS.Timeout | undefined;
     intervalId = setInterval(async () => {
-      const raw = await sendCommand("mha.calib_in.rmslevel?");
+      const raw = await sendDeviceCommand("mha.calib_in.rmslevel?");
       if (raw === undefined) {
         return [-1, -1];
       }

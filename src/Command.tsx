@@ -1,7 +1,6 @@
-import { Coordinates } from "./components/Grid";
 import * as math from "mathjs";
 
-export const sendCommand = (command: string) => {
+export const sendDeviceCommand = (command: string) => {
   // console.log("sending command: ", command);
   return fetch(`/device?command=${command}`)
     .then((data) => {
@@ -12,32 +11,16 @@ export const sendCommand = (command: string) => {
     });
 };
 
-export const sendGridCommand = (
+export const sendStoreLogCommand = (
   a: math.Matrix,
-  coordinate: Coordinates,
+  coordinate: { x: number; y: number },
   gainDelta: number,
+  g: math.Matrix,
   glast: math.Matrix,
   step: number
 ) => {
   if (localStorage.getItem("name") === "admin") return new math.Matrix();
 
-  const coord = [coordinate.x, coordinate.y];
-  const b = math.multiply(a, math.matrix(coord));
-  let gSelect = math.add(b, glast);
-  let g = math.add(gSelect, gainDelta) as math.Matrix;
-
-  g = g.map((value) => {
-    if (value > 20) {
-      return 20;
-    } else if (value < -15) {
-      return -15;
-    } else {
-      return value;
-    }
-  });
-
-  sendG(g);
-  
   // get the current time
   let date = new Date();
   let time = date.getTime();
@@ -56,36 +39,26 @@ export const sendGridCommand = (
   fetch(
     `/store?time=${time}&name=${file_name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
   );
-
-  return g;
 };
 
-export const sendG = (g_unclipped: math.Matrix) => {
-  const g = g_unclipped.map((value) => {
-    if (value > 25) {
-      return 25;
-    } else if (value < -20) {
-      return -20;
-    } else {
-      return value;
-    }
-  });
-
+export const sendSetDeviceGainCommand = (g: math.Matrix) => {
   if (localStorage.getItem("name") === "admin") return;
 
   let gaintable_og = "";
   for (let i = 0; i < g.size()[0]; i++) {
-    gaintable_og += `[${g.get([i])} ${g.get([i])} ${g.get([i])}];`;
+    const curr_g = g.get([i]);
+    gaintable_og += `[${curr_g} ${curr_g} ${curr_g}];`;
   }
   gaintable_og += gaintable_og;
   gaintable_og = gaintable_og.substring(0, gaintable_og.length - 1);
   gaintable_og = "[" + gaintable_og + "]";
 
-  // send command to server at endpoint /store
-  sendCommand("mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og);
+  sendDeviceCommand(
+    "mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og
+  );
 };
 
-export const sendStep = (g: math.Matrix, step: number) => {
+export const sendStoreStepCommand = (g: math.Matrix, step: number) => {
   if (localStorage.getItem("name") === "admin") return;
 
   const name = localStorage.getItem("name");
@@ -99,23 +72,13 @@ export const sendStep = (g: math.Matrix, step: number) => {
     "-" +
     (grid ? grid : "null");
 
-    const g_clipped = g.map((value) => {
-      if (value > 20) {
-        return 20;
-      } else if (value < -15) {
-        return -15;
-      } else {
-        return value;
-      }
-    });
-
-  fetch(`/storestep?name=${file_name}&step=${step}&g=${g_clipped}`);
+  fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
 };
 
-export const sendFinalG = (g: math.Matrix) => {
-  sendStep(g, 100);
+export const sendStoreFinalStepCommand = (g: math.Matrix) => {
+  sendStoreStepCommand(g, 100);
 };
 
-export const resetG = () => {
-  sendG(math.zeros(6) as math.Matrix);
-}
+export const sendResetDeviceGainCommand = () => {
+  sendSetDeviceGainCommand(math.zeros(6) as math.Matrix);
+};

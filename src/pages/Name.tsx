@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 import "../styles/Name.css";
-import { sendCommand } from "../Command";
+import { sendDeviceCommand } from "../Command";
 import { useNavigate } from "react-router-dom";
 
 export default function Name() {
@@ -31,8 +31,8 @@ export default function Name() {
               navigate("/admin")
             } else {
               navigate("/intro1")
-              sendCommand("?read:/home/mha/self_fit.cfg");
-              sendCommand("cmd=start");
+              sendDeviceCommand("?read:/home/mha/self_fit.cfg");
+              sendDeviceCommand("cmd=start");
             }
           }}
         >Next</button>

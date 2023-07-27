@@ -9,7 +9,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
-import { sendFinalG, sendG } from "../Command";
+import { sendStoreFinalStepCommand, sendSetDeviceGainCommand } from "../Command";
 
 type Props = {};
 
@@ -36,10 +36,8 @@ export default function Fitting({}: Props) {
 
       setGAvg(gAvg);
       setFinalG(gAvg);
-      sendG(gAvg);
-
-      // convert math.js matrix to javascript array
-      const g25Arr = gMatrix25Matrix.toArray() as number[][];
+      
+      sendSetDeviceGainCommand(gAvg);
     }
   }, [fitted]);
 
@@ -47,7 +45,7 @@ export default function Fitting({}: Props) {
     <div className="flex-column">
       <div>
         <Grid
-          setNewG={(currG) => {
+          appendNextG={(currG) => {
             // append new g to existing gMatrix
             setGMatrix([...gMatrix, currG.toArray() as number[]]);
           }}
@@ -81,7 +79,7 @@ export default function Fitting({}: Props) {
               }
             });
 
-            sendG(finalG);
+            sendSetDeviceGainCommand(finalG);
             setFinalG(finalG);
           }}
         />
@@ -91,7 +89,7 @@ export default function Fitting({}: Props) {
         sounds most comfortable.
       </p>
 
-      <NextButton onclick={() => sendFinalG(finalG)} to="/prompt" text="Next" />
+      <NextButton onclick={() => sendStoreFinalStepCommand(finalG)} to="/prompt" text="Next" />
     </>
   );
 }
