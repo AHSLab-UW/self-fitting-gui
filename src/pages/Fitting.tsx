@@ -77,7 +77,7 @@ export default function Fitting({}: Props) {
               } else if (value < -MIN_CLIP) {
                 return -MIN_CLIP;
               } else {
-                return value;
+                return math.round(value);
               }
             });
 
