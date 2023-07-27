@@ -252,8 +252,6 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       // commands
       sendSetDeviceGainCommand(g);
       sendStoreLogCommand(a, coordinates, volume, g, gLast, step);
-
-      setGLast(g);
     }, 100);
     return () => clearInterval(intervalId);
   });
