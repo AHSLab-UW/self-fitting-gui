@@ -19,8 +19,8 @@ const MAX_VOLUME = 15;
 
 const RANGE = 20;
 
-const MIN_CLIP = 20;
-const MAX_CLIP = 15;
+export const MIN_CLIP = 20;
+export const MAX_CLIP = 15;
 
 interface Props {
   setFitted: (fitted: boolean) => void;
@@ -237,13 +237,23 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       g = math.round(g) as math.Matrix;
 
       // clip to range
-      g = math.max(math.min(g, MAX_CLIP), -MIN_CLIP) as math.Matrix;
+      g = g.map((value) => {
+        if (value > MAX_CLIP) {
+          return MAX_CLIP;
+        } else if (value < -MIN_CLIP) {
+          return -MIN_CLIP;
+        } else {
+          return value;
+        }
+      });
 
       setCurrG(g);
 
       // commands
       sendSetDeviceGainCommand(g);
       sendStoreLogCommand(a, coordinates, volume, g, gLast, step);
+
+      setGLast(g);
     }, 100);
     return () => clearInterval(intervalId);
   });

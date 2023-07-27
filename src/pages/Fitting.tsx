@@ -6,6 +6,8 @@ import * as math from "mathjs";
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 
+import { MIN_CLIP, MAX_CLIP } from "../components/Grid";
+
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
@@ -70,10 +72,10 @@ export default function Fitting({}: Props) {
           onChange={(val) => {
             let finalG = math.add(gAvg, val) as math.Matrix;
             finalG = finalG.map((value) => {
-              if (value > 20) {
-                return 20;
-              } else if (value < -15) {
-                return -15;
+              if (value > MAX_CLIP) {
+                return MAX_CLIP;
+              } else if (value < -MIN_CLIP) {
+                return -MIN_CLIP;
               } else {
                 return value;
               }
