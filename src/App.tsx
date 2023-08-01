@@ -2,8 +2,8 @@ import "./styles/App.css";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import Fitting from "./pages/Fitting";
 import Welcome from "./pages/Welcome";
+import Admin from "./pages/Admin";
 import Intro1 from "./pages/ConnectToYourDevice1";
 import Name from "./pages/Name";
 import Intro2 from "./pages/Intro2";
@@ -11,13 +11,17 @@ import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
+import FittingSelect from './pages/FittingSelect';
+import FittingInstruction from "./pages/FittingInstruction";
+
+import GridFitting from "./pages/GridFitting";
+import ButtonFitting from "./pages/ButtonFitting";
+
+import SplashScreen from "./pages/SplashScreen";
 
 import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
-import FittingInstruction from "./pages/FittingInstruction";
-import Admin from "./pages/Admin";
 
-import SplashScreen from "./pages/SplashScreen";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -26,12 +30,14 @@ const routes = [
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
+  { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
   {
     path: "/fit-instruct",
     name: "Fitting Instruction",
     element: <FittingInstruction />,
   },
-  { path: "/fit", name: "Fitting", element: <Fitting /> },
+  { path: "/buttons", name: "ButtonFitting", element: <ButtonFitting /> },
+  { path: "/grid", name: "GridFitting", element: <GridFitting /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
   { path: "/admin", name: "Admin", element: <Admin /> },

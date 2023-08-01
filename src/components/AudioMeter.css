@@ -7,79 +7,89 @@
 }
 
 .bar-on {
-  background: rgb(103, 111, 148);
+  background: rgb(255, 255, 0); /* Yellow */
 }
 
 .bar-on-0 {
-  background: #FFFB97;
+  background: rgb(255, 221, 0);
 }
 
 .bar-on-1 {
-  background:#FFFA84;
+  background: rgb(255, 187, 0);
 }
 
 .bar-on-2 {
-  background: #FCE25B;
+  background: rgb(255, 153, 0);
 }
 
 .bar-on-3 {
-  background: #FFD832;
+  background: rgb(255, 119, 0);
 }
 
 .bar-on-4 {
-  background: #FFD212;
+  background: rgb(255, 85, 0);
 }
 
 .bar-on-5 {
-  background:#FFCA17;
+  background: rgb(255, 51, 0);
 }
 
 .bar-on-6 {
-  background: #FEBD20;
+  background: rgb(255, 34, 0);
 }
 
 .bar-on-7 {
-  background: #FEBD20;
+  background: rgb(255, 17, 0);
 }
 
 .bar-on-8 {
-  background:#FFAA27;
+  background: rgb(255, 0, 0); /* Red */
 }
 
 .bar-on-9 {
-  background: #FD9B2C;
+  background: rgb(234, 0, 0);
 }
 
 .bar-on-10 {
-  background: #FF8338;
+  background: rgb(213, 0, 0);
 }
+
 .bar-on-11 {
-  background: #FE773F;
+  background: rgb(192, 0, 0);
 }
+
 .bar-on-12 {
-  background: #FF6547;
+  background: rgb(171, 0, 0);
 }
+
 .bar-on-13 {
-  background: #FF5635;
+  background: rgb(149, 0, 0);
 }
+
 .bar-on-14 {
-  background: #FF4521;
+  background: rgb(128, 0, 0);
 }
+
 .bar-on-15 {
-  background: rgb(124, 18, 157);
+  background: rgb(106, 0, 0);
 }
+
 .bar-on-16 {
-  background: rgb(105, 12, 133);
+  background: rgb(85, 0, 0);
 }
+
 .bar-on-17 {
-  background: rgb(108, 11, 113);
+  background: rgb(64, 0, 0);
 }
+
 .bar-on-18 {
-  background: rgb(113, 11, 94);
+  background: rgb(43, 0, 0);
 }
+
 .bar-on-19 {
-  background: rgb(113, 11, 57);
+  background: rgb(21, 0, 0);
 }
+
 .audio-progress {
   display: flex;
 }
