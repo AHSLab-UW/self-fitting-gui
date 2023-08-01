@@ -4,7 +4,7 @@ import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
 import "./NextButton.css";
 import { getRandomColor } from "../Colors";
-import { sendClick, sendG, sendStep } from '../Command';
+import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand } from '../Command';
 import { send } from 'process';
 import { getLast } from '../pages/ButtonFitting';
 
@@ -69,7 +69,7 @@ export function gainToString(arr: number[][]): string {
 export function setInitial(arr: number[][]){
   initialGain = arr;
   aggregateGain = initialGain
-  sendG(matrixFormatter(arr))
+  sendSetDeviceGainButtonCommand(matrixFormatter(arr))
 }
 
 // accepts a 6x3 2d array and returns it into a 12x19 matrix, properly 
@@ -141,8 +141,8 @@ const ButtonLayout = ({setFitted}: Props) => {
       newGain[i][1] = Math.min(Math.max((newGain[i][0] + newGain[i][2])/2, MIN_DB), MAX_DB);
     }
     setNewGain(newGain)  
-    sendG(matrixFormatter(newGain));
-    sendClick(math.matrix(newGain), trialNum, index);
+    sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
+    sendStoreButtonClickCommand(math.matrix(newGain), trialNum, index);
   };
 
   const nextStep = () => {
@@ -151,7 +151,9 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
-    sendStep(math.matrix(aggregateGain), trialNum);
+
+    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+
     trialNum++;
     if(trialNum == MAX_STEP){
       setShowContinue(true)

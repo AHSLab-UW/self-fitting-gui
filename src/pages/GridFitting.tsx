@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Grid from "../components/Grid";
+import Grid from "../components/GridLayout";
 
 import * as math from "mathjs";
 
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 
-import { MIN_CLIP, MAX_CLIP } from "../components/Grid";
+import { MIN_CLIP, MAX_CLIP } from "../components/GridLayout";
 
 import "../styles/Fitting.css";
 import "../components/Slider.css";
@@ -16,7 +16,7 @@ import { sendStoreFinalStepCommand, sendSetDeviceGainCommand } from "../Command"
 type Props = {};
 
 
-export default function Fitting({}: Props) {
+export default function GridFitting({}: Props) {
   const [fitted, setFitted] = useState(false);
 
   // fititng page

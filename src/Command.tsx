@@ -1,5 +1,5 @@
 import * as math from "mathjs";
-import { Coordinates} from "./components/ButtonLayout";
+import { Coordinates } from "./components/ButtonLayout";
 // import { gainToString } from "./components/Grid";
 
 export const sendDeviceCommand = (command: string) => {
@@ -29,14 +29,14 @@ export const sendStoreLogCommand = (
 
   const name = localStorage.getItem("name");
   const scene = localStorage.getItem("scene");
-  const grid = localStorage.getItem("grid");
+  const fitType = localStorage.getItem("fitType");
 
   const file_name =
     (name ? name : "null") +
     "-" +
     (scene ? scene : "null") +
     "-" +
-    (grid ? grid : "null");
+    (fitType ? fitType : "null");
 
   fetch(
     `/store?time=${time}&name=${file_name}&a=${a}&coordinate=[${coordinate.x},${coordinate.y}]&gainDelta=${gainDelta}&g=${g}&glast=${glast}&step=${step}`
@@ -45,10 +45,6 @@ export const sendStoreLogCommand = (
 
 export const sendSetDeviceGainCommand = (g: math.Matrix) => {
   if (localStorage.getItem("name") === "admin") return;
-  let gaintable_og = "[" + g_clipped
-  .toArray()
-  .map(row => "[" + (row as unknown as string[]).join(" ") + "]")
-  .join(";") + "]";
 
   let gaintable_og = "";
   for (let i = 0; i < g.size()[0]; i++) {
@@ -64,12 +60,33 @@ export const sendSetDeviceGainCommand = (g: math.Matrix) => {
   );
 };
 
-export const sendStoreStepCommand = (g: math.Matrix, step: number) => {
+export const sendSetDeviceGainButtonCommand = (g: math.Matrix) => {
+  if (localStorage.getItem("name") === "admin") return;
+  let gaintable_og =
+    "[" +
+    g
+      .toArray()
+      .map((row) => "[" + (row as unknown as string[]).join(" ") + "]")
+      .join(";") +
+    "]";
+
+  // Data which will write in a file.
+  let data = gaintable_og;
+
+  // Write data in 'Output.txt' .
+  console.log("Sending this matrix to the device: " + data);
+  // send command to server at endpoint /store
+  sendDeviceCommand(
+    "mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og
+  );
+};
+
+export const sendStoreButtonClickCommand = (g: math.Matrix, step: number, index: number) => {
   if (localStorage.getItem("name") === "admin") return;
 
   const name = localStorage.getItem("name");
   const scene = localStorage.getItem("scene");
-  const grid = localStorage.getItem("grid");
+  const fitType = localStorage.getItem("fitType");
   let date = new Date();
   let time = date.getTime();
 
@@ -78,7 +95,54 @@ export const sendStoreStepCommand = (g: math.Matrix, step: number) => {
     "-" +
     (scene ? scene : "null") +
     "-" +
-    (grid ? grid : "null");
+    (fitType ? fitType : "null");
+
+  const g_clipped = g;
+
+  fetch(
+    // todo: FIX THIS
+    // might want different functionalities so maybe add new api if necessary
+    `/storestep?name=${file_name}&step=${step + "." + index}&g=${g_clipped}`
+  );
+};
+
+export const sendStoreButtonStepCommand = (g: math.Matrix, step: number) => {
+  if (localStorage.getItem("name") === "admin") return;
+
+  const name = localStorage.getItem("name");
+  const scene = localStorage.getItem("scene");
+  const fitType = localStorage.getItem("fitType");
+  let date = new Date();
+  let time = date.getTime();
+
+  const file_name =
+    (name ? name : "null") +
+    "-" +
+    (scene ? scene : "null") +
+    "-" +
+    (fitType ? fitType : "null");
+
+    const g_clipped = g;
+
+  fetch(`/storestep?name=${file_name}&step=${step}&g=${g_clipped}`);
+};
+
+
+export const sendStoreStepCommand = (g: math.Matrix, step: number) => {
+  if (localStorage.getItem("name") === "admin") return;
+
+  const name = localStorage.getItem("name");
+  const scene = localStorage.getItem("scene");
+  const fitType = localStorage.getItem("fitType");
+  let date = new Date();
+  let time = date.getTime();
+
+  const file_name =
+    (name ? name : "null") +
+    "-" +
+    (scene ? scene : "null") +
+    "-" +
+    (fitType ? fitType : "null");
 
   fetch(`/storestep?name=${file_name}&step=${step}&g=${g}`);
 };
@@ -89,25 +153,4 @@ export const sendStoreFinalStepCommand = (g: math.Matrix) => {
 
 export const sendResetDeviceGainCommand = () => {
   sendSetDeviceGainCommand(math.zeros(6) as math.Matrix);
-};
-
-export const sendClick = (g: math.Matrix, step: number, index: number) => {
-  if (localStorage.getItem("name") === "admin") return;
-
-  const name = localStorage.getItem("name");
-  const scene = localStorage.getItem("scene");
-  const grid = localStorage.getItem("grid");
-  let date = new Date();
-  let time = date.getTime();
-
-  const file_name =
-    (name ? name : "null") +
-    "-" +
-    (scene ? scene : "null") +
-    "-" +
-    (grid ? grid : "null");
-
-    const g_clipped = g;
-
-  fetch(`/storestep?name=${file_name}&step=${step + '.' + index}&g=${g_clipped}`);
 };

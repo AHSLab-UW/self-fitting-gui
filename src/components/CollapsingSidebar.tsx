@@ -21,7 +21,7 @@ const CollapsingSidebar = (props: Props) => {
         {localStorage.getItem("scene")
           ? localStorage.getItem("scene")
           : "[Scene]"}{" "}
-        {localStorage.getItem("grid") ? localStorage.getItem("grid") : "[Grid]"}
+        {localStorage.getItem("fitType") ? localStorage.getItem("fitType") : "[fitType]"}
         <div className="space-between">
           <img src={ear} alt={"logo"} style={{ maxWidth: 60 }}></img>
           <img
@@ -54,8 +54,8 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/fit-instruct">
           Sound Fitting Instruction
         </Link>
-        <Link className="link" to="/fit">
-          Sound Fitting
+        <Link className="link" to="/fit-select">
+          Fitting Select
         </Link>
         <Link className="link" to="/prompt">
           Reset Settings

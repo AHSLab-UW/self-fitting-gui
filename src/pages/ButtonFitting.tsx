@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import AudioButton from "../components/AudioButton";
-import { AudioMeter } from "../components/AudioMeter";
 import ButtonLayout, { matrixFormatter, setInitial } from "../components/ButtonLayout";
 
 import * as math from "mathjs";
-import { PCA } from "ml-pca";
 
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
@@ -12,8 +9,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
-import stim from "../assets/audio/stimulus.wav";
-import { sendFinalG, sendG, sendStep } from "../Command";
+import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand } from "../Command";
 
 
 const MIN_VOLUME = -15;
@@ -47,7 +43,7 @@ export default function ButtonFitting() {
   )
 
   function firstSlider(){
-    sendStep(math.matrix(first_arr), 0)
+    sendStoreStepCommand(math.matrix(first_arr), 0)
     setFitted(1);
   }
 
@@ -126,7 +122,7 @@ export default function ButtonFitting() {
                   gain_table[i][1] = Math.min(Math.max((gain_table[i][0] + gain_table[i][2])/2, MIN_DB), MAX_DB)
                 }
                 console.log("Final Slider: " + gain_table)
-                sendG(matrixFormatter(gain_table));
+                sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
                 final_arr = gain_table
                 setFinalG(math.matrix(gain_table))
               }}
@@ -135,7 +131,7 @@ export default function ButtonFitting() {
           <p className="adjust-text" style={{ color: "beige" }}>
             Well Done! Now one last adjustment please. Move the slider until it sounds most comfortable.
           </p>
-          <NextButton onclick={() => sendFinalG(math.matrix(final_arr))} to="/prompt" text="Next" />
+          <NextButton onclick={() => sendStoreFinalStepCommand(math.matrix(final_arr))} to="/prompt" text="Next" />
         </>
       )}
     </>

@@ -12,7 +12,7 @@ export default function FittingInstruction() {
 
       <h1 className="title">Start from the edges of the grid to get the feeling</h1>
 
-      <NextButton to="/fit" text="Continue" style={{ marginTop: 100 }} />
+      <NextButton to="/fit-select" text="Continue" style={{ marginTop: 100 }} />
     </div>
   );
 }

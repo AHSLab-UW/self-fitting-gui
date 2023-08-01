@@ -8,9 +8,9 @@ import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
 import { getRandomColor } from "../Colors";
 
-import { AudioMeter } from "../components/AudioMeter";
+import { AudioMeter } from "./AudioMeter";
 
-import "./Grid.css";
+import "./GridLayout.css";
 
 const MAX_STEP = 30;
 
@@ -154,8 +154,6 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     });
 
     setA(getCoefficient());
-
-    localStorage.setItem("grid", "5x5");
   }, []);
 
   useEffect(() => {
