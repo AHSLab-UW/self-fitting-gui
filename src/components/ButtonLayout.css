@@ -1,0 +1,42 @@
+.grid-button {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border: black;
+  border-radius: 50%; /* Add border-radius property for circular shape */
+  margin-left: 10px; /* Adjust the margin as needed */
+  margin-top: 10px; /* Adjust the margin as needed */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */    
+}
+/* .grid-button2 {
+  position:absolute;
+  top: -500; /*[wherever you want it]*/
+ /* left:-500; /*[wherever you want it]*/
+/* } */
+.button-container{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.red{
+  background-color: #FF5C5C;
+}
+.blue{
+  background-color: #8ed0d6;
+}
+.orange{
+  background-color: #FFD580;
+}
+.green{
+  background-color: #95bc80;
+}
+.purple{
+  background-color: #ca8dfd;
+} 
+
+.g2s{
+  color: white;
+}
+
+.exploreReminder{
+  color: white;
+}

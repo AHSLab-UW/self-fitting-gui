@@ -4,7 +4,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Prompt.css";
 
 export default function Prompt() {
-  let navigate = useNavigate();
+  let navigate = useNavigate(); 
   return (
     <div>
       <h3 className="final-prompt" style={{ marginTop: 200 }}>

@@ -46,4 +46,12 @@ body, .grid {
     box-shadow: 0 7px 10px 0 #000000;
     cursor: pointer;
     font-size: 40px;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+  
