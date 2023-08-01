@@ -6,8 +6,8 @@ import { sendG } from "../Command";
 import * as math from "mathjs";
 import { send } from "vite";
 import { useState } from "react";
-import getInitial from "../components/Grid";
-import setAggregateGain from "../components/Grid";
+import getInitial from "../components/ButtonLayout";
+import setAggregateGain from "../components/ButtonLayout";
 
 export default function Select(this: any) {
   return (

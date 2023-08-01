@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './Grid.css';
+import './ButtonLayout.css';
 import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
 import "./NextButton.css";
 import { getRandomColor } from "../Colors";
 import { sendClick, sendG, sendStep } from '../Command';
 import { send } from 'process';
-import { getLast } from '../pages/Fitting';
+import { getLast } from '../pages/ButtonFitting';
 
 interface Props {
     setFitted: (fitted: number) => void;
@@ -97,7 +97,7 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
   return matrix
 }
 
-const Grid = ({setFitted}: Props) => {
+const ButtonLayout = ({setFitted}: Props) => {
   // random color every trial, starts at red as default
   const [buttonColor, setButtonColor] = useState<string>('red');
   // if user has finished all trials 
@@ -114,6 +114,9 @@ const Grid = ({setFitted}: Props) => {
 
 
   const gainClick = (index: number): void => {
+    if(trialNum == 1){
+      explored_set.add(3)
+    }
     explored_set.add(index);
     if(explored_set.size != 6){
       setIsExplored(false);
@@ -163,9 +166,9 @@ const Grid = ({setFitted}: Props) => {
       randColor = colors[Math.floor(Math.random() * 5)]
     }
     setButtonColor(randColor)
+    explored_set = new Set();
     gainClick(randomIndex)
     setIsExplored(false);
-    explored_set = new Set();
   }
 
   
@@ -200,6 +203,6 @@ const Grid = ({setFitted}: Props) => {
   );
 };
 
-export default Grid;
+export default ButtonLayout;
 
 export interface Coordinates { x: number; y: number; }

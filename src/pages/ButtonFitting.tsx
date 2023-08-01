@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AudioButton from "../components/AudioButton";
 import { AudioMeter } from "../components/AudioMeter";
-import Grid, { matrixFormatter, setInitial } from "../components/Grid";
+import ButtonLayout, { matrixFormatter, setInitial } from "../components/ButtonLayout";
 
 import * as math from "mathjs";
 import { PCA } from "ml-pca";
@@ -36,7 +36,7 @@ export function getLast(arr: number[][]) {
   last_arr = arr;
 }
 
-export default function Fitting() {
+export default function ButtonFitting() {
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
   const [fitted, setFitted] = useState<number>(0);
   const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
@@ -94,7 +94,7 @@ export default function Fitting() {
       {fitted === 1 && ( 
         <div className="flex-column">
           <div>
-            <Grid setFitted={setFitted} />
+            <ButtonLayout setFitted={setFitted} />
           </div>
         </div>
       )}

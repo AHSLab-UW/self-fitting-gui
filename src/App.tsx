@@ -2,7 +2,7 @@ import "./styles/App.css";
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import Fitting from "./pages/Fitting";
+import Fitting from "./pages/ButtonFitting";
 import Welcome from "./pages/Welcome";
 import Intro1 from "./pages/ConnectToYourDevice1";
 import Name from "./pages/Name";
@@ -17,6 +17,7 @@ import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
 import FittingInstruction from "./pages/FittingInstruction";
 import Admin from "./pages/Admin";
+import ButtonFitting from "./pages/ButtonFitting";
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -25,8 +26,10 @@ const routes = [
   { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
   { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
+  { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
   { path: "/fit-instruct", name: "Fitting Instruction", element: <FittingInstruction /> },
-  { path: "/fit", name: "Fitting", element: <Fitting /> },
+  { path: "/buttons", name: "ButtonFitting", element: <ButtonFitting /> },
+  { path: "/grid", name: "GridFitting", element: <ButtonFitting /> },
   { path: "/prompt", name: "Prompt", element: <Prompt /> },
   { path: "/finish", name: "Finish", element: <Finish /> },
   { path: "/admin", name: "Admin", element: <Admin /> },
