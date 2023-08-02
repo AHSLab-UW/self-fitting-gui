@@ -11,7 +11,8 @@ import { MIN_CLIP, MAX_CLIP } from "../components/GridLayout";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
-import { sendStoreFinalStepCommand, sendSetDeviceGainCommand } from "../Command";
+import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
+import { gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
 
 type Props = {};
 
@@ -19,12 +20,13 @@ type Props = {};
 export default function GridFitting({}: Props) {
   const [fitted, setFitted] = useState(false);
 
+  let gAverage = new math.Matrix();
   // fititng page
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
 
   // volume page
-  const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
-  const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
+  const [gAvg, setGAvg] = useState<math.Matrix>(new math.Matrix());
+  const [finalG, setFinalG] = useState<math.Matrix>(new math.Matrix());
 
   useEffect(() => {
     if (fitted) {
@@ -35,11 +37,9 @@ export default function GridFitting({}: Props) {
       const gMatrix25Matrix = math.matrix(gMatrix25);
       // take the average of the gMatrix row 5 - 30 axis 1
       const gAvg = math.mean(gMatrix25Matrix, 0);
-
       setGAvg(gAvg);
       setFinalG(gAvg);
-      
-      sendSetDeviceGainCommand(gAvg);
+      sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
     }
   }, [fitted]);
 
@@ -80,8 +80,13 @@ export default function GridFitting({}: Props) {
                 return value;
               }
             });
-
-            sendSetDeviceGainCommand(finalG);
+            let numArr: number[] = [];
+            // for(let i = 0; i < 6; i++){
+            //   numArr[i][0] = finalG.get([i])
+            //   numArr[i][1] = finalG.get([i])
+            //   numArr[i][2] = finalG.get([i])
+            // }
+            sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);
           }}
         />

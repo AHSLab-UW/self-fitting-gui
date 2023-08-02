@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   sendStoreStepCommand,
-  sendSetDeviceGainCommand,
   sendStoreLogCommand,
+  sendSetDeviceGainButtonCommand,
 } from "../Command";
 import * as math from "mathjs";
 import { ProgressBar } from "./ProgressBar";
@@ -11,6 +11,7 @@ import { getRandomColor } from "../Colors";
 import { AudioMeter } from "./AudioMeter";
 
 import "./GridLayout.css";
+import { gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
 
 const MAX_STEP = 30;
 
@@ -85,8 +86,24 @@ const getCoefficient = () => {
 
   // Subtract the mean of the array from each element to make the sum of all elements equal to 0
   let sum = math.sum(arr);
-  arr = arr.map((x) => x - sum / 6);
+  arr = arr.map((x) => x - sum);
 
+  let squares1 = 0;
+  for(let i = 0; i < arr.length; i++){
+    squares1 += (arr[i] * arr[i])
+  }
+  let result1 = parseFloat(math.sqrt(squares1 / 6).toString())
+  console.log("sum of squares after centering is " + result1)
+
+  arr = arr.map((x) => x  / result1);
+
+  let squares = 0;
+  for(let i = 0; i < arr.length; i++){
+    squares += ((arr[i]) * (arr[i]))
+  }
+  squares = squares / 6 ;
+
+  console.log("final is " + squares)
   // Convert the array to a matrix
   let matrix = math.matrix(arr);
 
@@ -260,7 +277,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       setCurrG(g);
 
       // commands
-      sendSetDeviceGainCommand(g);
+      sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
 
       const snapCoordinate = snapToGrid(coordinates);
       sendStoreLogCommand(a, snapCoordinate, volume, g, gLast, step);
@@ -293,10 +310,10 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     sendStoreStepCommand(currG, step);
     appendNextG(currG);
 
-    console.log("curr g", currG);
-    console.log("g last: ", gLast);
+    // console.log("curr g", currG);
+    // console.log("g last: ", gLast);
     const snap = snapToGrid(coordinates);
-    console.log("snap coordinate", snap);
+    // console.log("snap coordinate", snap);
 
     setGLast(currG);
     setA(getCoefficient());

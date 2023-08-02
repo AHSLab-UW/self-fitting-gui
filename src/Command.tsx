@@ -43,23 +43,6 @@ export const sendStoreLogCommand = (
   );
 };
 
-export const sendSetDeviceGainCommand = (g: math.Matrix) => {
-  if (localStorage.getItem("name") === "admin") return;
-
-  let gaintable_og = "";
-  for (let i = 0; i < g.size()[0]; i++) {
-    const curr_g = g.get([i]);
-    gaintable_og += `[${curr_g} ${curr_g} ${curr_g}];`;
-  }
-  gaintable_og += gaintable_og;
-  gaintable_og = gaintable_og.substring(0, gaintable_og.length - 1);
-  gaintable_og = "[" + gaintable_og + "]";
-
-  sendDeviceCommand(
-    "mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og
-  );
-};
-
 export const sendSetDeviceGainButtonCommand = (g: math.Matrix) => {
   if (localStorage.getItem("name") === "admin") return;
   let gaintable_og =
@@ -70,11 +53,7 @@ export const sendSetDeviceGainButtonCommand = (g: math.Matrix) => {
       .join(";") +
     "]";
 
-  // Data which will write in a file.
-  let data = gaintable_og;
 
-  // Write data in 'Output.txt' .
-  console.log("Sending this matrix to the device: " + data);
   // send command to server at endpoint /store
   sendDeviceCommand(
     "mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og
@@ -152,5 +131,5 @@ export const sendStoreFinalStepCommand = (g: math.Matrix) => {
 };
 
 export const sendResetDeviceGainCommand = () => {
-  sendSetDeviceGainCommand(math.zeros(6) as math.Matrix);
+  sendSetDeviceGainButtonCommand(math.zeros(6) as math.Matrix);
 };
