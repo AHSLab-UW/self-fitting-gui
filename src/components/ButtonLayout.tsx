@@ -62,7 +62,7 @@ export function gainToString(arr: number[][]): string {
     str += "[" + arr[i][0] + ", "+ arr[i][1] + ", "+ arr[i][2] + "]";
     str += "\n"
   }
-  console.log(str)
+  // console.log(str)
   return str;
 }
 
@@ -70,6 +70,17 @@ export function setInitial(arr: number[][]){
   initialGain = arr;
   aggregateGain = initialGain
   sendSetDeviceGainButtonCommand(matrixFormatter(arr))
+}
+
+// coverts a 1x6 to a 3x6 for matrixformatter
+export function gridMatrixFormatter(arr: math.Matrix): math.Matrix{
+  let a: number[][] = [[0, 0, 0], [0, 0, 0],[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  for(let i = 0; i < 6; i++){
+    a[i][0] = arr.get([i]);
+    a[i][1] = arr.get([i])
+    a[i][2] = arr.get([i])
+  }
+  return matrixFormatter(a)
 }
 
 // accepts a 6x3 2d array and returns it into a 12x19 matrix, properly 
