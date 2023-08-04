@@ -38,6 +38,7 @@ export default function GridFitting({}: Props) {
       // take the average of the gMatrix row 5 - 30 axis 1
       const gAvg = math.mean(gMatrix25Matrix, 0);
       setGAvg(gAvg);
+  
       setFinalG(gAvg);
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
     }
@@ -96,7 +97,8 @@ export default function GridFitting({}: Props) {
         sounds most comfortable.
       </p>
 
-      <NextButton onclick={() => sendStoreFinalStepCommand(finalG)} to="/prompt" text="Next" />
+      <NextButton onclick={() => sendStoreFinalStepCommand(matrixFormatter([[finalG.get([0, 0])], [finalG.get([1, 0])], finalG.get([2, 0]), finalG.get([3, 0]), [finalG.get([4, 0])], [finalG.get([5, 0])]]))} to="/prompt" text="Next" />
+          {console.log(matrixFormatter([[finalG.get([0, 0])], [finalG.get([1, 0])], finalG.get([2, 0]), finalG.get([3, 0]), [finalG.get([4, 0])], [finalG.get([5, 0])]]))}
     </>
   );
 }

@@ -257,6 +257,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     let intervalId = setInterval(() => {
       const coord = [coordinates.x, coordinates.y];
       const b = math.multiply(a, math.matrix(coord));
+
       let gSelect = math.add(b, gLast);
       let g = math.add(gSelect, volume) as math.Matrix;
 
