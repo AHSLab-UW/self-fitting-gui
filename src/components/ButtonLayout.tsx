@@ -86,6 +86,12 @@ export function gridMatrixFormatter(arr: math.Matrix): math.Matrix{
 // accepts a 6x3 2d array and returns it into a 12x19 matrix, properly 
 // formatted for hearing aid device
 export function matrixFormatter(arr: number[][]): math.Matrix {
+  if(arr[0][2] == null){
+    for(let row = 0; row < 6; row++){
+      arr[row][1] = arr[row][0];
+      arr[row][2] = arr[row][0]
+    }
+  }
   let matrix = BLANK_TABLE
   for(let i = 0; i < 6; i++){
     let left = arr[i][0]
