@@ -165,7 +165,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         onclick={() => {
           localStorage.setItem("scene", images[currentImageIndex].alt);
         }}
-        to="/fit-instruct"
+        to="/fit-select"
         text="Next"
       />
     </>

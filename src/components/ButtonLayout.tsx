@@ -38,11 +38,11 @@ const GAIN_INDICES = new Map<number, number[]>([
 ]);
 const MAX_STEP = 16;
 const DB_GAIN = 5;
-const MIN_DB = -15;
 var MAX_DB = 30;
 
-const MAX_DB_LF = 30;
-const MAX_DB_HF = 25;
+export const MIN_DB = -15;
+export const MAX_DB_LF = 30;
+export const MAX_DB_HF = 25;
 
 // buttons map to different gains
 const VALUES = new Map<number, number[]>();

@@ -14,8 +14,9 @@ export default function Intro3() {
   useEffect(() => {
     let intervalId: NodeJS.Timeout | undefined;
     intervalId = setInterval(async () => {
+
       const raw = await sendDeviceCommand("mha.calib_in.rmslevel?");
-      if (raw === undefined) {
+         if (raw === undefined) {
         return [-1, -1];
       }
 
@@ -43,7 +44,7 @@ export default function Intro3() {
       } else {
         console.log("No array found in the string.");
       }
-    }, 100);
+    }, 50);
 
     return () => clearInterval(intervalId);
   }, []);

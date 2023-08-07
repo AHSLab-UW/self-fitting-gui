@@ -11,17 +11,15 @@ import { getRandomColor } from "../Colors";
 import { AudioMeter } from "./AudioMeter";
 
 import "./GridLayout.css";
-import { gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
+import { MAX_DB_HF, MAX_DB_LF, MIN_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
 
-const MAX_STEP = 30;
-
+const MAX_STEP = 10;
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
-
 const RANGE = 20;
 
-export const MIN_CLIP = 15;
-export const MAX_CLIP = 20;
+// export const MIN_CLIP = 15;
+// export const MAX_CLIP = 30;
 
 interface Props {
   setFitted: (fitted: boolean) => void;
@@ -93,17 +91,14 @@ const getCoefficient = () => {
     squares1 += (arr[i] * arr[i])
   }
   let result1 = parseFloat(math.sqrt(squares1 / 6).toString())
-  console.log("sum of squares after centering is " + result1)
 
   arr = arr.map((x) => x  / result1);
 
-  let squares = 0;
-  for(let i = 0; i < arr.length; i++){
-    squares += ((arr[i]) * (arr[i]))
-  }
-  squares = squares / 6 ;
-
-  console.log("final is " + squares)
+  // let squares = 0;
+  // for(let i = 0; i < arr.length; i++){
+  //   squares += ((arr[i]) * (arr[i]))
+  // }
+  // squares = squares / 6 ;
   // Convert the array to a matrix
   let matrix = math.matrix(arr);
 
@@ -136,19 +131,19 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   const [selectedGrid, setSelectedGrid] = useState(-1);
 
   const [step, setStep] = useState(1);
-  const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
-  const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 0, 0]));
+  const [currG, setCurrG] = useState(math.matrix([0, 0, 0, 0, 6, 10]));
+  const [gLast, setGLast] = useState(math.matrix([0, 0, 0, 0, 6, 10]));
 
   const [volume, setVolume] = useState(0);
 
   const [a, setA] = useState(
     math.matrix([
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
+      [0.7, 0],
+      [0.7, 0],
+      [0.7, 0],
+      [0, 0.7],
+      [0, 0.7],
+      [0, 0.7],
     ])
   );
 
@@ -165,14 +160,14 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   }
 
   useEffect(() => {
-    setGridSize((window.innerWidth / 2.75) * 2);
+    setGridSize(window.innerWidth / 1.4); // <--- GRID SIZE ADJUSTMENT !!
     setCoordinates({
       x: 0,
       y: 0,
     });
     setExploredSet(explored_set.add(selectedGrid));
 
-    setA(getCoefficient());
+    // setA(getCoefficient());
   }, []);
 
   useEffect(() => {
@@ -180,8 +175,8 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     const screenPos = toScreenPosition(
       coordinates,
       gridSize,
-      40,
-      -375 /* y offset for position of circle*/
+      48,
+      -366 /* y offset for position of circle*/
     );
     setDotStyle({
       left: screenPos.x,
@@ -257,6 +252,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   // send command
   useEffect(() => {
     let intervalId = setInterval(() => {
+
       const coord = [coordinates.x, coordinates.y];
       const b = math.multiply(a, math.matrix(coord));
 
@@ -266,25 +262,35 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       // round to integer
       g = math.round(g) as math.Matrix;
 
-      // clip to range
-      g = g.map((value) => {
-        if (value > MAX_CLIP) {
-          return MAX_CLIP;
-        } else if (value < -MIN_CLIP) {
-          return -MIN_CLIP;
-        } else {
-          return value;
+      for(let i = 0; i < 6; i++){
+        if(i < 3){
+          var MAX_db = MAX_DB_LF;
         }
-      });
+        else{
+          var MAX_db = MAX_DB_HF
+        }
+        g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_db))
+     
+      }
+
+      // // clip to range
+      // g = g.map((value) => {
+      //   if (value > MAX_CLIP) {
+      //     return MAX_DB;
+      //   } else if (value < -MIN_CLIP) {
+      //     return -MIN_CLIP;
+      //   } else {
+      //     return value;
+      //   }
 
       setCurrG(g);
 
       // commands
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
-
+      
       const snapCoordinate = snapToGrid(coordinates);
       sendStoreLogCommand(a, snapCoordinate, volume, g, gLast, step);
-    }, 100);
+    }, 50);
     return () => clearInterval(intervalId);
   });
 
@@ -298,7 +304,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         },
         gridSize,
         0,
-        -120 /* y offset of picking up red cursor */
+        -125 /* y offset of picking up red cursor */
       )
     );
     setExploredSet(explored_set.add(selectedGrid));
@@ -317,8 +323,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     }
     sendStoreStepCommand(currG, step);
     appendNextG(currG);
-
-    // console.log("curr g", currG);
+    // console.log("curr a", a);
     // console.log("g last: ", gLast);
     const snap = snapToGrid(coordinates);
     // console.log("snap coordinate", snap);
@@ -336,7 +341,8 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   return (
     <>
       <ProgressBar steps={MAX_STEP} currentStep={step} />
-      <p className="instructions">Instructions Here</p>
+      <p className="instructions"> Drag the cursor to explore each location. </p>
+      <p className="instructions2"> Choose the one that sounds the best for you!</p>
       <div
         className="grid"
         style={{
@@ -386,8 +392,8 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
           className="dot"
           style={{
             position: "fixed",
-            width: `${gridSize / 7}px`,
-            height: `${gridSize / 7}px`,
+            width: `${gridSize / 6}px`,
+            height: `${gridSize / 6}px`,
             background: dotColor,
             borderRadius: "50%",
             ...dotStyle,
@@ -395,39 +401,33 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         />
       </div>
 
-      <h3 className="top-space" style={{ color: "white", marginTop: 20 }}>
-        Volume{" "}
-      </h3>
-      <div className="flex-row">
-        <button
-          className="volume-button"
-          onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 2))}
-        >
-          -
-        </button>
+      <div className="frame-container">
+        <h3 className="volume_control" style={{ color: "#ffd56a", marginTop: 10 }}>
+          Volume Control{" "}
+        </h3>
+        <div className="flex-row">
+          <button
+            className="volume-button"
+            onClick={() => setVolume(Math.min(MAX_VOLUME, volume - 2))}
+          >
+            -
+          </button>
 
-        <div className="top-space">
-          <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
+          <div className="top-space">
+            <AudioMeter val={volume} min={MIN_VOLUME} max={MAX_VOLUME} />
+          </div>
+          <button
+            className="volume-button"
+            onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 2))}
+          >
+            +
+          </button>
         </div>
-        <button
-          className="volume-button"
-          onClick={() => setVolume(Math.max(MIN_VOLUME, volume + 2))}
-        >
-          +
-        </button>
       </div>
-      <p className="instructions">You have explored {explored_set.size} squares. Make sure you explore at least 13 before moving on.</p>
-      
       {step < MAX_STEP ? (
         
-        <button
-          className="big-button grid-button"
-          onClick={() => {
-            nextStep();
-          }}
-        >
-          Next
-        </button>
+        <button onClick={nextStep} className="big-button" style={{ backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}>Next Step!</button>
+        
       ) : (
         <button
           className="big-button grid-button"
@@ -435,6 +435,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
             nextStep();
             setFitted(true);
           }}
+          style={{backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}
         >
           Continue
         </button>

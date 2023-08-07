@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import ButtonLayout, { matrixFormatter, setInitial } from "../components/ButtonLayout";
-
 import * as math from "mathjs";
-
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
-
 import "../styles/Fitting.css";
 import "../components/Slider.css";
-
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand } from "../Command";
 
 
 const MIN_VOLUME = -15;
-const MIN_DB = -15;
-var MAX_DB = 30;
+export const MIN_DB = -15;
+var MAX_DB = 25;
 
-const MAX_DB_LF = 30;
-const MAX_DB_HF = 25;
+const MAX_DB_LF = 25;
+const MAX_DB_HF = 20;
 const blank_table = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0],

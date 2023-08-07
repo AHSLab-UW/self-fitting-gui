@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 import Grid from "../components/GridLayout";
-
+// import { MIN_CLIP, MAX_CLIP } from "../components/GridLayout";
 import * as math from "mathjs";
-
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
-
-import { MIN_CLIP, MAX_CLIP } from "../components/GridLayout";
-
 import "../styles/Fitting.css";
 import "../components/Slider.css";
-
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
-import { gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
+import { MAX_DB_HF, MAX_DB_LF, MIN_DB, gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
 
 type Props = {};
 
@@ -23,7 +18,12 @@ export default function GridFitting({}: Props) {
   let gAverage = new math.Matrix();
   // fititng page
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
-
+  sendSetDeviceGainButtonCommand(matrixFormatter([[0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+    [6, 6, 6],
+    [10, 10, 10]]))
   // volume page
   const [gAvg, setGAvg] = useState<math.Matrix>(new math.Matrix());
   const [finalG, setFinalG] = useState<math.Matrix>(new math.Matrix());
@@ -41,6 +41,7 @@ export default function GridFitting({}: Props) {
   
       setFinalG(gAvg);
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
+      console.log(gAvg)
     }
   }, [fitted]);
 
@@ -72,15 +73,31 @@ export default function GridFitting({}: Props) {
           invert={true}
           onChange={(val) => {
             let finalG = math.add(gAvg, val) as math.Matrix;
-            finalG = finalG.map((value) => {
-              if (value > MAX_CLIP) {
-                return MAX_CLIP;
-              } else if (value < -MIN_CLIP) {
-                return -MIN_CLIP;
-              } else {
-                return math.round(value);
+
+
+              finalG = math.round(finalG) as math.Matrix;
+
+              for(let i = 0; i < 6; i++){
+                if(i < 3){
+                  var MAX_db = MAX_DB_LF;
+                }
+                else{
+                  var MAX_db = MAX_DB_HF
+                }
+                finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_db))
+            
               }
-            });
+            // finalG = finalG.map((value) => {
+            //   if (value > MAX_CLIP) {
+            //     return MAX_CLIP;
+            //   } else if (value < -MIN_CLIP) {
+            //     return -MIN_CLIP;
+            //   } else {
+            //     return math.round(value);
+            //   }
+            // });
+
+
             let numArr: number[] = [];
             sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);
@@ -91,9 +108,9 @@ export default function GridFitting({}: Props) {
         Well Done! Now one last adjustment please. Move the slider until it
         sounds most comfortable.
       </p>
-
-      <NextButton onclick={() => sendStoreFinalStepCommand(matrixFormatter([[finalG.get([0, 0])], [finalG.get([1, 0])], finalG.get([2, 0]), finalG.get([3, 0]), [finalG.get([4, 0])], [finalG.get([5, 0])]]))} to="/prompt" text="Next" />
-          {console.log(matrixFormatter([[finalG.get([0, 0])], [finalG.get([1, 0])], finalG.get([2, 0]), finalG.get([3, 0]), [finalG.get([4, 0])], [finalG.get([5, 0])]]))}
+        
+        {console.log(finalG)}
+      <NextButton onclick={() => sendStoreFinalStepCommand(gridMatrixFormatter(finalG))} to="/prompt" text="Next" />
     </>
   );
 }

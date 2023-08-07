@@ -1,8 +1,35 @@
-.instructions {
-    color:white;
-
-}
 
 .grid-button {
-    margin-top: 130px;
+    margin-top: 40px;
+}
+
+.instructions {
+    margin-top: -8px;
+    font-size: 24px;
+    line-height: 10%;
+    color:white;
+}
+.instructions2 {
+
+    font-size: 24px;
+    line-height: 10%;
+    color:white;
+}
+.volume_control {
+    font-size: 25px;
+    line-height: 10px;
+    color:white;
+}
+.frame-container {
+    border-radius: 12px;
+    margin-top: 15px;
+    margin-bottom: -20px;
+    border: 2px ridge #ffd56a33 ;
+    padding: 6px; /* Optional: Add padding to separate the content from the frame */
+  }
+
+.flex-row{
+    padding-bottom: 10px;
+
+
 }

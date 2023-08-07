@@ -61,7 +61,7 @@
   /* Change button style */
   .bottom-menu button {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   background-color: transparent;
   border: none;
   color: #fff;
@@ -86,7 +86,7 @@
   
   /* Change icon size */
   .button-icon svg {
-  font-size: 28px;
+  font-size: 21px;
   }
   
   /* Add dark blue font color */

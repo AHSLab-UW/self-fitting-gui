@@ -5,7 +5,7 @@ export default function FittingSelect() {
   return (
     <div>
       <h1 className="pick" style={{ marginTop: 200 }}>
-        Pick buttons vs grid{" "}
+        Pick the user interface{" "}
       </h1>
       <NextButton
         onclick={() => {
@@ -19,7 +19,7 @@ export default function FittingSelect() {
         onclick={() => {
           localStorage.setItem("fitType", "grid");
         }}
-        to="/grid"
+        to="/fit-instruct"
         text="Grid"
         style={{ marginTop: 100 }}
       />

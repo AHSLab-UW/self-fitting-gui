@@ -1,5 +1,5 @@
 import * as math from "mathjs";
-import { Coordinates } from "./components/ButtonLayout";
+import { Coordinates, gridMatrixFormatter } from "./components/ButtonLayout";
 // import { gainToString } from "./components/Grid";
 
 export const sendDeviceCommand = (command: string) => {
@@ -12,6 +12,7 @@ export const sendDeviceCommand = (command: string) => {
       console.log(err.message);
     });
 };
+
 
 export const sendStoreLogCommand = (
   a: math.Matrix,
@@ -131,5 +132,5 @@ export const sendStoreFinalStepCommand = (g: math.Matrix) => {
 };
 
 export const sendResetDeviceGainCommand = () => {
-  sendSetDeviceGainButtonCommand(math.zeros(6) as math.Matrix);
+  sendSetDeviceGainButtonCommand(gridMatrixFormatter(math.zeros(6) as math.Matrix));
 };
