@@ -10,7 +10,7 @@ export default function Welcome() {
   useEffect(() => {
     setTimeout(() => {
       setStartMenu(true);
-    }, 500);
+    }, 2000);
   }, []);
 
   return (
