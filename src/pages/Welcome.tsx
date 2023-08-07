@@ -1,9 +1,18 @@
+import { useEffect, useState } from "react";
 import "../styles/Welcome.css";
 import ear from "../assets/imgs/Logo.png";
-import background from "../assets/imgs/Background.png";
-import { NextButton } from "../components/NextButton";
+import background from "../assets/imgs/startMenu.png";
+import StartMenu from "../components/StartMenu";
 
 export default function Welcome() {
+  const [startMenu, setStartMenu] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setStartMenu(true);
+    }, 500);
+  }, []);
+
   return (
     <div className="welcome-container">
       <img className={"background"} src={background} alt={"background"}></img>
@@ -14,11 +23,9 @@ export default function Welcome() {
         style={{ maxWidth: 220, marginBottom: -20 }}
       ></img>
 
-      <h2 className="space-top">Get Started!</h2>
+      <StartMenu fadeIn={startMenu} />
 
-      <h3></h3>
-
-      <NextButton to="/name" text="Start" />
+      <h2 className="bottom">UW Applied Hearing Science Lab</h2>
     </div>
   );
 }

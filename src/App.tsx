@@ -11,17 +11,16 @@ import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
-import FittingSelect from './pages/FittingSelect';
+import FittingSelect from "./pages/FittingSelect";
 import FittingInstruction from "./pages/FittingInstruction";
 
 import GridFitting from "./pages/GridFitting";
 import ButtonFitting from "./pages/ButtonFitting";
 
-import SplashScreen from "./pages/SplashScreen";
+import SplashScreen from "./components/StartMenu";
 
 import CollapsingSidebar from "./components/CollapsingSidebar";
 import BottomMenu from "./components/BottomMenu";
-
 
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
@@ -44,17 +43,8 @@ const routes = [
 ];
 
 function App() {
-  const [splashScreen, setSplashScreen] = useState(true);
-  const [fadeOut, setFadeOut] = useState(false);
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSplashScreen(false);
-      setFadeOut(true);
-    }, 3000);
-  }, []);
 
   let navigate = useNavigate();
 
@@ -64,36 +54,27 @@ function App() {
 
   return (
     <div className="App">
-      <SplashScreen fadeOut={fadeOut} />
-      {splashScreen ? (
-        <></>
-      ) : (
-        <>
-          <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
+      <>
+        <CollapsingSidebar open={sidebarOpen} closeModal={toggleSidebar} />
 
-          <Routes>
-            {routes.map((route) => (
-              <Route
-                key={route.name}
-                path={route.path}
-                element={route.element}
-              />
-            ))}
-          </Routes>
+        <Routes>
+          {routes.map((route) => (
+            <Route key={route.name} path={route.path} element={route.element} />
+          ))}
+        </Routes>
 
-          <BottomMenu
-            menuCallback={toggleSidebar}
-            batteryCallback={() => {}}
-            helpCallback={() => {}}
-            settingCallback={() => {
-              const name = localStorage.getItem("name");
-              if (name === "admin") {
-                navigate("/admin");
-              }
-            }}
-          />
-        </>
-      )}
+        <BottomMenu
+          menuCallback={toggleSidebar}
+          batteryCallback={() => {}}
+          helpCallback={() => {}}
+          settingCallback={() => {
+            const name = localStorage.getItem("name");
+            if (name === "admin") {
+              navigate("/admin");
+            }
+          }}
+        />
+      </>
     </div>
   );
 }

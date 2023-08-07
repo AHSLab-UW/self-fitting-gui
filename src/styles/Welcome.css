@@ -14,19 +14,30 @@
 }
 
 .background {
-  position:absolute;
-  left: 10;
-  opacity: 25%;
-  height: 70%;
-  transform: rotate(10deg);
-  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
 }
 
 h3 {
   margin-top: -25px;
 }
 
+h2 {
+  color: white;
+  font-size: 3rem;
+}
 
-
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 100px;
+}
 
 
