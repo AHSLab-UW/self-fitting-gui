@@ -82,11 +82,6 @@ export default function GridFitting({}: Props) {
               }
             });
             let numArr: number[] = [];
-            // for(let i = 0; i < 6; i++){
-            //   numArr[i][0] = finalG.get([i])
-            //   numArr[i][1] = finalG.get([i])
-            //   numArr[i][2] = finalG.get([i])
-            // }
             sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);
           }}
