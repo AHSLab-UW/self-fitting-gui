@@ -127,6 +127,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
+  const [explored_set, setExploredSet] = useState<Set<Number>>(new Set);
   const [down, setDown] = useState(false);
   const [gridSize, setGridSize] = useState(300);
   const [dotStyle, setDotStyle] = useState({});
@@ -169,6 +170,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       x: 0,
       y: 0,
     });
+    setExploredSet(explored_set.add(selectedGrid));
 
     setA(getCoefficient());
   }, []);
@@ -299,15 +301,20 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         -120 /* y offset of picking up red cursor */
       )
     );
+    setExploredSet(explored_set.add(selectedGrid));
   };
 
   const handleEnd = () => {
     const snapCoordinates = snapToGrid(coordinates);
     setCoordinates(snapCoordinates);
+    setExploredSet(explored_set.add(selectedGrid));
     setDown(false);
   };
 
   const nextStep = () => {
+    if(explored_set.size < 13){
+      return
+    }
     sendStoreStepCommand(currG, step);
     appendNextG(currG);
 
@@ -320,6 +327,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     setA(getCoefficient());
 
     setCoordinates({ x: 0, y: 0 });
+    setExploredSet(new Set);
     setDotColor(getRandomColor());
     setStep(step + 1);
     setVolume(0);
@@ -341,19 +349,23 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         }}
         onTouchStart={(e) => {
           setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+          setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onTouchMove={(e) => {
           if (down)
             setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+            setExploredSet(explored_set.add(selectedGrid));
         }}
         onTouchEnd={handleEnd}
         onMouseDown={(e) => {
           setCoordinatesFromEvent(e.clientX, e.clientY);
+          setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onMouseMove={(e) => {
           if (down) setCoordinatesFromEvent(e.clientX, e.clientY);
+          setExploredSet(explored_set.add(selectedGrid));
         }}
         onMouseUp={handleEnd}
       >
@@ -404,8 +416,10 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
           +
         </button>
       </div>
-
+      <p className="instructions">You have explored {explored_set.size} squares. Make sure you explore at least 13 before moving on.</p>
+      
       {step < MAX_STEP ? (
+        
         <button
           className="big-button grid-button"
           onClick={() => {
