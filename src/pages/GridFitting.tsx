@@ -18,12 +18,7 @@ export default function GridFitting({}: Props) {
   let gAverage = new math.Matrix();
   // fititng page
   const [gMatrix, setGMatrix] = useState<number[][]>([]);
-  sendSetDeviceGainButtonCommand(matrixFormatter([[0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-    [6, 6, 6],
-    [10, 10, 10]]))
+
   // volume page
   const [gAvg, setGAvg] = useState<math.Matrix>(new math.Matrix());
   const [finalG, setFinalG] = useState<math.Matrix>(new math.Matrix());
@@ -87,18 +82,8 @@ export default function GridFitting({}: Props) {
                 finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_db))
             
               }
-            // finalG = finalG.map((value) => {
-            //   if (value > MAX_CLIP) {
-            //     return MAX_CLIP;
-            //   } else if (value < -MIN_CLIP) {
-            //     return -MIN_CLIP;
-            //   } else {
-            //     return math.round(value);
-            //   }
-            // });
 
 
-            let numArr: number[] = [];
             sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);
           }}

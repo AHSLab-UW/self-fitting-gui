@@ -176,7 +176,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       coordinates,
       gridSize,
       48,
-      -366 /* y offset for position of circle*/
+      -370 /* y offset for position of circle*/
     );
     setDotStyle({
       left: screenPos.x,
@@ -304,7 +304,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         },
         gridSize,
         0,
-        -125 /* y offset of picking up red cursor */
+        -120 /* y offset of picking up red cursor */
       )
     );
     setExploredSet(explored_set.add(selectedGrid));
