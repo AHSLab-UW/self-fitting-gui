@@ -11,7 +11,7 @@ export default function FittingSelect() {
         onclick={() => {
           localStorage.setItem("fitType", "button");
         }}
-        to="/buttons"
+        to="/fit-instruct2"
         text="Buttons"
       />
       <div className="top-space"></div>
