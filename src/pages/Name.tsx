@@ -30,7 +30,7 @@ export default function Name() {
             if (name === "admin") {
               navigate("/admin")
             } else {
-              navigate("/intro1")
+              navigate("/select")
               sendDeviceCommand("?read:/home/mha/self_fit.cfg");
               sendDeviceCommand("cmd=start");
             }

@@ -24,7 +24,7 @@ export default function Welcome() {
       ></img>
 
       <StartMenu fadeIn={startMenu} />
-
+      
       <h4 className="bottom">UW Applied Hearing Science Lab</h4>
     </div>
   );
