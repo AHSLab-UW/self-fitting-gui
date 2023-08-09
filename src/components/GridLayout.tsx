@@ -122,6 +122,9 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
+  const [prevG, setPrevG] = useState<math.Matrix | null>(null); // Store the previous coord
+
+
   const [explored_set, setExploredSet] = useState<Set<Number>>(new Set);
   const [down, setDown] = useState(false);
   const [gridSize, setGridSize] = useState(300);
@@ -253,44 +256,40 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   useEffect(() => {
     let intervalId = setInterval(() => {
 
-      const coord = [coordinates.x, coordinates.y];
-      const b = math.multiply(a, math.matrix(coord));
-
-      let gSelect = math.add(b, gLast);
+      const snapCoordinate = snapToGrid(coordinates);
+      
+      const coord = math.matrix([[snapCoordinate.x], [snapCoordinate.y]]);
+      const b = math.multiply(a, coord); 
+      const flattenedB = [];
+        for (let i = 0; i < b.size()[0]; i++) {
+          for (let j = 0; j < b.size()[1]; j++) {
+            flattenedB.push(b.get([i, j]));
+          }
+        }
+       
+      let gSelect = math.add(flattenedB, gLast);
       let g = math.add(gSelect, volume) as math.Matrix;
-
-      // round to integer
+  
+        // round to integer
       g = math.round(g) as math.Matrix;
-
+        // clipping min max
       for(let i = 0; i < 6; i++){
-        if(i < 3){
-          var MAX_db = MAX_DB_LF;
+          if(i < 3){var MAX_db = MAX_DB_LF;}
+          else{var MAX_db = MAX_DB_HF}
+          g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_db))
         }
-        else{
-          var MAX_db = MAX_DB_HF
-        }
-        g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_db))
-     
+      setCurrG(g);  
+
+      if (prevG !== null && math.deepEqual(g, prevG)) {
+
+      }
+      else{
+        sendStoreLogCommand(a, snapCoordinate, volume, currG, gLast, step);
+        sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
       }
 
-      // // clip to range
-      // g = g.map((value) => {
-      //   if (value > MAX_CLIP) {
-      //     return MAX_DB;
-      //   } else if (value < -MIN_CLIP) {
-      //     return -MIN_CLIP;
-      //   } else {
-      //     return value;
-      //   }
-
-      setCurrG(g);
-
-      // commands
-      sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
-      
-      const snapCoordinate = snapToGrid(coordinates);
-      sendStoreLogCommand(a, snapCoordinate, volume, g, gLast, step);
-    }, 50);
+      setPrevG(g);
+    }, 20);
     return () => clearInterval(intervalId);
   });
 
