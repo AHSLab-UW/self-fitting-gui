@@ -11,7 +11,8 @@ import { getRandomColor } from "../Colors";
 import { AudioMeter } from "./AudioMeter";
 
 import "./GridLayout.css";
-import { MAX_DB_HF, MAX_DB_LF, MIN_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
+import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
+
 
 const MAX_STEP = 10;
 const MIN_VOLUME = -15;
@@ -274,9 +275,9 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       g = math.round(g) as math.Matrix;
         // clipping min max
       for(let i = 0; i < 6; i++){
-          if(i < 3){var MAX_db = MAX_DB_LF;}
-          else{var MAX_db = MAX_DB_HF}
-          g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_db))
+          // if(i < 3){var MAX_db = MAX_DB_LF;}
+          // else{var MAX_db = MAX_DB_HF}
+          g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_DB))
         }
       setCurrG(g);  
 
