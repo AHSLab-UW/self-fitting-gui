@@ -65,12 +65,6 @@ export default function ButtonFitting() {
                 let gain_table: number[][] = JSON.parse(JSON.stringify(blank_table));
                 for(let i = 0; i < gain_table.length; i++){
                   for(let j = 0; j < 3; j++){
-                    if(i < 3){
-                      MAX_DB = MAX_DB_LF;
-                    }
-                    else{
-                      MAX_DB = MAX_DB_HF
-                    }
                     gain_table[i][j] = Math.min(Math.max(gain_table[i][j] + val, MIN_DB), MAX_DB);
                   }
                 }
@@ -114,8 +108,8 @@ export default function ButtonFitting() {
                     MAX_DB = MAX_DB_HF
                   }
                   gain_table[i][0] = Math.min(Math.max(last_arr[i][0] + val, MIN_DB), MAX_DB)
+                  gain_table[i][1] = Math.min(Math.max(last_arr[i][1] + val, MIN_DB), MAX_DB)
                   gain_table[i][2] = Math.min(Math.max(last_arr[i][2] + val, MIN_DB), MAX_DB)
-                  gain_table[i][1] = Math.min(Math.max((gain_table[i][0] + gain_table[i][2])/2, MIN_DB), MAX_DB)
                 }
                 console.log("Final Slider: " + gain_table)
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));

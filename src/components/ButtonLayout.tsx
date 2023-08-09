@@ -24,6 +24,7 @@ var initialGain: number[][] = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
+let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
 
 const BLANK_TABLE = math.matrix([[0, 0, 0],
 [0, 0, 0],
@@ -34,24 +35,27 @@ const BLANK_TABLE = math.matrix([[0, 0, 0],
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
   [1, [3, 4, 5]], [2, [0, 1, 2]], [3, [3, 4, 5]], [4, [0, 1, 2]], [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
-  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]]
+  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
+  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
 ]);
-const MAX_STEP = 16;
-const DB_GAIN = 5;
-var MAX_DB = 30;
 
+const MAX_STEP = 28;
+const DB_GAIN = 6;
+
+export const MAX_DB_LF = 25;
+export const MAX_DB_HF = 20;
 export const MIN_DB = -15;
-export const MAX_DB_LF = 30;
-export const MAX_DB_HF = 25;
+export let MAX_DB = 30;
 
 // buttons map to different gains
-const VALUES = new Map<number, number[]>();
-VALUES.set(0, [1, 0.5, 0]);
-VALUES.set(1, [1, 1, 1]);
-VALUES.set(2, [0, -0.5, -1]);
-VALUES.set(3, [0, 0, 0]);
-VALUES.set(4, [-1, -1, -1]);
-VALUES.set(5, [0, 0.5, 1]);
+const VALUES = new Map<number, number>();
+VALUES.set(0, 0);
+VALUES.set(1, 1);
+VALUES.set(2, 2);
+VALUES.set(3, -1);
+VALUES.set(4, -2);
+
+export var lastRounds = initialGain;
 
 // displays gain table on front end for debugging purposes
 export function gainToString(arr: number[][]): string {
@@ -122,20 +126,20 @@ const ButtonLayout = ({setFitted}: Props) => {
   // if user has finished all trials 
   const [isExplored, setIsExplored] = useState<boolean>(false);
   // which option did user click on last, is random to begin
-  const [lastClickedIndex, setLastClickedIndex] = useState<number>(3);
+  const [lastClickedIndex, setLastClickedIndex] = useState<number>(0);
   // current summation of all gainDeltas
   // const [aggregateGain, setAggregateGain] = useState<number[][]>(INITIAL_GAIN);
   // when user clicks two different options during the same trial, 
   // we can revert their previous selection by subtracting lastDelta
   const [newGain, setNewGain] = useState<number[][]>(initialGain);
-
+  const [db_gain, setDbGain] = useState<number>(db_indices[0])
 
   const gainClick = (index: number): void => {
     if(trialNum == 1){
-      explored_set.add(3)
+      explored_set.add(0)
     }
     explored_set.add(index);
-    if(explored_set.size != 6){
+    if(explored_set.size < 5){
       setIsExplored(false);
     }
     else{
@@ -143,8 +147,8 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setLastClickedIndex(index)
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
-    const coords = VALUES.get(index) || [0, 0, 0];
-    const delta = [coords[0] * DB_GAIN, coords[2] * DB_GAIN]
+    let delta = VALUES.get(index) || 0
+    delta *= db_gain
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
       if(i < 3){
@@ -153,28 +157,38 @@ const ButtonLayout = ({setFitted}: Props) => {
       else{
         MAX_DB = MAX_DB_HF
       }
-      newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta[0], MIN_DB), MAX_DB);
-      newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta[1], MIN_DB), MAX_DB);
-      newGain[i][1] = Math.min(Math.max((newGain[i][0] + newGain[i][2])/2, MIN_DB), MAX_DB);
+      newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta, MIN_DB), MAX_DB);
+      newGain[i][1] = Math.min(Math.max(newGain[i][1] + delta, MIN_DB), MAX_DB);
+      newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta, MIN_DB), MAX_DB);
     }
-    setNewGain(newGain)  
+    setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     sendStoreButtonClickCommand(math.matrix(newGain), trialNum, index);
   };
 
   const nextStep = () => {
-    if(explored_set.size != 6){
+    if(explored_set.size < 5){
       return;
+    }
+    if(trialNum > 10){
+      let band: number[] = GAIN_INDICES.get(trialNum) || []
+      let round = 0;
+      if(trialNum >= 17){
+        round = 1
+      }
+      if(trialNum >= 23){
+        round = 2;
+      }
+      lastRounds[band[0]][round] = newGain[band[0]][round]
     }
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
-
     sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
 
     trialNum++;
     if(trialNum == MAX_STEP){
+      // do averaging
       setShowContinue(true)
-      getLast(aggregateGain);
     }
     let randomIndex = Math.floor(Math.random() * 6)
     let randomColor = Math.floor(Math.random() * 5)
@@ -188,6 +202,25 @@ const ButtonLayout = ({setFitted}: Props) => {
     explored_set = new Set();
     gainClick(randomIndex)
     setIsExplored(false);
+    setDbGain(db_indices[trialNum - 1])
+  }
+
+  const continuePress = () => {
+    if(explored_set.size < 5){
+      return;
+    }
+    lastRounds[0][2] = newGain[0][2]
+    for(let i = 0; i < 6; i++){
+      console.log("lastRounds = " + lastRounds)
+      let avg = (lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3;
+      aggregateGain[i][0] = avg;
+      aggregateGain[i][1] = avg;
+      aggregateGain[i][2] = avg;
+    }
+    setNewGain(aggregateGain)
+    getLast(aggregateGain);
+    sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
+    setFitted(2)
   }
 
   
@@ -195,18 +228,18 @@ const ButtonLayout = ({setFitted}: Props) => {
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
 
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}>[1, 0]</button>
-      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}>[1, 1]</button>
+      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}>0</button>
       <div></div>
-      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}>[0, -1]</button>
-      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}>[0, 0]</button>
-      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}>[-1, -1]</button>
+      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}>6</button>
+      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}>12</button>
       <div></div>
-      <button id="#5" className={`grid-button ${lastClickedIndex === 5 ? buttonColor : ''}`} onClick={() => gainClick(5)}>[0, 1]</button>
+      
+      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}>-6</button>
+      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}>-12 </button>
       {!isExplored ? (<div className={'exploreReminder'}>Please make sure you explore all five options before moving on</div>) : (<></>)}
       <div className='button-container'>
         {showContinue ? (
-          <button className={'big-button'}onClick={() => setFitted(2)}>Continue</button>
+          <button className={'big-button'}onClick={() => continuePress()}>Continue</button>
         ) : (
           <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Next Step!</button>
         )}
@@ -215,6 +248,9 @@ const ButtonLayout = ({setFitted}: Props) => {
       <div className='debugger'>
         <p className='g2s'>
             {gainToString(newGain)}
+        </p>
+        <p className='g2s'>
+            trial number is {trialNum}
         </p>
       </div>
     </div>
