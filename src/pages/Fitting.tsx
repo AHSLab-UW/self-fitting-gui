@@ -9,7 +9,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 
-import { sendFinalG, sendG } from "../Command";
+import { sendFinalG, sendG } from "../Command"; 
 
 type Props = {};
 
