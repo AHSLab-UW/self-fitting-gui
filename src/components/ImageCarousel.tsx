@@ -112,7 +112,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
           height: "40px",
           cursor: "pointer",
           zIndex: 1,
-          marginTop: -35,
+          marginTop: -90,
           marginRight: 50,
         }}
       />
@@ -155,11 +155,11 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
           height: "40px",
           cursor: "pointer",
           zIndex: 1,
-          marginTop: -35,
+          marginTop: -90,
           marginLeft: 50,
         }}
       />
-      <h2>{(currentImageIndex == 0) ? "Outdoor" : "Indoor"}</h2>
+      <h2>{(currentImageIndex == 0) ? "Noisy Outdoor" : "Noisy Indoor"}</h2>
       <NextButton 
       style={{ marginTop: 70 }}
         onclick={() => {

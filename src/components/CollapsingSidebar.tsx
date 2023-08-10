@@ -1,7 +1,7 @@
 import "./CollapsingSidebar.css";
 import closeIcon from "../assets/imgs/close.png";
-import ear from "../assets/imgs/Logo - Blue.png";
 import { Link } from "react-router-dom";
+import logo from "../assets/imgs/Blue New Logo.png"
 
 interface Props {
   open: boolean;
@@ -16,14 +16,14 @@ const CollapsingSidebar = (props: Props) => {
 
   return (
     <div className={className}>
-      <div className="sidebar-header">
+      <div className="sidebar-header" style={{ marginTop: 30}}>
         {localStorage.getItem("name") ? localStorage.getItem("name") : "[Name]"}{" "}
         {localStorage.getItem("scene")
           ? localStorage.getItem("scene")
           : "[Scene]"}{" "}
         {localStorage.getItem("fitType") ? localStorage.getItem("fitType") : "[fitType]"}
         <div className="space-between">
-          <img src={ear} alt={"logo"} style={{ maxWidth: 60 }}></img>
+          <img src={logo} alt={"logo"} className="logo" style={{ maxWidth: 105, marginBottom: -880}}></img>
           <img
             src={closeIcon}
             alt="Close sidebar"
@@ -63,9 +63,6 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/finish">
           Finish
         </Link>
-      </div>
-      <div className="sidebar-footer" style={{ marginBottom: 100 }}>
-        <p>UW Applied Hearing Science Lab</p>
       </div>
     </div>
   );

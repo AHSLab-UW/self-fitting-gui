@@ -5,7 +5,7 @@ export default function FittingSelect() {
   return (
     <div>
       <h1 className="pick" style={{ marginTop: 200 }}>
-        Pick the user interface{" "}
+        Choose the user interface{" "}
       </h1>
       <NextButton
         onclick={() => {

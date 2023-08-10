@@ -10,14 +10,13 @@
     margin-bottom: 16px;
     resize: vertical;
     font-size: xx-large;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat Regular';
 }
 .name-question {
     color: #f2f3c0;
-    font-family: Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px #00030b;
+    font-family: 'Montserrat Regular';
     font-weight: bold;
-    font-size: 52px;
+    font-size: 50px;
 }
 .big-button {
     margin-top: 40px;

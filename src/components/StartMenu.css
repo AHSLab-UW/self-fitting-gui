@@ -2,11 +2,11 @@
   /* Positioning */
   /* center on screen */
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
   /* size */
-  width: 70%;
+  width: 80%;
   height: 40%;
   background-color: #000000; /* Choose your desired background color */
   display: flex;
@@ -15,18 +15,21 @@
   align-items: center;
 
   transition: opacity 2s ease-in-out;
-  opacity: 0;
+  opacity: 1;
 
   /* round edge */
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 h3 {
-  color: #fff;
+  color: #f2f3c0;
   font-size: 2.5rem;
+  font-family: 'Montserrat Regular';
   margin-bottom: 3rem;
+  margin-top: -7px;
   margin-left: 20px;
   margin-right: 20px;
+  line-height: 55px;
 }
 
 .fade-in {

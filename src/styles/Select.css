@@ -1,7 +1,8 @@
 .selection {
     color: #f2f3c0;
-    font-size: 35px;
-    font-family: Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px #00030B;
+    font-size: 40px;
+    margin-left: -80px;
+    margin-right: -20px;
+    font-family: 'Montserrat Regular';
     max-width: 600;
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/Welcome.css";
-import ear from "../assets/imgs/Logo.png";
+import ear from "../assets/imgs/New Logo.png";
 import background from "../assets/imgs/startMenu.png";
 import StartMenu from "../components/StartMenu";
 
@@ -15,12 +15,12 @@ export default function Welcome() {
 
   return (
     <div className="welcome-container">
-      <img className={"background"} src={background} alt={"background"}></img>
+      <img className={"background"} src={background} alt={"background"}style={{maxHeight: 900}}></img>
 
       <img
         src={ear}
         alt={"logo"}
-        style={{ maxWidth: 220, marginBottom: -20 }}
+        style={{ maxWidth: 225, marginTop: 30 }}
       ></img>
 
       <StartMenu fadeIn={startMenu} />
