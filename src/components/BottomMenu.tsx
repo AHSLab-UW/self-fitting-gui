@@ -1,6 +1,7 @@
 import { FaBatteryFull, FaQuestion } from "react-icons/fa";
 import { BsGear } from "react-icons/bs";
 import { BiMenu } from "react-icons/bi";
+import { useLocation } from "react-router-dom";
 
 import "./BottomMenu.css";
 
@@ -17,6 +18,16 @@ function BottomMenu({
   helpCallback,
   settingCallback,
 }: Props) {
+  // if location is "buttons" or "grid", then don't show the bottom menu
+  const location = useLocation();
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/buttons" ||
+    location.pathname === "/grid"
+  ) {
+    return null;
+  }
+
   return (
     <div className="bottom-menu">
       <button onClick={() => menuCallback()}>
