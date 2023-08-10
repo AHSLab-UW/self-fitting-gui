@@ -5,7 +5,7 @@ import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
-import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand } from "../Command";
+import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand, sendStoreButtonStepCommand } from "../Command";
 
 
 const MIN_VOLUME = -15;
@@ -113,6 +113,7 @@ export default function ButtonFitting() {
                 }
                 console.log("Final Slider: " + gain_table)
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
+                sendStoreButtonStepCommand(math.matrix(gain_table), 1000);
                 final_arr = gain_table
                 setFinalG(math.matrix(gain_table))
               }}

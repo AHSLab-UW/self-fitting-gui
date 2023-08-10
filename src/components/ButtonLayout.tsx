@@ -133,6 +133,8 @@ const ButtonLayout = ({setFitted}: Props) => {
   // we can revert their previous selection by subtracting lastDelta
   const [newGain, setNewGain] = useState<number[][]>(initialGain);
   const [db_gain, setDbGain] = useState<number>(db_indices[0])
+  const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
+  const [blockedClick, setBlockedClick] = useState<boolean>(false);
 
   const gainClick = (index: number): void => {
     if(trialNum == 1){
@@ -147,7 +149,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setLastClickedIndex(index)
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
-    let delta = VALUES.get(index) || 0
+    let delta = VALUES.get(gainShuffler[index]) || 0
     delta *= db_gain
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
@@ -168,8 +170,10 @@ const ButtonLayout = ({setFitted}: Props) => {
 
   const nextStep = () => {
     if(explored_set.size < 5){
+      setBlockedClick(true);
       return;
     }
+    setBlockedClick(false);
     if(trialNum > 10){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
@@ -203,12 +207,15 @@ const ButtonLayout = ({setFitted}: Props) => {
     gainClick(randomIndex)
     setIsExplored(false);
     setDbGain(db_indices[trialNum - 1])
+    setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
   }
 
   const continuePress = () => {
     if(explored_set.size < 5){
+      setBlockedClick(true);
       return;
     }
+    setBlockedClick(false);
     lastRounds[0][2] = newGain[0][2]
     for(let i = 0; i < 6; i++){
       console.log("lastRounds = " + lastRounds)
@@ -220,6 +227,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     setNewGain(aggregateGain)
     getLast(aggregateGain);
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
+    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
     setFitted(2)
   }
 
@@ -227,24 +235,28 @@ const ButtonLayout = ({setFitted}: Props) => {
   return (
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
-
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}>0</button>
+      <div className='instruct-container'>
+        <p className='button-instructions'>Tap each button, and hit "Next" once you find the option that sounds the best to you.</p>
+      </div>
+      <div className='button-container'>
+      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}></button>
       <div></div>
-      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}>6</button>
-      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}>12</button>
+      <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}></button>
+      <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}></button>
       <div></div>
       
-      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}>-6</button>
-      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}>-12 </button>
-      {!isExplored ? (<div className={'exploreReminder'}>Please make sure you explore all five options before moving on</div>) : (<></>)}
-      <div className='button-container'>
-        {showContinue ? (
-          <button className={'big-button'}onClick={() => continuePress()}>Continue</button>
-        ) : (
-          <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Next Step!</button>
-        )}
+      <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}></button>
+      <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}></button>
       </div>
-
+      <div className='next-container'>
+        {showContinue ? (
+          <button className={'big-button'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
+        ) : (
+          <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next Step!</button>
+        )}
+        {(!isExplored && blockedClick) ? (<p className='button-instructions'>Please make sure you explore all five options before moving on</p>) : (<></>)}
+      </div>
+{/* 
       <div className='debugger'>
         <p className='g2s'>
             {gainToString(newGain)}
@@ -252,7 +264,7 @@ const ButtonLayout = ({setFitted}: Props) => {
         <p className='g2s'>
             trial number is {trialNum}
         </p>
-      </div>
+      </div> */}
     </div>
     
   );
