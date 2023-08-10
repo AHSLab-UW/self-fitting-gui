@@ -133,11 +133,8 @@ const ButtonLayout = ({setFitted}: Props) => {
   // we can revert their previous selection by subtracting lastDelta
   const [newGain, setNewGain] = useState<number[][]>(initialGain);
   const [db_gain, setDbGain] = useState<number>(db_indices[0])
-<<<<<<< HEAD
   const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
   const [blockedClick, setBlockedClick] = useState<boolean>(false);
-=======
->>>>>>> ExperimentOnly
 
   const gainClick = (index: number): void => {
     if(trialNum == 1){
@@ -152,11 +149,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setLastClickedIndex(index)
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
-<<<<<<< HEAD
     let delta = VALUES.get(gainShuffler[index]) || 0
-=======
-    let delta = VALUES.get(index) || 0
->>>>>>> ExperimentOnly
     delta *= db_gain
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
@@ -177,15 +170,10 @@ const ButtonLayout = ({setFitted}: Props) => {
 
   const nextStep = () => {
     if(explored_set.size < 5){
-<<<<<<< HEAD
       setBlockedClick(true);
       return;
     }
     setBlockedClick(false);
-=======
-      return;
-    }
->>>>>>> ExperimentOnly
     if(trialNum > 10){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
@@ -206,7 +194,7 @@ const ButtonLayout = ({setFitted}: Props) => {
       // do averaging
       setShowContinue(true)
     }
-    let randomIndex = Math.floor(Math.random() * 6)
+    let randomIndex = Math.floor(Math.random() * 5)
     let randomColor = Math.floor(Math.random() * 5)
     let color = buttonColor
     let colors = ["red", "orange", "green", "purple", "blue"]
@@ -219,23 +207,15 @@ const ButtonLayout = ({setFitted}: Props) => {
     gainClick(randomIndex)
     setIsExplored(false);
     setDbGain(db_indices[trialNum - 1])
-<<<<<<< HEAD
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
-=======
->>>>>>> ExperimentOnly
   }
 
   const continuePress = () => {
     if(explored_set.size < 5){
-<<<<<<< HEAD
       setBlockedClick(true);
       return;
     }
     setBlockedClick(false);
-=======
-      return;
-    }
->>>>>>> ExperimentOnly
     lastRounds[0][2] = newGain[0][2]
     for(let i = 0; i < 6; i++){
       console.log("lastRounds = " + lastRounds)
@@ -247,10 +227,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     setNewGain(aggregateGain)
     getLast(aggregateGain);
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
-<<<<<<< HEAD
     sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
-=======
->>>>>>> ExperimentOnly
     setFitted(2)
   }
 
@@ -258,7 +235,6 @@ const ButtonLayout = ({setFitted}: Props) => {
   return (
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
-<<<<<<< HEAD
       <div className='instruct-container'>
         <p className='button-instructions'>Tap each button, and hit "Next" once you find the option that sounds the best to you.</p>
       </div>
@@ -275,21 +251,6 @@ const ButtonLayout = ({setFitted}: Props) => {
       <div className='next-container'>
         {showContinue ? (
           <button className={'big-button'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
-=======
-
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}>0</button>
-      <div></div>
-      <button className={`grid-button ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}>6</button>
-      <button className={`grid-button ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}>12</button>
-      <div></div>
-      
-      <button className={`grid-button ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}>-6</button>
-      <button className={`grid-button ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}>-12 </button>
-      {!isExplored ? (<div className={'exploreReminder'}>Please make sure you explore all five options before moving on</div>) : (<></>)}
-      <div className='button-container'>
-        {showContinue ? (
-          <button className={'big-button'}onClick={() => continuePress()}>Continue</button>
->>>>>>> ExperimentOnly
         ) : (
           <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next Step!</button>
         )}
@@ -303,11 +264,7 @@ const ButtonLayout = ({setFitted}: Props) => {
         <p className='g2s'>
             trial number is {trialNum}
         </p>
-<<<<<<< HEAD
       </div> */}
-=======
-      </div>
->>>>>>> ExperimentOnly
     </div>
     
   );
