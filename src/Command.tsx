@@ -54,7 +54,7 @@ export const sendSetDeviceGainButtonCommand = (g: math.Matrix) => {
       .join(";") +
     "]";
 
-
+  console.log("sending this gaintable to device " + gaintable_og)
   // send command to server at endpoint /store
   sendDeviceCommand(
     "mha.mhachain.overlapadd.mhachain.dc.gtdata=" + gaintable_og

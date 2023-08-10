@@ -7,7 +7,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../components/Slider.css";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
-import { MAX_DB_HF, MAX_DB_LF, MIN_DB, gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
+import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
 
 type Props = {};
 
@@ -73,13 +73,13 @@ export default function GridFitting({}: Props) {
               finalG = math.round(finalG) as math.Matrix;
 
               for(let i = 0; i < 6; i++){
-                if(i < 3){
-                  var MAX_db = MAX_DB_LF;
-                }
-                else{
-                  var MAX_db = MAX_DB_HF
-                }
-                finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_db))
+                // if(i < 3){
+                //   var MAX_db = MAX_DB_LF;
+                // }
+                // else{
+                //   var MAX_db = MAX_DB_HF
+                // }
+                finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_DB))
             
               }
 

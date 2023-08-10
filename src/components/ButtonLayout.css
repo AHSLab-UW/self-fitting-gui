@@ -1,21 +1,68 @@
 .grid-button {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  margin-left: 10px; /* Adjust the margin as needed */
-  margin-top: 10px; /* Adjust the margin as needed */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */    
 }
-/* .grid-button2 {
-  position:absolute;
-  top: -500; /*[wherever you want it]*/
- /* left:-500; /*[wherever you want it]*/
-/* } */
+/*  */
+.grid-button2{
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border: black;
+  border-radius: 50%; /* Add border-radius property for circular shape */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
+  offset-position: right;
+}
+.grid-button3{
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border: black;
+  border-radius: 50%; /* Add border-radius property for circular shape */
+  margin-left: 16vw; /* Adjust the margin as needed */
+  margin-top: 0vh; /* Adjust the margin as needed */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
+  offset-position: left;
+}
+.grid-button4{
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border: black;
+  border-radius: 50%; /* Add border-radius property for circular shape */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
+  offset-position: right;
+}
+.grid-button5{
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border: black;
+  border-radius: 50%; /* Add border-radius property for circular shape */
+  margin-left: 5vw; /* Adjust the margin as needed */
+  margin-top: 3vh; /* Adjust the margin as needed */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
+  offset-position: left;
+}
+.button-instructions {
+  font-size: 24px;
+  line-height: 100%;
+  color:white;
+}
+.instruct-container{
+  position:relative;
+  width: 70vw
+}
+.next-container{
+  position:relative;
+  width: 70vw
+}
 .button-container{
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 1px;
+  
 }
 .red{
   background-color: #FF5C5C;
