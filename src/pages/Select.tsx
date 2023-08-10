@@ -1,5 +1,5 @@
-import outdoor from "../assets/imgs/Noisy Outdoor 72%.jpg";
-import indoor from "../assets/imgs/Noisy Indoor 75%.jpg";
+import outdoor from "../assets/imgs/Noisy Outdoor Official.jpg";
+import indoor from "../assets/imgs/Noisy Indoor Official.jpg";
 import ImageCarousel from "../components/ImageCarousel";
 import "../styles/Select.css";
 
