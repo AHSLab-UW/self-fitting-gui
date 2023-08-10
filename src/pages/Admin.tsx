@@ -4,29 +4,28 @@ import React, { useState } from "react";
 
 type Props = {};
 
-const bands = [250,500,1000,2000,4000,8000]
+const bands = [250, 500, 1000, 2000, 4000, 8000];
 
 export default function Admin({}: Props) {
   const [data, setData] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
 
   function createCSVFile(csvData: string) {
-    const blob = new Blob([csvData], { type: 'text/csv' });
+    const blob = new Blob([csvData], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     return url;
   }
-  
+
   function handleExportClick(csvData: string) {
     const csvUrl = createCSVFile(csvData);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = csvUrl;
-    link.download = name + "_self-fit-final.csv";
+    link.download = name + "_self-fit.csv";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   }
 
-  
   return (
     <div>
       <h1>Admin</h1>
@@ -44,10 +43,10 @@ export default function Admin({}: Props) {
             .then((res) => res.json())
             .then((data) => {
               setData([
-                data.restaurant3x3,
-                data.restaurant5x5,
-                data.driving3x3,
-                data.driving5x5,
+                data.indoorButton,
+                data.indoorGrid,
+                data.outdoorButton,
+                data.outdoorGrid,
               ]);
             });
         }}
@@ -55,36 +54,38 @@ export default function Admin({}: Props) {
         Submit
       </button>
 
-      <h2>Restaurant 3x3</h2>
+      <h2>Indoor Button</h2>
       <p>{data[0]}</p>
-      <h2>Restaurant 5x5</h2>
+      <h2>Indoor Grid</h2>
       <p>{data[1]}</p>
-      <h2>Driving 3x3</h2>
+      <h2>Outdoor Button</h2>
       <p>{data[2]}</p>
-      <h2>Driving 5x5</h2>
+      <h2>Outdoor Grid</h2>
       <p>{data[3]}</p>
 
       <button
         className="big-button"
         onClick={() => {
-          let csv = "Bands,SF_3x3_Res,SF_5x5_Res,SF_3x3_Trf,SF_5x5_Trf\n";
+          let csv =
+            "Bands,SF_Indoor_Button,SF_Indoor_Grid,SF_Outdoor_Button,SF_Outdoor_Grid\n";
           for (let i = 0; i < bands.length; i++) {
-            csv += bands[i] + ","
+            csv += bands[i] + ",";
             for (let j = 0; j < 4; j++) {
               if (data[j] && data[j].length > 0 && data[j] !== "[]") {
                 const arr = JSON.parse(data[j]) as number[];
-                if (arr && arr[i])
-                  csv += Math.round(arr[i])
+                if (arr && arr[i]) csv += Math.round(arr[i]);
               }
-              csv += ","
+              csv += ",";
             }
             csv = csv.substring(0, csv.length - 1);
-            csv += "\n"
+            csv += "\n";
           }
 
           handleExportClick(csv);
         }}
-      >Export</button>
+      >
+        Export
+      </button>
     </div>
   );
 }
