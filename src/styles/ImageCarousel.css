@@ -1,4 +1,5 @@
 .carouselRef { width: 700px; height: 300px; }
 .arrowLeftImage {
     box-shadow: 0 7px 10px 0 #000000;
+    font-family: 'Montserrat';
 }

@@ -10,11 +10,11 @@
     margin-bottom: 16px;
     resize: vertical;
     font-size: xx-large;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:'Montserrat';
 }
 .name-question {
     color: #f2f3c0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat';
     text-shadow: 2px 2px #00030b;
     font-weight: bold;
     font-size: 52px;

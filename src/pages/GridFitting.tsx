@@ -95,7 +95,7 @@ export default function GridFitting({}: Props) {
       </p>
         
         {console.log(finalG)}
-      <NextButton onclick={() => sendStoreFinalStepCommand(gridMatrixFormatter(finalG))} to="/prompt" text="Next" />
+      <NextButton onclick={() => sendStoreFinalStepCommand(finalG)} to="/prompt" text="Next" />
     </>
   );
 }
