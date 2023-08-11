@@ -135,7 +135,7 @@ const ButtonLayout = ({setFitted}: Props) => {
   const [db_gain, setDbGain] = useState<number>(db_indices[0])
   const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
   const [blockedClick, setBlockedClick] = useState<boolean>(false);
-
+  
   const gainClick = (index: number): void => {
     if(trialNum == 1){
       explored_set.add(0)
@@ -201,6 +201,9 @@ const ButtonLayout = ({setFitted}: Props) => {
       setShowContinue(true)
     }
     let randomIndex = Math.floor(Math.random() * 5)
+    while(randomIndex == lastClickedIndex){
+      randomIndex = Math.floor(Math.random() * 5)
+    }
     let randomColor = Math.floor(Math.random() * 5)
     let color = buttonColor
     let colors = ["red", "orange", "green", "purple", "blue"]
@@ -235,6 +238,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
     sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
     setFitted(2)
+    trialNum = 1;
   }
 
   
