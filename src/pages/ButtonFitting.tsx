@@ -21,7 +21,7 @@ const blank_table = [[0, 0, 0],
 [6, 6, 6],
 [10, 10, 10]]
 let last_arr: number[][] = [];
-let final_arr: number[][] = [];
+let final_arr: number[] = [];
 let first_arr: number[][] = [];
 
 export function getLast(arr: number[][]) {
@@ -113,8 +113,14 @@ export default function ButtonFitting() {
                 }
                 console.log("Final Slider: " + gain_table)
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
-                sendStoreButtonStepCommand(math.matrix(gain_table), 1000);
-                final_arr = gain_table
+
+                    // get first column of newGain
+                let newGainCol = [];
+                for(let i = 0; i < 6; i++){
+                  newGainCol.push(gain_table[i][0])
+                }
+    
+                final_arr = newGainCol
                 setFinalG(math.matrix(gain_table))
               }}
             />

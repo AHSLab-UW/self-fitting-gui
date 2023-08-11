@@ -165,7 +165,13 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
-    sendStoreButtonClickCommand(math.matrix(newGain), trialNum, index);
+    
+    // get first column of newGain
+    let newGainCol = [];
+    for(let i = 0; i < 6; i++){
+      newGainCol.push(newGain[i][0])
+    }
+    sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
   };
 
   const nextStep = () => {

@@ -6,7 +6,7 @@ type Props = {};
 
 const bands = [250, 500, 1000, 2000, 4000, 8000];
 
-export default function Admin({}: Props) {
+export default function Admin({ }: Props) {
   const [data, setData] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
 
@@ -29,8 +29,9 @@ export default function Admin({}: Props) {
   return (
     <div>
       <h1>Admin</h1>
-      <p>Enter a name to see the data for that user</p>
+      <h2>Subject ID</h2>
       <input
+        className="name-input"
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -54,14 +55,22 @@ export default function Admin({}: Props) {
         Submit
       </button>
 
-      <h2>Indoor Button</h2>
-      <p>{data[0]}</p>
-      <h2>Indoor Grid</h2>
-      <p>{data[1]}</p>
-      <h2>Outdoor Button</h2>
-      <p>{data[2]}</p>
-      <h2>Outdoor Grid</h2>
-      <p>{data[3]}</p>
+      <div className="column-container">
+        <h2>Indoor Button</h2>
+        <p>{data[0]}</p>
+      </div>
+      <div className="column-container">
+        <h2>Indoor Grid</h2>
+        <p>{data[1]}</p>
+      </div>
+      <div className="column-container">
+        <h2>Outdoor Button</h2>
+        <p>{data[2]}</p>
+      </div>
+      <div className="column-container">
+        <h2>Outdoor Grid</h2>
+        <p>{data[3]}</p>
+      </div>
 
       <button
         className="big-button"
