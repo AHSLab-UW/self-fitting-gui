@@ -15,7 +15,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/* import local Montserrat font at ./fonts/Montserrat-Regular.ttf */
 @font-face {
-  font-family: 'Montserrat';
-  src: local('Montserrat-Regular'), url(./assets/fonts/Montserrat-Regular.ttf) format('ttf');
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/Montserrat-Regular.ttf") format("truetype");
 }
