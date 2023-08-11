@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -13,4 +13,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+/* import local Montserrat font at ./fonts/Montserrat-Regular.ttf */
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/Montserrat-Regular.ttf") format("truetype");
 }
