@@ -63,7 +63,7 @@ const CollapsingSidebar = (props: Props) => {
         </Link>
       </div>
       <div className="sidebar-footer" style={{ marginBottom: 100 }}>
-        <p>UW Applied Hearing Science Lab</p>
+        <h5>UW Applied Hearing Science Lab</h5>
       </div>
     </div>
   );

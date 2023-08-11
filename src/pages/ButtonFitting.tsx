@@ -68,7 +68,7 @@ export default function ButtonFitting() {
                     gain_table[i][j] = Math.min(Math.max(gain_table[i][j] + val, MIN_DB), MAX_DB);
                   }
                 }
-                console.log("Initial Slider: " + gain_table)
+                //console.log("Initial Slider: " + gain_table)
                 first_arr = gain_table;
                 setInitial(gain_table)
               }}

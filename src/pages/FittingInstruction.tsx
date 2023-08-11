@@ -12,13 +12,13 @@ export default function FittingInstruction() {
     
       &#8594; Leave the cursor on the location, which allows you to listen to the speaker
         clearly without getting disturbed by the background noise. 
-        <p> Then, click "Next".</p>
+                     Then, click "Next".
       </h1>
 
 
       <h1 className="title">&#8594; Start from the edges of the grid to get the feeling</h1>
 
-      <NextButton to="/grid" text="Continue" style={{ marginTop: 100 }} />
+      <NextButton to="/grid" text="Continue" style={{ marginTop: 80 }} />
     </div>
   );
 }

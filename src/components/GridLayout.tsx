@@ -14,7 +14,8 @@ import "./GridLayout.css";
 import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
 
 
-const MAX_STEP = 10;
+const MAX_STEP = 10; //<---- fix this after testing
+
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
 const RANGE = 20;
@@ -94,7 +95,7 @@ const getCoefficient = () => {
   let result1 = parseFloat(math.sqrt(squares1 / 6).toString())
 
   arr = arr.map((x) => x  / result1);
-
+  // this part is to see if sum of squares of the variables / 6 =? 1
   // let squares = 0;
   // for(let i = 0; i < arr.length; i++){
   //   squares += ((arr[i]) * (arr[i]))
@@ -180,7 +181,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       coordinates,
       gridSize,
       48,
-      -370 /* y offset for position of circle*/
+      -365 /* y offset for position of circle*/
     );
     setDotStyle({
       left: screenPos.x,
@@ -402,7 +403,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       </div>
 
       <div className="frame-container">
-        <h3 className="volume_control" style={{ color: "#ffd56a", marginTop: 10 }}>
+        <h3 className="volume_control" style={{ color: "#ffd56a", marginTop: 10, marginBottom: 15 }}>
           Volume Control{" "}
         </h3>
         <div className="flex-row">
