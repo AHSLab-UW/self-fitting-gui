@@ -4,8 +4,8 @@ import "../styles/Fitting.css";
 export default function FittingSelect() {
   return (
     <div>
-      <h1 className="pick" style={{ marginTop: 200 }}>
-        Pick the user interface{" "}
+      <h1 className="fittingselect" >
+        Pick the user interface for self-fitting{" "}
       </h1>
       <NextButton
         onclick={() => {

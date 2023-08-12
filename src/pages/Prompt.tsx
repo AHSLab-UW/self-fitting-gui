@@ -1,6 +1,5 @@
 import { sendResetDeviceGainCommand } from "../Command";
 import { useNavigate } from "react-router-dom";
-import { NextButton } from "../components/NextButton";
 import "../styles/Prompt.css";
 
 export default function Prompt() {
@@ -8,22 +7,22 @@ export default function Prompt() {
   return (
     <div>
       <h3 className="final-prompt" style={{ marginTop: 200 }}>
-        Exit the app or customize another scene?
+        Thanks! Now call the examiner for the next procedure!
       </h3>
 
       <button
-        className="big-button"
+        className="big-button-prompt " style={{ marginTop: 50 }}
         onClick={() => {
           sendResetDeviceGainCommand();
           navigate("/select");
         }}
       >
-        Customize
+        Customize new scene 
       </button>
       <div className="top-space"></div>
       <button
-        className="big-button"
-        style={{ marginTop: 100 }}
+        className="big-button-prompt "
+        style={{ marginTop: 200 }}
         onClick={() => {
           sendResetDeviceGainCommand();
           navigate("/finish");

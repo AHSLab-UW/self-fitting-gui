@@ -1,4 +1,4 @@
-import "./CollapsingSidebar.css";
+import "../styles/CollapsingSidebar.css";
 import closeIcon from "../assets/imgs/close.png";
 import ear from "../assets/imgs/Logo - Blue.png";
 import { Link } from "react-router-dom";
@@ -55,9 +55,9 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/fit-select">
           Fitting Select
         </Link>
-        <Link className="link" to="/prompt">
+        {/* <Link className="link" to="/prompt">
           Reset Settings
-        </Link>
+        </Link> */}
         <Link className="link" to="/finish">
           Finish
         </Link>

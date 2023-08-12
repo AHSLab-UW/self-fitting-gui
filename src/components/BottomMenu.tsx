@@ -3,7 +3,7 @@ import { BsGear } from "react-icons/bs";
 import { BiMenu } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 
-import "./BottomMenu.css";
+import "../styles/BottomMenu.css";
 
 interface Props {
   menuCallback: () => void;

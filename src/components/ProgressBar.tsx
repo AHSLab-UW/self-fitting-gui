@@ -1,4 +1,4 @@
-import "./ProgressBar.css";
+import "../styles/ProgressBar.css";
 
 interface Props {
   steps: number;

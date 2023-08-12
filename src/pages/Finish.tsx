@@ -14,11 +14,10 @@ export default function Finish() {
   return (
     <div className="finish-container">
       <div className="image">
-        <img src={smile} alt="smiling face" style={{ maxWidth: 310, marginTop: 70 }}></img>
+        <img src={smile} alt="smiling face" style={{ maxWidth: 310, marginTop: 100 }}></img>
       </div>
-      <h1 style={{ marginTop: -500 }}> Well Done
-      </h1>
-      <h4>Your device is now ready to use!</h4>
+      <h1 style={{ marginTop: -600 }}> Cheers! </h1>
+      <h3>Your device is now ready to use!</h3>
     </div>
   );
 }

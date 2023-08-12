@@ -1,13 +1,13 @@
 .name-input {
-    width: 100%;
+    width: 70%;
     height: 100%;
     border: 1px solid #060116;
     background-color: white;
     border-radius: 5px;
-    padding: 12px 30px;
+    padding: 10px 30px;
     box-sizing: border-box;
-    margin-top: -5px;
-    margin-bottom: 16px;
+    margin-top: 5px;
+    margin-bottom: 17px;
     resize: vertical;
     font-size: xx-large;
     font-family:'Montserrat';
@@ -19,8 +19,28 @@
     font-weight: bold;
     font-size: 52px;
 }
-.big-button {
+.big-button-name {
     margin-top: 40px;
     min-width: 200px;
     min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    min-width: 40px;
+    min-height: 40px;
+    padding: 20px 30px;
+    background-color: #F3B71B;
+    color: #00030B;
+
+    text-decoration: none;
+    text-align: center;
+    border-radius: 100px;
+    box-shadow: 0 7px 10px 0 #000000;
+    border: none;
+    font-family: 'Montserrat-bold';
+    font-size: 34px;
+
+    transition: background-color 0.3s ease;
+
 }

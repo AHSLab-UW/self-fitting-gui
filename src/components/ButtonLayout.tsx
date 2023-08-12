@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './ButtonLayout.css';
+import '../styles/ButtonLayout.css';
 import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
-import "./NextButton.css";
+import "../styles/NextButton.css";
 import { getRandomColor } from "../Colors";
 import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand } from '../Command';
 import { send } from 'process';
@@ -39,13 +39,13 @@ const GAIN_INDICES = new Map<number, number[]>([
   [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
 ]);
 
-const MAX_STEP = 28;
-const DB_GAIN = 6;
+export const MAX_STEP = 28;
+export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
 export const MAX_DB_HF = 20;
 export const MIN_DB = -15;
-export let MAX_DB = 30;
+export let MAX_DB = 20;
 
 // buttons map to different gains
 const VALUES = new Map<number, number>();
@@ -141,7 +141,7 @@ const ButtonLayout = ({setFitted}: Props) => {
       explored_set.add(0)
     }
     explored_set.add(index);
-    if(explored_set.size < 5){
+    if(explored_set.size < 5){ //<---- ensure exploration #1
       setIsExplored(false);
     }
     else{
@@ -166,7 +166,7 @@ const ButtonLayout = ({setFitted}: Props) => {
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     
-    // get first column of newGain
+    // get first column of newGain amd store
     let newGainCol = [];
     for(let i = 0; i < 6; i++){
       newGainCol.push(newGain[i][0])
@@ -175,11 +175,12 @@ const ButtonLayout = ({setFitted}: Props) => {
   };
 
   const nextStep = () => {
-    if(explored_set.size < 5){
+    if(explored_set.size < 5){ //<---- ensure exploration # 2
       setBlockedClick(true);
       return;
     }
     setBlockedClick(false);
+
     if(trialNum > 10){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
@@ -193,7 +194,15 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
-    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+    //sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+
+     // get first column of newGain and store
+     let newGainCol = [];
+     for(let i = 0; i < 6; i++){
+       newGainCol.push(aggregateGain[i][0])
+     }
+    sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
+
 
     trialNum++;
     if(trialNum == MAX_STEP){
@@ -226,18 +235,36 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setBlockedClick(false);
     lastRounds[0][2] = newGain[0][2]
+
+    // get first column of newGain
+    let newGainCol = [];
     for(let i = 0; i < 6; i++){
-      console.log("lastRounds = " + lastRounds)
+      newGainCol.push(newGain[i][0])
+    }
+    sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
+    // Taking average
+    for(let i = 0; i < 6; i++){
+      //console.log("lastRounds = " + lastRounds)
       let avg = (lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3;
       aggregateGain[i][0] = avg;
       aggregateGain[i][1] = avg;
       aggregateGain[i][2] = avg;
     }
     setNewGain(aggregateGain)
-    getLast(aggregateGain);
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
-    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+    getLast(aggregateGain); //<--send to the button fitting
+
+     // get first column of newGain
+     let avgGainCol = [];
+     for(let i = 0; i < 6; i++){
+      avgGainCol.push(aggregateGain[i][0])
+     }
+
+    sendStoreButtonStepCommand(math.matrix(avgGainCol), trialNum+1);
+    
+
     setFitted(2)
+
     trialNum = 1;
   }
 
@@ -260,9 +287,9 @@ const ButtonLayout = ({setFitted}: Props) => {
       </div>
       <div className='next-container'>
         {showContinue ? (
-          <button className={'big-button'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
+          <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (
-          <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next Step!</button>
+          <button onClick={nextStep} className="next-button-buttonlay" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next</button>
         )}
         {(!isExplored && blockedClick) ? (<p className='button-instructions'>Please make sure you explore all five options before moving on</p>) : (<></>)}
       </div>

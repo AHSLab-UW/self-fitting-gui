@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
-import ButtonLayout, { matrixFormatter, setInitial } from "../components/ButtonLayout";
+import ButtonLayout, { MAX_DB_HF, MAX_DB_LF, MIN_DB, matrixFormatter, setInitial } from "../components/ButtonLayout";
 import * as math from "mathjs";
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
-import "../components/Slider.css";
+import "../styles/Slider.css";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand, sendStoreButtonStepCommand } from "../Command";
 
 
-const MIN_VOLUME = -15;
-export const MIN_DB = -15;
-var MAX_DB = 25;
 
-const MAX_DB_LF = 25;
-const MAX_DB_HF = 20;
 const blank_table = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0],
 [0, 0, 0],
 [6, 6, 6],
-[10, 10, 10]]
+[10, 10, 10]];
+
 let last_arr: number[][] = [];
 let final_arr: number[] = [];
 let first_arr: number[][] = [];
+let MAX_DB = 20;
 
 export function getLast(arr: number[][]) {
   last_arr = arr;
@@ -39,8 +36,23 @@ export default function ButtonFitting() {
   )
 
   function firstSlider(){
-    sendStoreStepCommand(math.matrix(first_arr), 0)
+
+    let newGainCol = [];
+    for(let i = 0; i < 6; i++){
+      newGainCol.push(first_arr[i][0])
+    }
+
+    final_arr = newGainCol
+    sendStoreStepCommand(math.matrix(final_arr),0)
+
     setFitted(1);
+  }
+
+  function finishButton(){
+
+      //console.log("Final Button: " + finalG)
+      // sendSetDeviceGainButtonCommand(matrixFormatter(finalG));
+      sendStoreFinalStepCommand(math.matrix(final_arr))
   }
 
 
@@ -48,8 +60,9 @@ export default function ButtonFitting() {
     <>
       {fitted == 0 && (
         <div>
-        <h1>First, slide to a comfortable sound level</h1>
-          <div className="slider-container top-space" style={{marginTop: 0}}>
+        <h1 className="last-prompt" > First, adjust the slider to a comfortable sound level</h1>
+
+          <div className="slider-container top-space" style={{marginTop: 80}}>
             <ReactSlider
               className="vertical-slider"
               thumbClassName="example-thumb"
@@ -73,8 +86,8 @@ export default function ButtonFitting() {
                 setInitial(gain_table)
               }}
             />
-             <button className={'big-button'}onClick={() => firstSlider()}>Continue</button>
           </div>
+          <button className={'big-button-first-slider'} onClick={() => firstSlider()}>Continue</button>
         </div>
       )}
       {fitted === 1 && ( 
@@ -86,7 +99,10 @@ export default function ButtonFitting() {
       )}
       {fitted === 2 && (
         <>
-          <div className="slider-container top-space" style={{ marginTop: 160 }}>
+          <h3 className="last-prompt" >
+          Well Done! Now do one last adjustment with the slider, please. 
+          </h3>
+          <div className="slider-container top-space" style={{ marginTop: 120 }}>
             <ReactSlider
               className="vertical-slider"
               thumbClassName="example-thumb"
@@ -111,9 +127,9 @@ export default function ButtonFitting() {
                   gain_table[i][1] = Math.min(Math.max(last_arr[i][1] + val, MIN_DB), MAX_DB)
                   gain_table[i][2] = Math.min(Math.max(last_arr[i][2] + val, MIN_DB), MAX_DB)
                 }
-                console.log("Final Slider: " + gain_table)
+                
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
-
+   
                     // get first column of newGain
                 let newGainCol = [];
                 for(let i = 0; i < 6; i++){
@@ -121,14 +137,13 @@ export default function ButtonFitting() {
                 }
     
                 final_arr = newGainCol
+                console.log("Final Slider: " + final_arr)
                 setFinalG(math.matrix(gain_table))
               }}
             />
           </div>
-          <p className="adjust-text" style={{ color: "beige" }}>
-            Well Done! Now one last adjustment please. Move the slider until it sounds most comfortable.
-          </p>
-          <NextButton onclick={() => sendStoreFinalStepCommand(math.matrix(final_arr))} to="/prompt" text="Next" />
+
+          <NextButton onclick={() => finishButton()} to="/prompt" text="Finish" />
         </>
       )}
     </>

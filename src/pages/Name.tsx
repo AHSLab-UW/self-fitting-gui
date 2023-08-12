@@ -24,7 +24,7 @@ export default function Name() {
       <br />
       {name !== "" ? (
         <button
-        className="big-button"
+        className="big-button-name"
           onClick={() => {
             localStorage.setItem("name", name);
             if (name === "admin") {
@@ -35,7 +35,7 @@ export default function Name() {
               sendDeviceCommand("cmd=start");
             }
           }}
-        >Next</button>
+        >Continue</button>
       ) : null}
     </div>
   );

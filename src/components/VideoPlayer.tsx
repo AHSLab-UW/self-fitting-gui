@@ -3,7 +3,7 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { GrRotateRight } from "react-icons/gr";
 import ReactPlayer from "react-player";
 
-import "./VideoPlayer.css";
+import "../styles/VideoPlayer.css";
 
 type Props = {
   url: string;

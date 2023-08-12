@@ -10,15 +10,15 @@ import { getRandomColor } from "../Colors";
 
 import { AudioMeter } from "./AudioMeter";
 
-import "./GridLayout.css";
-import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
+import "../styles/GridLayout.css";
+import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_HF, MAX_DB_LF } from "./ButtonLayout";
 
 
-const MAX_STEP = 10; //<---- fix this after testing
+const MAX_STEP = 30; //<---- fix this after testing
 
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
-const RANGE = 20;
+const RANGE = 15;
 
 // export const MIN_CLIP = 15;
 // export const MAX_CLIP = 30;
@@ -116,7 +116,7 @@ const getCoefficient = () => {
     math.index(math.range(3, 6), 1),
     matrix.subset(math.index(math.range(3, 6)))
   );
-
+  console.log("A : ", reshapedMatrix)
   return math.matrix(reshapedMatrix);
 };
 
@@ -143,12 +143,12 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
 
   const [a, setA] = useState(
     math.matrix([
-      [0.7, 0],
-      [0.7, 0],
-      [0.7, 0],
-      [0, 0.7],
-      [0, 0.7],
-      [0, 0.7],
+      [1, 0],
+      [1, 0],
+      [1, 0],
+      [0, 1],
+      [0, 1],
+      [0, 1],
     ])
   );
 
@@ -276,8 +276,8 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       g = math.round(g) as math.Matrix;
         // clipping min max
       for(let i = 0; i < 6; i++){
-          // if(i < 3){var MAX_db = MAX_DB_LF;}
-          // else{var MAX_db = MAX_DB_HF}
+           if(i < 3){var MAX_db = MAX_DB_LF;}
+           else{var MAX_db = MAX_DB_HF}
           g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_DB))
         }
       setCurrG(g);  
@@ -319,7 +319,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
   };
 
   const nextStep = () => {
-    if(explored_set.size < 13){
+    if(explored_set.size < 6){ //<---minimum exploration : set the color below as well!
       return
     }
     sendStoreStepCommand(currG, step);
@@ -327,7 +327,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     // console.log("curr a", a);
     // console.log("g last: ", gLast);
     const snap = snapToGrid(coordinates);
-    // console.log("snap coordinate", snap);
+    console.log("snap coordinate", snap);
 
     setGLast(currG);
     setA(getCoefficient());
@@ -427,16 +427,16 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       </div>
       {step < MAX_STEP ? (
         
-        <button onClick={nextStep} className="big-button" style={{ backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}>Next Step!</button>
+        <button onClick={nextStep} className="big-button-grid" style={{ backgroundColor: explored_set.size > 6 ? "#F3B71B" : "#808080" }}>Next</button>
         
       ) : (
         <button
-          className="big-button grid-button"
+          className="grid-continue"
           onClick={() => {
             nextStep();
             setFitted(true);
           }}
-          style={{backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}
+          style={{backgroundColor: explored_set.size > 6 ? "#F3B71B" : "#808080" }}
         >
           Continue
         </button>

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Grid from "../components/GridLayout";
-// import { MIN_CLIP, MAX_CLIP } from "../components/GridLayout";
 import * as math from "mathjs";
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
-import "../components/Slider.css";
+import "../styles/Slider.css";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
-import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "../components/ButtonLayout";
+import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF } from "../components/ButtonLayout";
 
 type Props = {};
 
@@ -54,6 +53,9 @@ export default function GridFitting({}: Props) {
     </div>
   ) : (
     <>
+      <h2 className="last-prompt">
+        Well Done! Now do one last adjustment with the slider, please. 
+      </h2>
       <div className="slider-container top-space">
         <ReactSlider
           className="vertical-slider"
@@ -73,12 +75,12 @@ export default function GridFitting({}: Props) {
               finalG = math.round(finalG) as math.Matrix;
 
               for(let i = 0; i < 6; i++){
-                // if(i < 3){
-                //   var MAX_db = MAX_DB_LF;
-                // }
-                // else{
-                //   var MAX_db = MAX_DB_HF
-                // }
+                 if(i < 3){
+                   var MAX_db = MAX_DB_LF;
+                 }
+                 else{
+                   var MAX_db = MAX_DB_HF
+                 }
                 finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_DB))
             
               }
@@ -89,13 +91,8 @@ export default function GridFitting({}: Props) {
           }}
         />
       </div>
-      <p className="adjust-text">
-        Well Done! Now one last adjustment please. Move the slider until it
-        sounds most comfortable.
-      </p>
         
-        {console.log(finalG)}
-      <NextButton onclick={() => sendStoreFinalStepCommand(finalG)} to="/prompt" text="Next" />
+      <NextButton  onclick={() => sendStoreFinalStepCommand(finalG)} to="/prompt" text="Finish" />
     </>
   );
 }

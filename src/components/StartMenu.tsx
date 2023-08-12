@@ -1,5 +1,5 @@
 import { NextButton } from "./NextButton";
-import "./StartMenu.css";
+import "../styles/StartMenu.css";
 
 type StartMenuProps = {
   fadeIn: boolean;
