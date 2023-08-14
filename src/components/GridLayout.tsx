@@ -337,7 +337,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
     setExploredSet(new Set);
     setDotColor(getRandomColor());
     setStep(step + 1);
-    if(step == ((MAX_STEP/2) - 1)){
+    if(step == 2){
     setHalf(true);
     }
     setVolume(0);

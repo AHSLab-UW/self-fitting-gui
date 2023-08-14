@@ -8,6 +8,7 @@ import "../styles/Slider.css";
 import Halfway from "../components/Halfway";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
 import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF } from "../components/ButtonLayout";
+import Halfway_grid from "../components/Halfway_grid";
 
 type Props = {};
 
@@ -60,7 +61,7 @@ export default function GridFitting({}: Props) {
           setFitted={setFitted}
         />
         
-      {half && <Halfway fadeIn={true} handleContinue={handleContinue} />}
+      {half && <Halfway_grid fadeIn={true} handleContinue={handleContinue} />}
       </div>
     </div>
   ) : (
