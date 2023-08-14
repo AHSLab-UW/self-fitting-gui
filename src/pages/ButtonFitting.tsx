@@ -6,6 +6,7 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../styles/Slider.css";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand, sendStoreButtonStepCommand } from "../Command";
+import Halfway from "../components/Halfway";
 
 
 
@@ -18,22 +19,28 @@ const blank_table = [[0, 0, 0],
 
 let last_arr: number[][] = [];
 let final_arr: number[] = [];
-let first_arr: number[][] = [];
+let first_arr: number[][] = blank_table;
 let MAX_DB = 20;
 
 export function getLast(arr: number[][]) {
   last_arr = arr;
 }
 
-export default function ButtonFitting() {
+export default function ButtonFitting(this: any) {
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
   const [fitted, setFitted] = useState<number>(0);
   const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
-
+  const [half, setHalf] = useState(true);
+  
   useEffect(() => {
     setInitial(blank_table);
+    setHalf(false)
   }, blank_table // Empty dependency array to execute the effect only once
   )
+
+  const handleContinue = () => {
+    setHalf(false); // Update the 'half' state when the button is clicked
+  }
 
   function firstSlider(){
 
@@ -90,10 +97,12 @@ export default function ButtonFitting() {
           <button className={'big-button-first-slider'} onClick={() => firstSlider()}>Continue</button>
         </div>
       )}
+      {half && <Halfway fadeIn={true} handleContinue={handleContinue} />}
+ 
       {fitted === 1 && ( 
         <div className="flex-column">
           <div>
-            <ButtonLayout setFitted={setFitted} />
+            <ButtonLayout setFitted={setFitted} setHalf={setHalf} />
           </div>
         </div>
       )}

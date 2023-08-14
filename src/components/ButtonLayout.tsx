@@ -10,6 +10,7 @@ import { getLast } from '../pages/ButtonFitting';
 
 interface Props {
     setFitted: (fitted: number) => void;
+    setHalf: (half: boolean) => void;
 }
 
 // low freq: 30
@@ -118,7 +119,7 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
   return matrix
 }
 
-const ButtonLayout = ({setFitted}: Props) => {
+const ButtonLayout = ({setFitted, setHalf}: Props) => {
   // random color every trial, starts at red as default
   const [buttonColor, setButtonColor] = useState<string>('red');
   // if user has finished all trials 
@@ -180,7 +181,6 @@ const ButtonLayout = ({setFitted}: Props) => {
       return;
     }
     setBlockedClick(false);
-
     if(trialNum > 10){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
@@ -205,6 +205,9 @@ const ButtonLayout = ({setFitted}: Props) => {
 
 
     trialNum++;
+    if(trialNum == 15){
+      setHalf(true)
+    }
     if(trialNum == MAX_STEP){
       // do averaging
       setShowContinue(true)
