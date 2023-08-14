@@ -320,24 +320,24 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
   };
 
   const nextStep = () => {
-    if(explored_set.size < 6){ //<---minimum exploration : set the color below as well!
+    if(explored_set.size < 7){ //<---minimum exploration : set the color below as well!
       return
     }
     sendStoreStepCommand(currG, step);
     appendNextG(currG);
-    // console.log("curr a", a);
-    // console.log("g last: ", gLast);
+    //console.log("curr a", a);
+    //console.log("g last: ", gLast);
     const snap = snapToGrid(coordinates);
-    console.log("snap coordinate", snap);
+    //console.log("snap coordinate", snap);
 
     setGLast(currG);
-    setA(getCoefficient());
-
+    if(step >= 2){setA(getCoefficient());}
+  
     setCoordinates({ x: 0, y: 0 });
     setExploredSet(new Set);
     setDotColor(getRandomColor());
     setStep(step + 1);
-    if(step == ((MAX_STEP/2) - 1)){
+    if(step == ((MAX_STEP/2))){
     setHalf(true);
     }
     setVolume(0);
@@ -431,7 +431,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       </div>
       {step < MAX_STEP ? (
         
-        <button onClick={nextStep} className="big-button-grid" style={{ backgroundColor: explored_set.size > 6 ? "#F3B71B" : "#808080" }}>Next</button>
+        <button onClick={nextStep} className="big-button-grid" style={{ backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}>Next</button>
         
       ) : (
         <button
@@ -440,7 +440,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
             nextStep();
             setFitted(true);
           }}
-          style={{backgroundColor: explored_set.size > 6 ? "#F3B71B" : "#808080" }}
+          style={{backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}
         >
           Continue
         </button>

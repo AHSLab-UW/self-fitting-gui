@@ -12,9 +12,7 @@ export default function FittingInstruction() {
 
       <h1 className="title">
     
-      &#8594; Leave the button active, which allows you to listen to the speaker
-        clearly without getting disturbed by the background noise. 
-     Then, click "Next".
+      &#8594; Choose the button to hear the speaker better and reduce background noise. Then, click "Next" and do it again until you finish.
       </h1>
 
       <NextButton to="/buttons" text="Continue" style={{ marginTop: 100 }} />
