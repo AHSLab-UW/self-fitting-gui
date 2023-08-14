@@ -32,3 +32,52 @@ h3 {
 .fade-in {
   opacity: 1;
 }
+
+.halfway_message{
+  /* Positioning */
+  /* center on screen */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* size */
+  width: 75%;
+  height: 50%;
+  background-color: #000000; /* Choose your desired background color */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 2s ease-in-out;
+  opacity: 0;
+
+  /* round edge */
+  border-radius: 10px;
+  opacity: 1;
+}
+
+
+.halfway_message_grid{
+  /* Positioning */
+  /* center on screen */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* size */
+  width: 75%;
+  height: 60%;
+  background-color: #000000; /* Choose your desired background color */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 2s ease-in-out;
+  opacity: 0;
+
+  /* round edge */
+  border-radius: 10px;
+  opacity: 1;
+}
