@@ -26,6 +26,7 @@ const RANGE = 15;
 interface Props {
   setFitted: (fitted: boolean) => void;
   appendNextG: (gMatrix: math.Matrix) => void;
+  setHalf: (half: boolean) => void;
 }
 
 export interface Coordinates {
@@ -120,7 +121,7 @@ const getCoefficient = () => {
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ setFitted, appendNextG }: Props) => {
+const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -336,6 +337,9 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
     setExploredSet(new Set);
     setDotColor(getRandomColor());
     setStep(step + 1);
+    if(step == ((MAX_STEP/2) - 1)){
+    setHalf(true);
+    }
     setVolume(0);
   };
 

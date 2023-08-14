@@ -5,6 +5,7 @@ import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../styles/Slider.css";
+import Halfway from "../components/Halfway";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
 import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF } from "../components/ButtonLayout";
 
@@ -22,7 +23,14 @@ export default function GridFitting({}: Props) {
   const [gAvg, setGAvg] = useState<math.Matrix>(new math.Matrix());
   const [finalG, setFinalG] = useState<math.Matrix>(new math.Matrix());
 
+  const [half, setHalf] = useState(true);
+
+  const handleContinue = () => {
+    setHalf(false); // Update the 'half' state when the button is clicked
+  }
+
   useEffect(() => {
+    setHalf(false)
     if (fitted) {
       // 30 x 6 number[]
       // get row 5-30
@@ -40,6 +48,7 @@ export default function GridFitting({}: Props) {
   }, [fitted]);
 
   return !fitted ? (
+
     <div className="flex-column">
       <div>
         <Grid
@@ -47,8 +56,11 @@ export default function GridFitting({}: Props) {
             // append new g to existing gMatrix
             setGMatrix([...gMatrix, currG.toArray() as number[]]);
           }}
+          setHalf={ setHalf }
           setFitted={setFitted}
         />
+        
+      {half && <Halfway fadeIn={true} handleContinue={handleContinue} />}
       </div>
     </div>
   ) : (
