@@ -1,5 +1,5 @@
 import "../styles/Finish.css";
-import smile from "../assets/imgs/Smiling Face Enhanced.png";
+import smile from "../assets/imgs/Smiling Face Enhanced.jpg";
 
 /*export default function Finish() {
   return (

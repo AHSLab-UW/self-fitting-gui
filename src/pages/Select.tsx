@@ -1,5 +1,5 @@
-import driving from "../assets/imgs/outdoor.png";
-import restaurant from "../assets/imgs/indoor.png";
+import driving from "../assets/imgs/outdoor.jpg";
+import restaurant from "../assets/imgs/indoor.jpg";
 import ImageCarousel from "../components/ImageCarousel";
 import "../styles/Select.css";
 

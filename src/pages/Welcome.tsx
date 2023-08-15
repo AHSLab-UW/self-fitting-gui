@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Welcome.css";
-import ear from "../assets/imgs/Logo.png";
+import ear from "../assets/imgs/Logo.jpg";
 import background from "../assets/imgs/startMenu.png";
 import StartMenu from "../components/StartMenu";
 

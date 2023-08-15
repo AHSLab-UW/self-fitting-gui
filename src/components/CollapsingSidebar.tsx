@@ -1,6 +1,6 @@
 import "../styles/CollapsingSidebar.css";
-import closeIcon from "../assets/imgs/close.png";
-import ear from "../assets/imgs/Logo - Blue.png";
+import closeIcon from "../assets/imgs/close.jpg";
+import ear from "../assets/imgs/Logo - Blue.jpg";
 import { Link } from "react-router-dom";
 
 interface Props {

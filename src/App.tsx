@@ -13,7 +13,9 @@ import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
 import FittingSelect from "./pages/FittingSelect";
 import FittingInstruction from "./pages/FittingInstruction";
+import FittingInstruction1 from "./pages/FittingInstruction1";
 import FittingInstruction2 from "./pages/FittingInstruction2";
+import FittingInstruction22 from "./pages/FittingInstruction22";
 import GridFitting from "./pages/GridFitting";
 import ButtonFitting from "./pages/ButtonFitting";
 
@@ -36,9 +38,19 @@ const routes = [
     element: <FittingInstruction />,
   },
   {
+    path: "/fit-instruct1",
+    name: "Fitting Instruction",
+    element: <FittingInstruction1 />,
+  },
+  {
     path: "/fit-instruct2",
     name: "Fitting Instruction2",
     element: <FittingInstruction2 />,
+  },
+  {
+    path: "/fit-instruct22",
+    name: "Fitting Instruction2",
+    element: <FittingInstruction22 />,
   },
   { path: "/buttons", name: "ButtonFitting", element: <ButtonFitting /> },
   { path: "/grid", name: "GridFitting", element: <GridFitting /> },
