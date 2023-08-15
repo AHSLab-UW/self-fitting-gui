@@ -13,14 +13,14 @@ export default function FittingInstruction() {
       <img
         src={buttonss}
         alt={"buttonss"}
-        style={{ maxWidth: 350, marginBottom: -20, borderBlockColor: "white" , border: "5px solid white"}}
+        style={{ maxWidth: 270, marginBottom: -20, borderBlockColor: "white" , border: "5px solid white"}}
       />
 
       <h1 className="title">
         &#8594; When you hear the speaker most clearly and are least disturbed by the background noise, leave that button selected. Click "NEXT", and repeat this task on the following pages. 
       </h1>
 
-      <NextButton to="/buttons" text="Begin" style={{ marginTop: 50 }} />
+      <NextButton to="/buttons" text="Begin" style={{ marginTop: 15 }} />
     </div>
   );
 }

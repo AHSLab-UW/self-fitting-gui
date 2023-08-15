@@ -182,7 +182,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       coordinates,
       gridSize,
       48,
-      -365 /* y offset for position of circle*/
+      -377 /* y offset for position of circle*/
     );
     setDotStyle({
       left: screenPos.x,

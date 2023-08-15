@@ -34,20 +34,19 @@
   }
   
 
-
-
 .instructions {
-    margin-top: -8px;
+    margin-top: -4px;
     font-size: 24px;
-    line-height: 10%;
+    line-height: 15%;
     color:white;
  
 }
 .instructions2 {
 
     font-size: 24px;
-    line-height: 10%;
+    line-height: 15%;
     color:white;
+    margin-bottom: 30px;
 }
 .volume_control {
     font-size: 25px;
@@ -56,8 +55,8 @@
 }
 .frame-container {
     border-radius: 12px;
-    margin-top: 20px;
-    margin-bottom: -15px;
+    margin-top: 30px;
+    margin-bottom: -10px;
     border: 2px ridge #ffd56a33 ;
     padding: 6px; /* Optional: Add padding to separate the content from the frame */
   }

@@ -130,7 +130,7 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
 
 function getCoords(): number[][]{
   let cx = getWindowDimensions().width / 2 - 100;
-  let cy = getWindowDimensions().height / 2 - 100;
+  let cy = getWindowDimensions().height / 2 - 150;
   console.log(cx + " is cx. and cy is" + cy)
   let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
   let r = 200;
