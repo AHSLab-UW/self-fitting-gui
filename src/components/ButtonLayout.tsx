@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/ButtonLayout.css';
 import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
@@ -7,6 +7,7 @@ import { getRandomColor } from "../Colors";
 import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand } from '../Command';
 import { send } from 'process';
 import { getLast } from '../pages/ButtonFitting';
+import { getWindowDimensions } from './GridLayout';
 
 interface Props {
     setFitted: (fitted: number) => void;
@@ -40,13 +41,21 @@ const GAIN_INDICES = new Map<number, number[]>([
   [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
 ]);
 
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
 export const MAX_STEP = 28;
 export const DB_GAIN = 6;
+
 
 export const MAX_DB_LF = 25;
 export const MAX_DB_HF = 20;
 export const MIN_DB = -15;
 export let MAX_DB = 20;
+
+
 
 // buttons map to different gains
 const VALUES = new Map<number, number>();
@@ -119,6 +128,21 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
   return matrix
 }
 
+function getCoords(): number[][]{
+  let cx = getWindowDimensions().width / 2 - 100;
+  let cy = getWindowDimensions().height / 2 - 100;
+  console.log(cx + " is cx. and cy is" + cy)
+  let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+  let r = 200;
+  for(let i = 0; i < 5; i++){
+    buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+    console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
+    buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+  }
+  console.log("BUTTONS" + buttons)
+  return buttons;
+}
+
 const ButtonLayout = ({setFitted, setHalf}: Props) => {
   // random color every trial, starts at red as default
   const [buttonColor, setButtonColor] = useState<string>('red');
@@ -136,6 +160,9 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
   const [db_gain, setDbGain] = useState<number>(db_indices[0])
   const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
   const [blockedClick, setBlockedClick] = useState<boolean>(false);
+  const [rotationAngle, setRotationAngle] = useState(0);
+
+  const coords: number[][] = getCoords();
   
   const gainClick = (index: number): void => {
     if(trialNum == 1){
@@ -149,6 +176,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       setIsExplored(true);
     }
     setLastClickedIndex(index)
+
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
     let delta = VALUES.get(gainShuffler[index]) || 0
     delta *= db_gain
@@ -228,6 +256,8 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     gainClick(randomIndex)
     setIsExplored(false);
     setDbGain(db_indices[trialNum - 1])
+    const newRotationAngle = (rotationAngle + 10) % 360;
+    setRotationAngle(newRotationAngle);
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
   }
 
@@ -272,23 +302,37 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
   }
 
   
+
+  
   return (
+    
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
-      <div className='instruct-container'>
+      <div className='instruct-container'
+      >
         <p className='button-instructions'>Tap each button, and hit "Next" once you find the option that sounds the best to you.</p>
       </div>
-      <div className='button-container'>
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}></button>
-      <div></div>
-      <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}></button>
-      <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}></button>
-      <div></div>
       
-      <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}></button>
-      <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}></button>
+      <div
+        className="button-container"
+
+      >
+        <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} 
+        style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} 
+        onClick={() =>  gainClick(0)}></button>
+        <div></div>
+        <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} 
+        style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
+        <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`}
+        style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2)}></button>
+        <div></div>
+        
+        <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`}
+        style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3)}></button>
+        <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
+        style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
       </div>
-      <div className='next-container'>
+      <div className={'next-container'} style={{ marginTop: '60vh' }}>
         {showContinue ? (
           <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (

@@ -34,7 +34,7 @@ export interface Coordinates {
   y: number;
 }
 
-function getWindowDimensions() {
+export function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,

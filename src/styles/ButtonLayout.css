@@ -14,7 +14,6 @@
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: right;
 }
 .grid-button3{
   width: 150px;
@@ -22,10 +21,8 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  margin-left: 16vw; /* Adjust the margin as needed */
-  margin-top: 0vh; /* Adjust the margin as needed */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: left;
+
 }
 .grid-button4{
   width: 150px;
@@ -34,7 +31,6 @@
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: right;
 }
 .grid-button5{
   width: 150px;
@@ -42,10 +38,12 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  margin-left: 5vw; /* Adjust the margin as needed */
-  margin-top: 3vh; /* Adjust the margin as needed */
+
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: left;
+}
+.rotated {
+  transform: rotate(10deg); /* Equal to rotateZ(45deg) */
+  /* Add any other styling you want for the rotated state */
 }
 .button-instructions {
   font-size: 24px;
@@ -61,7 +59,6 @@
   width: 70vw
 }
 .button-container{
-  margin-top: 1px;
   
 }
 .red{
