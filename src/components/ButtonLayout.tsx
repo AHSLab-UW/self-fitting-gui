@@ -26,7 +26,7 @@ var initialGain: number[][] = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
-let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 7, 9, 7, 9, 7, 6, 7, 9, 7, 9, 7, 6, 7, 9, 7, 9]
 
 const BLANK_TABLE = math.matrix([[0, 0, 0],
 [0, 0, 0],
