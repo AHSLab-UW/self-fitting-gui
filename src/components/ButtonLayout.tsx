@@ -14,8 +14,6 @@ interface Props {
     setHalf: (half: boolean) => void;
 }
 
-// low freq: 30
-// high freq: 25
 
 let explored_set = new Set();
 let trialNum = 1;
@@ -131,15 +129,15 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
 function getCoords(): number[][]{
   let cx = getWindowDimensions().width / 2 - 100;
   let cy = getWindowDimensions().height / 2 - 150;
-  console.log(cx + " is cx. and cy is" + cy)
+  //console.log(cx + " is cx. and cy is" + cy)
   let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
   let r = 200;
   for(let i = 0; i < 5; i++){
     buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
-    console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
+    //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
     buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
   }
-  console.log("BUTTONS" + buttons)
+  //console.log("BUTTONS" + buttons)
   return buttons;
 }
 
@@ -192,6 +190,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       newGain[i][1] = Math.min(Math.max(newGain[i][1] + delta, MIN_DB), MAX_DB);
       newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta, MIN_DB), MAX_DB);
     }
+    //console.log("now " , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     

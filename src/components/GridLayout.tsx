@@ -323,12 +323,13 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
     if(explored_set.size < 7){ //<---minimum exploration : set the color below as well!
       return
     }
-    sendStoreStepCommand(currG, step);
     appendNextG(currG);
-    //console.log("curr a", a);
+    //console.log("curr g", currG);
     //console.log("g last: ", gLast);
-    const snap = snapToGrid(coordinates);
-    //console.log("snap coordinate", snap);
+    let snap = snapToGrid(coordinates);
+    sendStoreLogCommand(a, snap, volume, currG, gLast, step);
+
+    sendStoreStepCommand(currG, step);
 
     setGLast(currG);
     if(step >= 2){setA(getCoefficient());}
