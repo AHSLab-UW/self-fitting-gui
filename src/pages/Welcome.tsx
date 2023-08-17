@@ -18,7 +18,7 @@ function Welcome() {
       <img
         src={ear}
         alt={"logo"}
-        style={{ maxWidth: 220, marginBottom: -20 }}
+        style={{ maxWidth: 220, marginBottom: -20, marginTop:10 }}
       />
 
       <StartMenu fadeIn={startMenu} />

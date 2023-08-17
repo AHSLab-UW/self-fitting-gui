@@ -333,7 +333,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
         <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
             style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
       </div>
-      <div className={'next-container'} style={{ marginTop: '60vh' }}>
+      <div className={'next-container'} style={{ marginTop: '55vh' }}>
         {showContinue ? (
           <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (

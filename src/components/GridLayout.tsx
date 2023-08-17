@@ -171,7 +171,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       x: 0,
       y: 0,
     });
-    setExploredSet(explored_set.add(selectedGrid));
+    // setExploredSet(explored_set.add(selectedGrid));
 
     // setA(getCoefficient());
   }, []);
@@ -298,7 +298,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       }
 
       setPrevG(g);
-    }, 20);
+    }, 16);
     return () => clearInterval(intervalId);
   });
 
@@ -338,6 +338,9 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
 
     setStep(step + 1);
     setGLast(currG); 
+    if(step >= MAX_STEP){setFitted(true);}
+    
+
     // after the second trial start randomizing coefficents
     if(step >= 2){ setA(getCoefficient()); }
     // randomize colors
@@ -447,7 +450,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
           className="grid-continue"
           onClick={() => {
             nextStep();
-            setFitted(true);
+            //setFitted(true);
           }}
           style={{backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }} > Continue </button>
       )}
