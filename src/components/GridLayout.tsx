@@ -315,7 +315,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
         -120 /* y offset of picking up red cursor */
       )
     );
-    setExploredSet(explored_set.add(selectedGrid));
+    //setExploredSet(explored_set.add(selectedGrid));
   };
 
   const handleEnd = () => {
@@ -370,23 +370,23 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
         }}
         onTouchStart={(e) => {
           setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onTouchMove={(e) => {
           if (down)
             setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
-            setExploredSet(explored_set.add(selectedGrid));
+            //setExploredSet(explored_set.add(selectedGrid));
         }}
         onTouchEnd={handleEnd}
         onMouseDown={(e) => {
           setCoordinatesFromEvent(e.clientX, e.clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onMouseMove={(e) => {
           if (down) setCoordinatesFromEvent(e.clientX, e.clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
         }}
         onMouseUp={handleEnd}
       >

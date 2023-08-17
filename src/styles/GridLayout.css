@@ -8,27 +8,19 @@
     width: 200px;
     height: 70px;
     background-color: white;
-    border: black;
-    
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */    
-    
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    
-    
     padding: 10px 20px;
     background-color: #F3B71B;
     color: #00030B;
-  
     text-decoration: none;
     text-align: center;
     border-radius: 50px;
     box-shadow: 0 7px 10px 0 #000000;
-    
     font-family: 'Montserrat-bold';
     font-size: 34px;
-  
     transition: background-color 0.3s ease;
     border: none;
   }
