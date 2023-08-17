@@ -24,7 +24,7 @@ var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
 
-let db_indices = [6, 6, 
+const db_indices = [6, 6, 
                   6, 6, 
                   6, 8, 8, 
                   6, 8, 8, 
@@ -59,9 +59,9 @@ export const MAX_STEP = 28;
 export const DB_GAIN = 6;
 
 
-export const MAX_DB_LF = 25;
+export const MAX_DB_LF = 20;
 export const MAX_DB_HF = 20;
-export const MIN_DB_LF = -10;
+export const MIN_DB_LF = -15;
 export const MIN_DB_HF = -15;
 
 // buttons map to different gains
@@ -333,7 +333,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
         <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
             style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4, false)}></button>
       </div>
-      <div className={'next-container'} style={{ marginTop: '60vh' }}>
+      <div className={'next-container'} style={{ marginTop: '55vh' }}>
         {showContinue ? (
           <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (

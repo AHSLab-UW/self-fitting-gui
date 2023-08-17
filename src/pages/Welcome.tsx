@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Welcome.css";
-import ear from "../assets/imgs/Logo.jpg";
-import background from "../assets/imgs/startMenu.png";
+import ear from "../assets/imgs/Logo.png";
+import background from "../assets/imgs/waves_background.png";
 import StartMenu from "../components/StartMenu";
 
 function Welcome() {

@@ -1,6 +1,6 @@
 import "../styles/CollapsingSidebar.css";
 import closeIcon from "../assets/imgs/close.png";
-import ear from "../assets/imgs/Logo - Blue.jpg";
+import ear from "../assets/imgs/Logo-Blue.png";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -15,24 +15,25 @@ const CollapsingSidebar = (props: Props) => {
   }
 
   return (
-    <div className={className}>
+
       <div className="sidebar-header">
+        
+            <div className={className}>
+          
         {localStorage.getItem("name") ? localStorage.getItem("name") : "[Name]"}{" "}
         {localStorage.getItem("scene")
           ? localStorage.getItem("scene")
           : "[Scene]"}{" "}
         {localStorage.getItem("fitType") ? localStorage.getItem("fitType") : "[fitType]"}
-        <div className="space-between">
-          <img src={ear} alt={"logo"} style={{ maxWidth: 60 }}></img>
-          <img
+
+      <div className={"sidebar-body " + (props.open ? "" : "disabled-link")}>
+        <img
             src={closeIcon}
             alt="Close sidebar"
+            style={{ maxWidth: 120,  marginLeft: 280, marginTop:-55, marginBottom: 55  }}
             className="icon"
             onClick={() => props.closeModal()}
           />
-        </div>
-      </div>
-      <div className={"sidebar-body " + (props.open ? "" : "disabled-link")}>
         <Link className="link" to="/">
           Home
         </Link>
@@ -61,10 +62,14 @@ const CollapsingSidebar = (props: Props) => {
         <Link className="link" to="/finish">
           Finish
         </Link>
+        <img  src={ear} alt={"logo"} style={{ maxWidth: 125, marginTop: 250, marginLeft: 100  }}></img>
+    
       </div>
-      <div className="sidebar-footer" style={{ marginBottom: 100 }}>
-        <h5>UW Applied Hearing Science Lab</h5>
-      </div>
+
+
+
+</div>
+
     </div>
   );
 };

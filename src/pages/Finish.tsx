@@ -1,23 +1,20 @@
 import "../styles/Finish.css";
-import smile from "../assets/imgs/Smiling Face Enhanced.jpg";
+import check from "../assets/imgs/check.png";
+import background from "../assets/imgs/waves_background.png";
 
-/*export default function Finish() {
+
+function Finish() {
   return (
     <div className="finish-container">
-      <h1>Well Done!</h1>
-      <h3>Your device is now ready to use! </h3>
-    </div>
-  );
-}*/
+       <img className={"background"} src={background} alt={"background"} />
 
-export default function Finish() {
-  return (
-    <div className="finish-container">
-      <div className="image">
-        <img src={smile} alt="smiling face" style={{ maxWidth: 310, marginTop: 100 }}></img>
-      </div>
-      <h1 style={{ marginTop: -600 }}> Cheers! </h1>
+      <h1 style={{ marginTop: 0 }}> Cheers! </h1>
       <h3>Your device is now ready to use!</h3>
+
+      <img src={check} alt="confirmation" style={{ width:300, marginTop: 50 }}></img>
+
+
     </div>
   );
 }
+export default Finish
