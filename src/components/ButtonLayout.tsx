@@ -26,7 +26,7 @@ var initialGain: number[][] = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
-let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 7, 9, 7, 9, 7, 6, 7, 9, 7, 9, 7, 6, 7, 9, 7, 9]
+let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
 
 const BLANK_TABLE = math.matrix([[0, 0, 0],
 [0, 0, 0],
@@ -230,8 +230,6 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
        newGainCol.push(aggregateGain[i][0])
      }
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
-
-
     trialNum++;
     if(trialNum == 15){
       setHalf(true)
@@ -253,12 +251,12 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     }
     setButtonColor(randColor)
     explored_set = new Set();
-    gainClick(randomIndex)
     setIsExplored(false);
     setDbGain(db_indices[trialNum - 1])
     const newRotationAngle = (rotationAngle + 10) % 360;
     setRotationAngle(newRotationAngle);
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
+    gainClick(randomIndex)
   }
 
   const continuePress = () => {
