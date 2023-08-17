@@ -16,6 +16,7 @@ interface Props {
 
 
 let explored_set = new Set();
+let trialNum = 1;
 var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0],
                                 [0, 0, 0],
@@ -24,13 +25,13 @@ var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
 
-const db_indices = [6, 6, 
-                  6, 6, 
-                  6, 8, 8, 
-                  6, 8, 8, 
-                  7, 6, 7, 10, 7, 10, 
-                  7, 6, 7, 10, 7, 10,
-                  7, 6, 7, 10, 7, 10]
+export const db_indices = [6, 6, 
+                            6, 6, 
+                            6, 8, 8, 
+                            6, 8, 8, 
+                            7, 6, 7, 10, 7, 10, 
+                            7, 6, 7, 10, 7, 10,
+                            7, 6, 7, 10, 7, 10]
 
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
@@ -135,6 +136,20 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
   return matrix
 }
 
+function getCoords(): number[][]{
+  let cx = getWindowDimensions().width / 2 - 100;
+  let cy = getWindowDimensions().height / 2 - 150;
+  //console.log(cx + " is cx. and cy is" + cy)
+  let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+  let r = 200;
+  for(let i = 0; i < 5; i++){
+    buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+    //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
+    buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+  }
+  //console.log("BUTTONS" + buttons)
+  return buttons;
+}
 
 const ButtonLayout = ({setFitted, setHalf}: Props) => {
   // random color every trial, starts at red as default
@@ -154,26 +169,10 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
   const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
   const [blockedClick, setBlockedClick] = useState<boolean>(false);
   const [rotationAngle, setRotationAngle] = useState(0);
-  const [trialNum, setTrialNum] = useState<number>(1);
-
-  function getCoords(): number[][]{
-    let cx = getWindowDimensions().width / 2 - 100;
-    let cy = getWindowDimensions().height / 2 - 150;
-    //console.log(cx + " is cx. and cy is" + cy)
-    let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-    let r = 200;
-    for(let i = 0; i < 5; i++){
-      buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
-      //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
-      buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
-    }
-    //console.log("BUTTONS" + buttons)
-    return buttons;
-  }
 
   const coords: number[][] = getCoords();
   
-  const gainClick = (index: number, isFirst: boolean): void => {
+  const gainClick = (index: number): void => {
     if(trialNum == 1){
       explored_set.add(0)
     }
@@ -187,13 +186,10 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     setLastClickedIndex(index)
 
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
-    let delta = VALUES.get(gainShuffler[index]) || 0
-    if(isFirst){
-      delta *= db_indices[trialNum]
-    }
-    else{
-      delta *= db_gain
-    }
+    let button_coeff= VALUES.get(gainShuffler[index]) || 0
+    let delta_step = db_indices[trialNum-1]
+    let delta = button_coeff * delta_step
+    //console.log(delta_step)
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
       if(i < 3){
@@ -216,6 +212,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     for(let i = 0; i < 6; i++){
       newGainCol.push(newGain[i][0])
     }
+    //console.log(newGainCol)
     sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
   };
 
@@ -246,7 +243,9 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
        newGainCol.push(aggregateGain[i][0])
      }
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
-    setTrialNum(trialNum+1);
+
+
+    trialNum++;
     if(trialNum == 15){
       setHalf(true)
     }
@@ -267,11 +266,12 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     setButtonColor(randColor)
     explored_set = new Set();
     setIsExplored(false);
-    setDbGain(db_indices[trialNum - 1])
+    // setDbGain(db_indices[trialNum - 1])
     const newRotationAngle = (rotationAngle + 10) % 360;
     setRotationAngle(newRotationAngle);
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
-    gainClick(randomIndex, true)
+
+    gainClick(randomIndex)
   }
 
   const continuePress = () => {
@@ -308,7 +308,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     sendStoreButtonStepCommand(math.matrix(avgGainCol), 50);
     
     setFitted(2)
-    setTrialNum(1);
+    trialNum = 1;
   }
 
  
@@ -323,17 +323,17 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       
       <div className="button-container">
         <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} 
-            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} onClick={() =>  gainClick(0, false)}></button>
+            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} onClick={() =>  gainClick(0)}></button>
         <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} 
-            style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1, false)}></button>
+            style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
         <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`}
-            style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2, false)}></button>
+            style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2)}></button>
         <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`}
-            style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3, false)}></button>
+            style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3)}></button>
         <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
-            style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4, false)}></button>
+            style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
       </div>
-      <div className={'next-container'} style={{ marginTop: '55vh' }}>
+      <div className={'next-container'} style={{ marginTop: '60vh' }}>
         {showContinue ? (
           <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (

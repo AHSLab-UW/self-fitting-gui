@@ -294,10 +294,11 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       else{
         sendStoreLogCommand(a, snapCoordinate, volume, currG, gLast, step);
         sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
+        setExploredSet(explored_set.add(selectedGrid));
       }
 
       setPrevG(g);
-    }, 10);
+    }, 20);
     return () => clearInterval(intervalId);
   });
 
@@ -320,7 +321,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
   const handleEnd = () => {
     const snapCoordinates = snapToGrid(coordinates);
     setCoordinates(snapCoordinates);
-    setExploredSet(explored_set.add(selectedGrid));
+    
     setDown(false);
   };
 
@@ -333,19 +334,19 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
     //console.log("g last: ", gLast);
     let snap = snapToGrid(coordinates);
     sendStoreLogCommand(a, snap, volume, currG, gLast, step);
-
     sendStoreStepCommand(currG, step);
 
-    setGLast(currG);
-    if(step >= 2){setA(getCoefficient());}
-  
+    setStep(step + 1);
+    setGLast(currG); 
+    // after the second trial start randomizing coefficents
+    if(step >= 2){ setA(getCoefficient()); }
+    // randomize colors
     setCoordinates({ x: 0, y: 0 });
     setExploredSet(new Set);
     setDotColor(getRandomColor());
-    setStep(step + 1);
-    if(step == ((MAX_STEP/2))){
-    setHalf(true);
-    }
+    // motivation message
+    if(step == ((MAX_STEP/2))){setHalf(true);}
+    // refresh volume bar 
     setVolume(0);
   };
 
@@ -437,7 +438,9 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       </div>
       {step < MAX_STEP ? (
         
-        <button onClick={nextStep} className="big-button-grid" style={{ backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}>Next</button>
+        <button className="big-button-grid" 
+                onClick={nextStep} 
+                style={{ backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}>Next</button>
         
       ) : (
         <button
@@ -446,10 +449,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
             nextStep();
             setFitted(true);
           }}
-          style={{backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}
-        >
-          Continue
-        </button>
+          style={{backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }} > Continue </button>
       )}
     </>
   );
