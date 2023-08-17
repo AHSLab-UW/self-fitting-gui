@@ -11,7 +11,7 @@ import { getRandomColor } from "../Colors";
 import { AudioMeter } from "./AudioMeter";
 
 import "../styles/GridLayout.css";
-import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_HF, MAX_DB_LF } from "./ButtonLayout";
+import { gridMatrixFormatter, matrixFormatter, MAX_DB_HF, MAX_DB_LF, MIN_DB_LF, MIN_DB_HF } from "./ButtonLayout";
 
 
 const MAX_STEP = 30; //<---- fix this after testing
@@ -277,12 +277,17 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       g = math.round(g) as math.Matrix;
         // clipping min max
       for(let i = 0; i < 6; i++){
-           if(i < 3){var MAX_db = MAX_DB_LF;}
-           else{var MAX_db = MAX_DB_HF}
+        if(i < 3){
+          var MAX_DB = MAX_DB_LF;
+          var MIN_DB = MIN_DB_LF;}
+        else{
+          var MAX_DB = MAX_DB_HF;
+          var MIN_DB = MIN_DB_HF;
+        }
           g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_DB))
         }
       setCurrG(g);  
-
+         
       if (prevG !== null && math.deepEqual(g, prevG)) {
 
       }
@@ -292,7 +297,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
       }
 
       setPrevG(g);
-    }, 20);
+    }, 10);
     return () => clearInterval(intervalId);
   });
 

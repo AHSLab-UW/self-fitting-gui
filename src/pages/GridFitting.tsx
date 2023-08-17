@@ -7,7 +7,7 @@ import "../styles/Fitting.css";
 import "../styles/Slider.css";
 import Halfway from "../components/Halfway";
 import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand } from "../Command";
-import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF } from "../components/ButtonLayout";
+import { gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF, MIN_DB_LF, MIN_DB_HF } from "../components/ButtonLayout";
 import Halfway_grid from "../components/Halfway_grid";
 
 type Props = {};
@@ -39,12 +39,12 @@ export default function GridFitting({}: Props) {
       // convert to math.js matrix
       const gMatrix25Matrix = math.matrix(gMatrix25);
       // take the average of the gMatrix row 5 - 30 axis 1
-      const gAvg = math.mean(gMatrix25Matrix, 0);
+      const gAvg = math.round(math.mean(gMatrix25Matrix, 0));
       setGAvg(gAvg);
   
       setFinalG(gAvg);
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
-      console.log(gAvg)
+      //console.log(gAvg)
     }
   }, [fitted]);
 
@@ -84,20 +84,17 @@ export default function GridFitting({}: Props) {
           onChange={(val) => {
             let finalG = math.add(gAvg, val) as math.Matrix;
 
-
-              finalG = math.round(finalG) as math.Matrix;
-
               for(let i = 0; i < 6; i++){
-                 if(i < 3){
-                   var MAX_db = MAX_DB_LF;
-                 }
-                 else{
-                   var MAX_db = MAX_DB_HF
-                 }
+                if(i < 3){
+                  var MAX_DB = MAX_DB_LF;
+                  var MIN_DB= MIN_DB_LF;}
+                else{
+                  var MAX_DB = MAX_DB_HF;
+                  var MIN_DB = MIN_DB_HF;
+                }
                 finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_DB))
             
               }
-
 
             sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);

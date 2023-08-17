@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ButtonLayout, { MAX_DB_HF, MAX_DB_LF, MIN_DB, matrixFormatter, setInitial } from "../components/ButtonLayout";
+import ButtonLayout, { MAX_DB_HF, MAX_DB_LF, MIN_DB_HF, MIN_DB_LF, matrixFormatter, setInitial } from "../components/ButtonLayout";
 import * as math from "mathjs";
 import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
@@ -78,13 +78,20 @@ export default function ButtonFitting(this: any) {
               orientation="vertical"
               pearling
               minDistance={15}
-              min={-15}
-              max={15}
+              min={-10}
+              max={10}
               invert={true}
               onChange={(val) => {
                 let gain_table: number[][] = JSON.parse(JSON.stringify(blank_table));
                 for(let i = 0; i < gain_table.length; i++){
                   for(let j = 0; j < 3; j++){
+                    if(i < 3){
+                      var MAX_DB = MAX_DB_LF;
+                      var MIN_DB = MIN_DB_LF;}
+                    else{
+                      var MAX_DB = MAX_DB_HF;
+                      var MIN_DB = MIN_DB_HF;
+                    }
                     gain_table[i][j] = Math.min(Math.max(gain_table[i][j] + val, MIN_DB), MAX_DB);
                   }
                 }
@@ -120,17 +127,18 @@ export default function ButtonFitting(this: any) {
               orientation="vertical"
               pearling
               minDistance={15}
-              min={-15}
-              max={15}
+              min={-10}
+              max={10}
               invert={true}
               onChange={(val) => {
                 let gain_table: number[][] = JSON.parse(JSON.stringify(last_arr));
                 for(let i = 0; i < blank_table.length; i++){
                   if(i < 3){
-                    MAX_DB = MAX_DB_LF;
-                  }
+                    var MAX_DB = MAX_DB_LF;
+                    var MIN_DB = MIN_DB_LF;}
                   else{
-                    MAX_DB = MAX_DB_HF
+                    var MAX_DB = MAX_DB_HF;
+                    var MIN_DB = MIN_DB_HF;
                   }
                   gain_table[i][0] = Math.min(Math.max(last_arr[i][0] + val, MIN_DB), MAX_DB)
                   gain_table[i][1] = Math.min(Math.max(last_arr[i][1] + val, MIN_DB), MAX_DB)
@@ -146,7 +154,7 @@ export default function ButtonFitting(this: any) {
                 }
     
                 final_arr = newGainCol
-                console.log("Final Slider: " + final_arr)
+                // console.log("Final Slider: " + final_arr)
                 setFinalG(math.matrix(gain_table))
               }}
             />
