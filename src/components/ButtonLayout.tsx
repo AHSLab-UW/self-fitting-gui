@@ -14,32 +14,43 @@ interface Props {
     setHalf: (half: boolean) => void;
 }
 
-// low freq: 30
-// high freq: 25
 
 let explored_set = new Set();
 let trialNum = 1;
-var initialGain: number[][] = [[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0]]
+var initialGain: number[][] =  [[0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
 let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
 
-const BLANK_TABLE = math.matrix([[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[6, 6, 6],
-[10, 10, 10]])
+let db_indices = [6, 6, 
+                  6, 6, 
+                  6, 8, 8, 
+                  6, 8, 8, 
+                  7, 6, 7, 10, 7, 10, 
+                  7, 6, 7, 10, 7, 10,
+                  7, 6, 7, 10, 7, 10]
+
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
-  [1, [3, 4, 5]], [2, [0, 1, 2]], [3, [3, 4, 5]], [4, [0, 1, 2]], [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
-  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
-  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
+  [1, [3, 4, 5]], [2, [0, 1, 2]], 
+  [3, [3, 4, 5]], [4, [0, 1, 2]], 
+  [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
+  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], 
+  [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
+  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], 
+  [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
 ]);
+
+const BLANK_TABLE = math.matrix( [[0, 0, 0],
+                                  [0, 0, 0],
+                                  [0, 0, 0],
+                                  [0, 0, 0],
+                                  [6, 6, 6],
+                                  [10, 10, 10]] )
 
 export interface Coordinates {
   x: number;
@@ -52,10 +63,8 @@ export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
 export const MAX_DB_HF = 20;
-export const MIN_DB = -15;
-export let MAX_DB = 20;
-
-
+export const MIN_DB_LF = -10;
+export const MIN_DB_HF = -15;
 
 // buttons map to different gains
 const VALUES = new Map<number, number>();
@@ -131,15 +140,15 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
 function getCoords(): number[][]{
   let cx = getWindowDimensions().width / 2 - 100;
   let cy = getWindowDimensions().height / 2 - 150;
-  console.log(cx + " is cx. and cy is" + cy)
+  //console.log(cx + " is cx. and cy is" + cy)
   let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
   let r = 200;
   for(let i = 0; i < 5; i++){
     buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
-    console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
+    //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
     buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
   }
-  console.log("BUTTONS" + buttons)
+  //console.log("BUTTONS" + buttons)
   return buttons;
 }
 
@@ -183,15 +192,17 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
       if(i < 3){
-        MAX_DB = MAX_DB_LF;
-      }
+        var MAX_DB = MAX_DB_LF;
+        var MIN_DB = MIN_DB_LF;}
       else{
-        MAX_DB = MAX_DB_HF
+        var MAX_DB = MAX_DB_HF;
+        var MIN_DB = MIN_DB_HF;
       }
       newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta, MIN_DB), MAX_DB);
       newGain[i][1] = Math.min(Math.max(newGain[i][1] + delta, MIN_DB), MAX_DB);
       newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta, MIN_DB), MAX_DB);
     }
+    //console.log("now " , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     
@@ -238,17 +249,16 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       // do averaging
       setShowContinue(true)
     }
+
     let randomIndex = Math.floor(Math.random() * 5)
-    while(randomIndex == lastClickedIndex){
-      randomIndex = Math.floor(Math.random() * 5)
-    }
+
+    //random button
+    while(randomIndex == lastClickedIndex) {randomIndex = Math.floor(Math.random() * 5)}
     let randomColor = Math.floor(Math.random() * 5)
     let color = buttonColor
     let colors = ["red", "orange", "green", "purple", "blue"]
     let randColor = colors[randomColor]
-    while(randColor == color){
-      randColor = colors[Math.floor(Math.random() * 5)]
-    }
+    while(randColor == color) {randColor = colors[Math.floor(Math.random() * 5)] }
     setButtonColor(randColor)
     explored_set = new Set();
     setIsExplored(false);
@@ -276,7 +286,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     // Taking average
     for(let i = 0; i < 6; i++){
       //console.log("lastRounds = " + lastRounds)
-      let avg = (lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3;
+      let avg = math.round((lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3);
       aggregateGain[i][0] = avg;
       aggregateGain[i][1] = avg;
       aggregateGain[i][2] = avg;
@@ -290,18 +300,13 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
      for(let i = 0; i < 6; i++){
       avgGainCol.push(aggregateGain[i][0])
      }
-
-    sendStoreButtonStepCommand(math.matrix(avgGainCol), trialNum+1);
+    sendStoreButtonStepCommand(math.matrix(avgGainCol), 50);
     
-
     setFitted(2)
-
     trialNum = 1;
   }
 
-  
-
-  
+ 
   return (
     
     <div>
@@ -311,24 +316,17 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
         <p className='button-instructions'>Tap each button, and hit "Next" once you find the option that sounds the best to you.</p>
       </div>
       
-      <div
-        className="button-container"
-
-      >
+      <div className="button-container">
         <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} 
-        style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} 
-        onClick={() =>  gainClick(0)}></button>
-        <div></div>
+            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} onClick={() =>  gainClick(0)}></button>
         <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} 
-        style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
+            style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
         <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`}
-        style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2)}></button>
-        <div></div>
-        
+            style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2)}></button>
         <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`}
-        style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3)}></button>
+            style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3)}></button>
         <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
-        style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
+            style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
       </div>
       <div className={'next-container'} style={{ marginTop: '60vh' }}>
         {showContinue ? (
