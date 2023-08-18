@@ -117,7 +117,7 @@ const getCoefficient = () => {
     math.index(math.range(3, 6), 1),
     matrix.subset(math.index(math.range(3, 6)))
   );
-  console.log("A : ", reshapedMatrix)
+  //console.log("A : ", reshapedMatrix)
   return math.matrix(reshapedMatrix);
 };
 
@@ -167,6 +167,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
 
   useEffect(() => {
     setGridSize(window.innerWidth / 1.4); // <--- GRID SIZE ADJUSTMENT !!
+    console.log(getWindowDimensions())
     setCoordinates({
       x: 0,
       y: 0,

@@ -17,7 +17,7 @@ export default function FittingInstruction() {
       />
 
       <h1 className="title">
-        &#8594; When you hear the speaker most clearly and are least disturbed by the background noise, leave that button selected. Click "NEXT", and repeat this task on the following pages. 
+        &#8594; When you hear the talker most clearly and are least disturbed by the background noise, leave that button selected. Click 'NEXT', and repeat this task on the following pages. 
       </h1>
 
       <NextButton to="/buttons" text="Begin" style={{ marginTop: 15 }} />

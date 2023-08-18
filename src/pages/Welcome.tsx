@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../styles/Welcome.css";
 import ear from "../assets/imgs/Logo.png";
-import background from "../assets/imgs/waves_background.png";
+// import background from "../assets/imgs/waves_background.png";
+import background from "../assets/imgs/Welcome Waves.jpg";
 import StartMenu from "../components/StartMenu";
 
 function Welcome() {
@@ -12,8 +13,9 @@ function Welcome() {
   };
 
   return (
+    
     <div className="welcome-container" onTouchStart={handleTouchStart}>
-      <img className={"background"} src={background} alt={"background"} />
+    <img className={"background"} src={background} alt={"background"} />  
 
       <img
         src={ear}

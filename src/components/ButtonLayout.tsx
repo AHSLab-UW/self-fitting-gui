@@ -142,10 +142,12 @@ function getCoords(): number[][]{
   //console.log(cx + " is cx. and cy is" + cy)
   let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
   let r = 200;
+
   for(let i = 0; i < 5; i++){
-    buttons[i][0] = cx + r * Math.cos((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+    let angle = (72 * i + 12 * trialNum) * (Math.PI / 180)
+    buttons[i][0] = cx + r * Math.cos(angle) ;
     //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
-    buttons[i][1] = cy + r * Math.sin((72 * i + 10 * trialNum) * (Math.PI / 180)) 
+    buttons[i][1] = cy + r * Math.sin(angle) ;
   }
   //console.log("BUTTONS" + buttons)
   return buttons;
@@ -267,8 +269,8 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     explored_set = new Set();
     setIsExplored(false);
     // setDbGain(db_indices[trialNum - 1])
-    const newRotationAngle = (rotationAngle + 10) % 360;
-    setRotationAngle(newRotationAngle);
+    // const newRotationAngle = (rotationAngle + 10) % 360;
+    // setRotationAngle(newRotationAngle);
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
 
     gainClick(randomIndex)
@@ -323,7 +325,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       
       <div className="button-container">
         <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} 
-            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1]}px` }} onClick={() =>  gainClick(0)}></button>
+            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1] - 37}px` }} onClick={() =>  gainClick(0)}></button>
         <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} 
             style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
         <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`}
