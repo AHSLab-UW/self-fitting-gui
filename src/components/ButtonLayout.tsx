@@ -216,7 +216,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     }
     //console.log(newGainCol)
     //sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
-    sendStoreLogCommand([], { x: 0, y: 0 }, index, math.matrix(newGainCol), [], trialNum);
+    sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, index, math.matrix(newGainCol), math.matrix([]), trialNum);
   };
 
   const nextStep = () => {
@@ -246,7 +246,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
        newGainCol.push(aggregateGain[i][0])
      }
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
-
+    sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
 
     trialNum++;
     if(trialNum == 15){
