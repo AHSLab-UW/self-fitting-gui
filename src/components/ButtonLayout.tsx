@@ -4,7 +4,7 @@ import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
 import "../styles/NextButton.css";
 import { getRandomColor } from "../Colors";
-import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand } from '../Command';
+import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand, sendStoreLogCommand } from '../Command';
 import { send } from 'process';
 import { getLast } from '../pages/ButtonFitting';
 import { getWindowDimensions } from './GridLayout';
@@ -215,7 +215,8 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       newGainCol.push(newGain[i][0])
     }
     //console.log(newGainCol)
-    sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
+    //sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
+    sendStoreLogCommand([], { x: 0, y: 0 }, index, math.matrix(newGainCol), [], trialNum);
   };
 
   const nextStep = () => {
