@@ -4,16 +4,18 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Welcome from "./pages/Welcome";
 import Admin from "./pages/Admin";
-import Intro1 from "./pages/ConnectToYourDevice1";
+// import Intro1 from "./pages/ConnectToYourDevice1";
 import Name from "./pages/Name";
-import Intro2 from "./pages/Intro2";
-import Intro3 from "./pages/Intro3";
+// import Intro2 from "./pages/Intro2";
+// import Intro3 from "./pages/Intro3";
 import Select from "./pages/Select";
 import Prompt from "./pages/Prompt";
 import Finish from "./pages/Finish";
 import FittingSelect from "./pages/FittingSelect";
 import FittingInstruction from "./pages/FittingInstruction";
+import FittingInstruction1 from "./pages/FittingInstruction1";
 import FittingInstruction2 from "./pages/FittingInstruction2";
+import FittingInstruction22 from "./pages/FittingInstruction22";
 import GridFitting from "./pages/GridFitting";
 import ButtonFitting from "./pages/ButtonFitting";
 
@@ -25,9 +27,9 @@ import BottomMenu from "./components/BottomMenu";
 const routes = [
   { path: "/", name: "Welcome", element: <Welcome /> },
   { path: "/name", name: "Name", element: <Name /> },
-  { path: "/intro1", name: "Intro 1", element: <Intro1 /> },
-  { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
-  { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
+  // { path: "/intro1", name: "Intro 1", element: <Intro1 /> },
+  // { path: "/intro2", name: "Intro 2", element: <Intro2 /> },
+  // { path: "/intro3", name: "Intro 3", element: <Intro3 /> },
   { path: "/select", name: "Select", element: <Select /> },
   { path: "/fit-select", name: "Fitting Select", element: <FittingSelect /> },
   {
@@ -36,9 +38,19 @@ const routes = [
     element: <FittingInstruction />,
   },
   {
+    path: "/fit-instruct1",
+    name: "Fitting Instruction",
+    element: <FittingInstruction1 />,
+  },
+  {
     path: "/fit-instruct2",
     name: "Fitting Instruction2",
     element: <FittingInstruction2 />,
+  },
+  {
+    path: "/fit-instruct22",
+    name: "Fitting Instruction2",
+    element: <FittingInstruction22 />,
   },
   { path: "/buttons", name: "ButtonFitting", element: <ButtonFitting /> },
   { path: "/grid", name: "GridFitting", element: <GridFitting /> },

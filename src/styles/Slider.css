@@ -1,7 +1,3 @@
-.vertical-slider {
-  height: 40vh;
-  width: 50px;
-}
 
 .example-thumb {
   font-size: 0.9em;
@@ -23,7 +19,7 @@
 }*/
 .example-track {
   position: relative;
-  background-image: linear-gradient(to right, #617ccf,#495fa1, #2c49a0,#1a3b7c);
+  background-image: linear-gradient(to right, #4b9cee,#a48b37,#fbbd52);
   background-size: 400% 400%;
   animation: gradient 2s ease infinite;
 }
@@ -50,14 +46,22 @@
 }
 
 .vertical-slider .example-thumb {
-  left: -5px;
-  width: 60px;
+  left: -10px;
+  width: 70px;
   line-height: 40px;
-  height: 60px;
+  height: 70px;
   border-radius: 100%;
-  background-color: rgb(57, 90, 161);
+  border-color: #fbbd52;
+  background-color: #fbbd52;
+  color:#fbbd52;
+
+
 }
 
+.vertical-slider {
+  height: 40vh;
+  width: 50px;
+}
 .vertical-slider .example-track {
   left: 15px;
   width: 20px;
@@ -68,10 +72,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 100px;
+  margin-top: 70px;
 }
 
 .adjust-text {
   font-size: 20px;
   font-weight: 500;
   color: rgb(57, 90, 161);
+  
 }

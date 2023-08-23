@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./AudioMeter.css";
+import "../styles/AudioMeter.css";
 
 interface Props {
   val: number;

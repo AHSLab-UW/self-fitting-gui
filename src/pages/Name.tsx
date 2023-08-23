@@ -24,18 +24,18 @@ export default function Name() {
       <br />
       {name !== "" ? (
         <button
-        className="big-button"
+        className="big-button-name"
           onClick={() => {
             localStorage.setItem("name", name);
             if (name === "admin") {
               navigate("/admin")
             } else {
-              navigate("/intro1")
+              navigate("/select")
               sendDeviceCommand("?read:/home/mha/self_fit.cfg");
               sendDeviceCommand("cmd=start");
             }
           }}
-        >Next</button>
+        >Continue</button>
       ) : null}
     </div>
   );

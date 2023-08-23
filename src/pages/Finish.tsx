@@ -1,24 +1,19 @@
 import "../styles/Finish.css";
-import smile from "../assets/imgs/Smiling Face Enhanced.png";
+import check from "../assets/imgs/check.png";
+import ebackground from "../assets/imgs/Exit Waves.jpg";
 
-/*export default function Finish() {
+
+function Finish() {
   return (
     <div className="finish-container">
-      <h1>Well Done!</h1>
-      <h3>Your device is now ready to use! </h3>
-    </div>
-  );
-}*/
+      <img className={"background"} src={ebackground} alt={"ebackground"} /> 
 
-export default function Finish() {
-  return (
-    <div className="finish-container">
-      <div className="image">
-        <img src={smile} alt="smiling face" style={{ maxWidth: 310, marginTop: 70 }}></img>
-      </div>
-      <h1 style={{ marginTop: -500 }}> Well Done
-      </h1>
-      <h4>Your device is now ready to use!</h4>
+      <h1 style={{ marginTop: -180 }}> Congratulations! </h1>
+      <h3>Your device is now ready to use!</h3>
+
+      <img src={check} alt="confirmation" style={{ width:220, marginTop: -20 }}></img>
+
     </div>
   );
 }
+export default Finish

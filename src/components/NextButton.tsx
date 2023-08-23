@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./NextButton.css";
+import "../styles/NextButton.css";
 
 interface Props {
   to: string;

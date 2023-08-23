@@ -1,51 +1,69 @@
-import React, { useState } from 'react';
-import './ButtonLayout.css';
+import React, { useEffect, useState } from 'react';
+import '../styles/ButtonLayout.css';
 import { ProgressBar } from "./ProgressBar";
 import * as math from "mathjs";
-import "./NextButton.css";
+import "../styles/NextButton.css";
 import { getRandomColor } from "../Colors";
-import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand } from '../Command';
+import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand, sendStoreLogCommand } from '../Command';
 import { send } from 'process';
 import { getLast } from '../pages/ButtonFitting';
+import { getWindowDimensions } from './GridLayout';
 
 interface Props {
     setFitted: (fitted: number) => void;
+    setHalf: (half: boolean) => void;
 }
 
-// low freq: 30
-// high freq: 25
 
 let explored_set = new Set();
 let trialNum = 1;
-var initialGain: number[][] = [[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0]]
+var initialGain: number[][] =  [[0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0],
+                                [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
-let db_indices = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
 
-const BLANK_TABLE = math.matrix([[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[6, 6, 6],
-[10, 10, 10]])
+export const db_indices = [6, 6, 
+                            6, 6, 
+                            6, 8, 8, 
+                            6, 8, 8, 
+                            7, 6, 7, 10, 7, 10, 
+                            7, 6, 7, 10, 7, 10,
+                            7, 6, 7, 10, 7, 10]
+
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
-  [1, [3, 4, 5]], [2, [0, 1, 2]], [3, [3, 4, 5]], [4, [0, 1, 2]], [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
-  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
-  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
+  [1, [3, 4, 5]], [2, [0, 1, 2]], 
+  [3, [3, 4, 5]], [4, [0, 1, 2]], 
+  [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
+  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], 
+  [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
+  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], 
+  [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
 ]);
 
-const MAX_STEP = 28;
-const DB_GAIN = 6;
+const BLANK_TABLE = math.matrix( [[0, 0, 0],
+                                  [0, 0, 0],
+                                  [0, 0, 0],
+                                  [0, 0, 0],
+                                  [6, 6, 6],
+                                  [10, 10, 10]] )
 
-export const MAX_DB_LF = 25;
-export const MAX_DB_HF = 20;
-export const MIN_DB = -15;
-export let MAX_DB = 30;
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
+export const MAX_STEP = 28;
+export const DB_GAIN = 6;
+
+
+export const MAX_DB_LF = 30;
+export const MAX_DB_HF = 30;
+export const MIN_DB_LF = -15;
+export const MIN_DB_HF = -15;
 
 // buttons map to different gains
 const VALUES = new Map<number, number>();
@@ -118,7 +136,24 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
   return matrix
 }
 
-const ButtonLayout = ({setFitted}: Props) => {
+function getCoords(): number[][]{
+  let cx = getWindowDimensions().width / 2 - 100;
+  let cy = getWindowDimensions().height / 2 - 150;
+  //console.log(cx + " is cx. and cy is" + cy)
+  let buttons: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+  let r = 200;
+
+  for(let i = 0; i < 5; i++){
+    let angle = (72 * i + 12 * trialNum) * (Math.PI / 180)
+    buttons[i][0] = cx + r * Math.cos(angle) ;
+    //console.log("math cos is " + Math.cos(72 * i * (Math.PI / 180)))
+    buttons[i][1] = cy + r * Math.sin(angle) ;
+  }
+  //console.log("BUTTONS" + buttons)
+  return buttons;
+}
+
+const ButtonLayout = ({setFitted, setHalf}: Props) => {
   // random color every trial, starts at red as default
   const [buttonColor, setButtonColor] = useState<string>('red');
   // if user has finished all trials 
@@ -135,47 +170,57 @@ const ButtonLayout = ({setFitted}: Props) => {
   const [db_gain, setDbGain] = useState<number>(db_indices[0])
   const [gainShuffler, setGainShuffler] = useState<number[]>([0, 1, 2, 3, 4])
   const [blockedClick, setBlockedClick] = useState<boolean>(false);
+  const [rotationAngle, setRotationAngle] = useState(0);
 
+  const coords: number[][] = getCoords();
+  
   const gainClick = (index: number): void => {
     if(trialNum == 1){
       explored_set.add(0)
     }
     explored_set.add(index);
-    if(explored_set.size < 5){
+    if(explored_set.size < 5){ //<---- ensure exploration #1
       setIsExplored(false);
     }
     else{
       setIsExplored(true);
     }
     setLastClickedIndex(index)
+
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
-    let delta = VALUES.get(gainShuffler[index]) || 0
-    delta *= db_gain
+    let button_coeff= VALUES.get(gainShuffler[index]) || 0
+    let delta_step = db_indices[trialNum-1]
+    let delta = button_coeff * delta_step
+    //console.log(delta_step)
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
     for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
       if(i < 3){
-        MAX_DB = MAX_DB_LF;
-      }
+        var MAX_DB = MAX_DB_LF;
+        var MIN_DB = MIN_DB_LF;}
       else{
-        MAX_DB = MAX_DB_HF
+        var MAX_DB = MAX_DB_HF;
+        var MIN_DB = MIN_DB_HF;
       }
       newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta, MIN_DB), MAX_DB);
       newGain[i][1] = Math.min(Math.max(newGain[i][1] + delta, MIN_DB), MAX_DB);
       newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta, MIN_DB), MAX_DB);
     }
+    //console.log("now " , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     
-    // get first column of newGain
+    // get first column of newGain amd store
     let newGainCol = [];
     for(let i = 0; i < 6; i++){
       newGainCol.push(newGain[i][0])
     }
-    sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
+    //console.log(newGainCol)
+    //sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);
+    sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, index, math.matrix(newGainCol), math.matrix([]), trialNum);
   };
 
   const nextStep = () => {
-    if(explored_set.size < 5){
+    if(explored_set.size < 5){ //<---- ensure exploration # 2
       setBlockedClick(true);
       return;
     }
@@ -193,27 +238,43 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
-    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+    //sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+
+     // get first column of newGain and store
+     let newGainCol = [];
+     for(let i = 0; i < 6; i++){
+       newGainCol.push(aggregateGain[i][0])
+     }
+    sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
+    sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
 
     trialNum++;
+    if(trialNum == 15){
+      setHalf(true)
+    }
     if(trialNum == MAX_STEP){
       // do averaging
       setShowContinue(true)
     }
+
     let randomIndex = Math.floor(Math.random() * 5)
+
+    //random button
+    while(randomIndex == lastClickedIndex) {randomIndex = Math.floor(Math.random() * 5)}
     let randomColor = Math.floor(Math.random() * 5)
     let color = buttonColor
     let colors = ["red", "orange", "green", "purple", "blue"]
     let randColor = colors[randomColor]
-    while(randColor == color){
-      randColor = colors[Math.floor(Math.random() * 5)]
-    }
+    while(randColor == color) {randColor = colors[Math.floor(Math.random() * 5)] }
     setButtonColor(randColor)
     explored_set = new Set();
-    gainClick(randomIndex)
     setIsExplored(false);
-    setDbGain(db_indices[trialNum - 1])
+    // setDbGain(db_indices[trialNum - 1])
+    // const newRotationAngle = (rotationAngle + 10) % 360;
+    // setRotationAngle(newRotationAngle);
     setGainShuffler(gainShuffler.sort((a, b) => 0.5 - Math.random()))
+
+    gainClick(randomIndex)
   }
 
   const continuePress = () => {
@@ -223,42 +284,63 @@ const ButtonLayout = ({setFitted}: Props) => {
     }
     setBlockedClick(false);
     lastRounds[0][2] = newGain[0][2]
+
+    // get first column of newGain
+    let newGainCol = [];
     for(let i = 0; i < 6; i++){
-      console.log("lastRounds = " + lastRounds)
-      let avg = (lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3;
+      newGainCol.push(newGain[i][0])
+    }
+    sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
+    // Taking average
+    for(let i = 0; i < 6; i++){
+      //console.log("lastRounds = " + lastRounds)
+      let avg = math.round((lastRounds[i][0] + lastRounds[i][1] + lastRounds[i][2]) / 3);
       aggregateGain[i][0] = avg;
       aggregateGain[i][1] = avg;
       aggregateGain[i][2] = avg;
     }
     setNewGain(aggregateGain)
-    getLast(aggregateGain);
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
-    sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
+    getLast(aggregateGain); //<--send to the button fitting
+
+     // get first column of newGain
+     let avgGainCol = [];
+     for(let i = 0; i < 6; i++){
+      avgGainCol.push(aggregateGain[i][0])
+     }
+    sendStoreButtonStepCommand(math.matrix(avgGainCol), 50);
+    
     setFitted(2)
+    trialNum = 1;
   }
 
-  
+ 
   return (
+    
     <div>
       <ProgressBar steps={MAX_STEP} currentStep={trialNum}/>
-      <div className='instruct-container'>
+      <div className='instruct-container'
+      >
         <p className='button-instructions'>Tap each button, and hit "Next" once you find the option that sounds the best to you.</p>
       </div>
-      <div className='button-container'>
-      <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} onClick={() =>  gainClick(0)}></button>
-      <div></div>
-      <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} onClick={() => gainClick(1)}></button>
-      <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`} onClick={() => gainClick(2)}></button>
-      <div></div>
       
-      <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`} onClick={() => gainClick(3)}></button>
-      <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} onClick={() => gainClick(4)}></button>
+      <div className="button-container">
+        <button className={`grid-button ${lastClickedIndex === 0 ? (buttonColor) : ''}`} 
+            style={{ position: `absolute`, left: `${coords[0][0]}px`, top: `${coords[0][1] - 37}px` }} onClick={() =>  gainClick(0)}></button>
+        <button className={`grid-button2 ${lastClickedIndex === 1 ? (buttonColor) : ''}`} 
+            style={{ position: `absolute`, left: `${coords[1][0]}px`, top: `${coords[1][1]}px` }} onClick={() => gainClick(1)}></button>
+        <button className={`grid-button3 ${lastClickedIndex === 2 ? (buttonColor) : ''}`}
+            style={{ position: `absolute`, left: `${coords[2][0]}px`, top: `${coords[2][1]}px` }} onClick={() => gainClick(2)}></button>
+        <button className={`grid-button4 ${lastClickedIndex === 3 ? (buttonColor) : ''}`}
+            style={{ position: `absolute`, left: `${coords[3][0]}px`, top: `${coords[3][1]}px` }} onClick={() => gainClick(3)}></button>
+        <button className={`grid-button5 ${lastClickedIndex === 4 ? (buttonColor) : ''}`} 
+            style={{position: `absolute`,  left: `${coords[4][0]}px`, top: `${coords[4][1]}px` }} onClick={() => gainClick(4)}></button>
       </div>
-      <div className='next-container'>
+      <div className={'next-container'} style={{ marginTop: '55vh' }}>
         {showContinue ? (
-          <button className={'big-button'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
+          <button className={'continue-button-buttonlay'}onClick={() => continuePress()} style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080" }}>Continue</button>
         ) : (
-          <button onClick={nextStep} className="big-button" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next Step!</button>
+          <button onClick={nextStep} className="next-button-buttonlay" style={{ backgroundColor: isExplored === true ? "#F3B71B" : "#808080", color: isExplored === true ? "#000000" : "#363636"}}>Next</button>
         )}
         {(!isExplored && blockedClick) ? (<p className='button-instructions'>Please make sure you explore all five options before moving on</p>) : (<></>)}
       </div>

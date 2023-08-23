@@ -4,7 +4,7 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */    
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */ 
 }
 /*  */
 .grid-button2{
@@ -13,8 +13,8 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: right;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */ 
+ 
 }
 .grid-button3{
   width: 150px;
@@ -22,19 +22,19 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  margin-left: 16vw; /* Adjust the margin as needed */
-  margin-top: 0vh; /* Adjust the margin as needed */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: left;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */ 
+  
+
 }
 .grid-button4{
   width: 150px;
   height: 150px;
   background-color: white;
   border: black;
+  top: 50%;
   border-radius: 50%; /* Add border-radius property for circular shape */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: right;
+ 
 }
 .grid-button5{
   width: 150px;
@@ -42,14 +42,18 @@
   background-color: white;
   border: black;
   border-radius: 50%; /* Add border-radius property for circular shape */
-  margin-left: 5vw; /* Adjust the margin as needed */
-  margin-top: 3vh; /* Adjust the margin as needed */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */  
-  offset-position: left;
+
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add box-shadow for shadow effect */ 
+ 
+  
+}
+.rotated {
+  transform: rotate(10deg); /* Equal to rotateZ(45deg) */
+  /* Add any other styling you want for the rotated state */
 }
 .button-instructions {
   font-size: 24px;
-  line-height: 100%;
+  line-height: 115%;
   color:white;
 }
 .instruct-container{
@@ -61,7 +65,6 @@
   width: 70vw
 }
 .button-container{
-  margin-top: 1px;
   
 }
 .red{

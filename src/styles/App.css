@@ -17,15 +17,14 @@ body {
 
 h1 {
   font-size: 3em;
-  font-weight: 500;
-  line-height: 1.1;
+  font-family:'Montserrat';
+  line-height: 1;
 }
 
 h2 {
   font-size: 78px;
-  font-weight: bold;
   font-family:'Montserrat';
-  text-shadow: 5px 4px #00030B;
+  text-shadow: 1px 1px #00030B;
   color: #f2f3c0;
   line-height: 1.4;
 }
@@ -36,6 +35,10 @@ h3 {
   line-height: 1.1;
 }
 
+h5 {
+  font-size: 1em;
+  color: #263356 !important;
+}
 p {
   font-size: 1.1em;
   color:white
@@ -61,8 +64,19 @@ p {
 }
 
 .column-container {
+  
   display: flex;
   align-items:center;
   justify-content: space-between;
   flex-direction: row;
+}
+.column-wrapper {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  padding: 15px 15px;
+  box-sizing: border-box;
+  column-gap: 5px;
 }

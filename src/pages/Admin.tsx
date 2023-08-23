@@ -29,7 +29,7 @@ export default function Admin({ }: Props) {
   return (
     <div>
       <h1>Admin</h1>
-      <h2>Subject ID</h2>
+      <h2>Enter Subject ID</h2>
       <input
         className="name-input"
         type="text"
@@ -38,7 +38,7 @@ export default function Admin({ }: Props) {
       />
       <div className="top-space"></div>
       <button
-        className="big-button"
+        className="big-button-admin"
         onClick={() => {
           fetch(`/admin?name=${name}`)
             .then((res) => res.json())
@@ -54,26 +54,48 @@ export default function Admin({ }: Props) {
       >
         Submit
       </button>
-
+      <div className="column-wrapper">
+  <div className="column">
+    <div className="column-container">
+      <h2>Indoor - Button</h2>
+      <p>{data[0]}</p>
+    </div>
+    <div className="column-container">
+      <h2>Outdoor - Button</h2>
+      <p>{data[2]}</p>
+    </div>
+  </div>
+  <div className="column">
+    <div className="column-container">
+      <h2>Indoor - Grid</h2>
+      <p>{data[1]}</p>
+    </div>
+    <div className="column-container">
+      <h2>Outdoor - Grid</h2>
+      <p>{data[3]}</p>
+    </div>
+  </div>
+</div>
+{/* 
       <div className="column-container">
-        <h2>Indoor Button</h2>
+        <h2>Indoor - Button</h2>
         <p>{data[0]}</p>
       </div>
       <div className="column-container">
-        <h2>Indoor Grid</h2>
+        <h2>Indoor - Grid</h2>
         <p>{data[1]}</p>
       </div>
       <div className="column-container">
-        <h2>Outdoor Button</h2>
+        <h2>Outdoor - Button</h2>
         <p>{data[2]}</p>
       </div>
       <div className="column-container">
-        <h2>Outdoor Grid</h2>
+        <h2>Outdoor - Grid</h2>
         <p>{data[3]}</p>
-      </div>
+      </div> */}
 
       <button
-        className="big-button"
+        className="big-button-admin"
         onClick={() => {
           let csv =
             "Bands,SF_Indoor_Button,SF_Indoor_Grid,SF_Outdoor_Button,SF_Outdoor_Grid\n";

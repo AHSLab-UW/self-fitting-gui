@@ -53,3 +53,113 @@ body, .grid {
     box-shadow: none;
   }
   
+  .fittingselect {
+    font-size: 3.2em;
+    font-family:'Montserrat';
+    line-height: 1.2;
+    margin-bottom: 70px;
+    margin-top: 200px;
+  }
+
+  .big-button-first-slider {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+    min-width: 135px;
+    min-height: 40px;
+    padding: 10px 30px;
+    background-color: #F3B71B;
+    color: #00030B;
+  
+    text-decoration: none;
+    text-align: center;
+    border-radius: 100px;
+    box-shadow: 0 7px 10px 0 #000000;
+    
+  
+    font-family: 'Montserrat-bold';
+    font-size: 34px;
+  
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+  .big-button-first-slider {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    min-width: 135px;
+    min-height: 40px;
+    padding: 10px 30px;
+    background-color: #F3B71B;
+    color: #00030B;
+    text-align: center;
+    border-radius: 100px;
+    box-shadow: 0 7px 10px 0 #000000;
+    font-family: 'Montserrat-bold';
+    font-size: 34px;
+  
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+  .next-button-buttonlay {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+    min-width: 135px;
+    min-height: 50px;
+    padding: 20px 40px;
+    background-color: #F3B71B;
+    color: #00030B;
+  
+    text-decoration: none;
+    text-align: center;
+    border-radius: 100px;
+    box-shadow: 0 7px 10px 0 #000000;
+    
+  
+    font-family: 'Montserrat-bold';
+    font-size: 34px;
+  
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+  .continue-button-buttonlay {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 110px;
+    min-width: 135px;
+    min-height: 100px;
+    padding: 10px 30px;
+    background-color: #F3B71B;
+    color: #00030B;
+  
+    text-decoration: none;
+    text-align: center;
+    border-radius: 100px;
+    box-shadow: 0 7px 10px 0 #000000;
+    
+  
+    font-family: 'Montserrat-bold';
+    font-size: 34px;
+  
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+  .last-prompt {
+    color:#f2f3c0;
+    margin-top: 90px;
+    margin-bottom: -30px;
+    font-size: 50px;
+    font-family: 'Montserrat';
+    text-shadow: 2px 2px #00030b;
+    margin-left: -70px;
+    margin-right: -70px;
+}
+  

@@ -1,16 +1,29 @@
 .finish-container {
+
+    justify-content: center;
     display: flex;
-    height: 90%;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    margin-top: 90;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding-top: 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 100vw;
 }
 
-.container {
-  display: grid;
-  place-items: center;  
-  text-align: center;
-  height: 200vh
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
 }
 
 .title {

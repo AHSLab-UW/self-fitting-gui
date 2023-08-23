@@ -10,14 +10,15 @@ import { getRandomColor } from "../Colors";
 
 import { AudioMeter } from "./AudioMeter";
 
-import "./GridLayout.css";
-import { MIN_DB, MAX_DB, gridMatrixFormatter, matrixFormatter } from "./ButtonLayout";
+import "../styles/GridLayout.css";
+import { gridMatrixFormatter, matrixFormatter, MAX_DB_HF, MAX_DB_LF, MIN_DB_LF, MIN_DB_HF } from "./ButtonLayout";
 
 
-const MAX_STEP = 10;
+const MAX_STEP = 30; //<---- fix this after testing
+
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
-const RANGE = 20;
+const RANGE = 15;
 
 // export const MIN_CLIP = 15;
 // export const MAX_CLIP = 30;
@@ -25,6 +26,7 @@ const RANGE = 20;
 interface Props {
   setFitted: (fitted: boolean) => void;
   appendNextG: (gMatrix: math.Matrix) => void;
+  setHalf: (half: boolean) => void;
 }
 
 export interface Coordinates {
@@ -32,7 +34,7 @@ export interface Coordinates {
   y: number;
 }
 
-function getWindowDimensions() {
+export function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
@@ -94,7 +96,7 @@ const getCoefficient = () => {
   let result1 = parseFloat(math.sqrt(squares1 / 6).toString())
 
   arr = arr.map((x) => x  / result1);
-
+  // this part is to see if sum of squares of the variables / 6 =? 1
   // let squares = 0;
   // for(let i = 0; i < arr.length; i++){
   //   squares += ((arr[i]) * (arr[i]))
@@ -115,11 +117,11 @@ const getCoefficient = () => {
     math.index(math.range(3, 6), 1),
     matrix.subset(math.index(math.range(3, 6)))
   );
-
+  //console.log("A : ", reshapedMatrix)
   return math.matrix(reshapedMatrix);
 };
 
-const Grid = ({ setFitted, appendNextG }: Props) => {
+const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
   const GRID_CALC = (RANGE / 5) * 2;
 
   const [coordinates, setCoordinates] = useState<Coordinates>({ x: 0, y: 0 });
@@ -142,12 +144,12 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
 
   const [a, setA] = useState(
     math.matrix([
-      [0.7, 0],
-      [0.7, 0],
-      [0.7, 0],
-      [0, 0.7],
-      [0, 0.7],
-      [0, 0.7],
+      [1, 0],
+      [1, 0],
+      [1, 0],
+      [0, 1],
+      [0, 1],
+      [0, 1],
     ])
   );
 
@@ -165,11 +167,12 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
 
   useEffect(() => {
     setGridSize(window.innerWidth / 1.4); // <--- GRID SIZE ADJUSTMENT !!
+    console.log(getWindowDimensions())
     setCoordinates({
       x: 0,
       y: 0,
     });
-    setExploredSet(explored_set.add(selectedGrid));
+    // setExploredSet(explored_set.add(selectedGrid));
 
     // setA(getCoefficient());
   }, []);
@@ -180,7 +183,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       coordinates,
       gridSize,
       48,
-      -370 /* y offset for position of circle*/
+      -392 /* y offset for position of circle*/
     );
     setDotStyle({
       left: screenPos.x,
@@ -275,22 +278,28 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       g = math.round(g) as math.Matrix;
         // clipping min max
       for(let i = 0; i < 6; i++){
-          // if(i < 3){var MAX_db = MAX_DB_LF;}
-          // else{var MAX_db = MAX_DB_HF}
+        if(i < 3){
+          var MAX_DB = MAX_DB_LF;
+          var MIN_DB = MIN_DB_LF;}
+        else{
+          var MAX_DB = MAX_DB_HF;
+          var MIN_DB = MIN_DB_HF;
+        }
           g.set([i], Math.min(Math.max(g.get([i]), MIN_DB), MAX_DB))
         }
       setCurrG(g);  
-
+         
       if (prevG !== null && math.deepEqual(g, prevG)) {
 
       }
       else{
         sendStoreLogCommand(a, snapCoordinate, volume, currG, gLast, step);
         sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
+        setExploredSet(explored_set.add(selectedGrid));
       }
 
       setPrevG(g);
-    }, 20);
+    }, 16);
     return () => clearInterval(intervalId);
   });
 
@@ -307,34 +316,41 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         -120 /* y offset of picking up red cursor */
       )
     );
-    setExploredSet(explored_set.add(selectedGrid));
+    //setExploredSet(explored_set.add(selectedGrid));
   };
 
   const handleEnd = () => {
     const snapCoordinates = snapToGrid(coordinates);
     setCoordinates(snapCoordinates);
-    setExploredSet(explored_set.add(selectedGrid));
+    
     setDown(false);
   };
 
   const nextStep = () => {
-    if(explored_set.size < 13){
+    if(explored_set.size < 7){ //<---minimum exploration : set the color below as well!
       return
     }
-    sendStoreStepCommand(currG, step);
     appendNextG(currG);
-    // console.log("curr a", a);
-    // console.log("g last: ", gLast);
-    const snap = snapToGrid(coordinates);
-    // console.log("snap coordinate", snap);
+    //console.log("curr g", currG);
+    //console.log("g last: ", gLast);
+    let snap = snapToGrid(coordinates);
+    sendStoreLogCommand(a, snap, volume, currG, gLast, step);
+    sendStoreStepCommand(currG, step);
 
-    setGLast(currG);
-    setA(getCoefficient());
+    setStep(step + 1);
+    setGLast(currG); 
+    if(step >= MAX_STEP){setFitted(true);}
+    
 
+    // after the second trial start randomizing coefficents
+    if(step >= 2){ setA(getCoefficient()); }
+    // randomize colors
     setCoordinates({ x: 0, y: 0 });
     setExploredSet(new Set);
     setDotColor(getRandomColor());
-    setStep(step + 1);
+    // motivation message
+    if(step == ((MAX_STEP/2))){setHalf(true);}
+    // refresh volume bar 
     setVolume(0);
   };
 
@@ -355,23 +371,23 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
         }}
         onTouchStart={(e) => {
           setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onTouchMove={(e) => {
           if (down)
             setCoordinatesFromEvent(e.touches[0].clientX, e.touches[0].clientY);
-            setExploredSet(explored_set.add(selectedGrid));
+            //setExploredSet(explored_set.add(selectedGrid));
         }}
         onTouchEnd={handleEnd}
         onMouseDown={(e) => {
           setCoordinatesFromEvent(e.clientX, e.clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
           setDown(true);
         }}
         onMouseMove={(e) => {
           if (down) setCoordinatesFromEvent(e.clientX, e.clientY);
-          setExploredSet(explored_set.add(selectedGrid));
+          //setExploredSet(explored_set.add(selectedGrid));
         }}
         onMouseUp={handleEnd}
       >
@@ -402,7 +418,7 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       </div>
 
       <div className="frame-container">
-        <h3 className="volume_control" style={{ color: "#ffd56a", marginTop: 10 }}>
+        <h3 className="volume_control" style={{ color: "#ffd56a", marginTop: 10, marginBottom: 15 }}>
           Volume Control{" "}
         </h3>
         <div className="flex-row">
@@ -426,19 +442,18 @@ const Grid = ({ setFitted, appendNextG }: Props) => {
       </div>
       {step < MAX_STEP ? (
         
-        <button onClick={nextStep} className="big-button" style={{ backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}>Next Step!</button>
+        <button className="big-button-grid" 
+                onClick={nextStep} 
+                style={{ backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }}>Next</button>
         
       ) : (
         <button
-          className="big-button grid-button"
+          className="grid-continue"
           onClick={() => {
             nextStep();
-            setFitted(true);
+            //setFitted(true);
           }}
-          style={{backgroundColor: explored_set.size > 12 ? "#F3B71B" : "#808080" }}
-        >
-          Continue
-        </button>
+          style={{backgroundColor: explored_set.size > 7 ? "#F3B71B" : "#808080" }} > Continue </button>
       )}
     </>
   );
