@@ -60,8 +60,8 @@ export const MAX_STEP = 28;
 export const DB_GAIN = 6;
 
 
-export const MAX_DB_LF = 20;
-export const MAX_DB_HF = 20;
+export const MAX_DB_LF = 30;
+export const MAX_DB_HF = 30;
 export const MIN_DB_LF = -15;
 export const MIN_DB_HF = -15;
 
