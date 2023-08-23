@@ -5,7 +5,7 @@ import ReactSlider from "react-slider";
 import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../styles/Slider.css";
-import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand, sendStoreButtonStepCommand } from "../Command";
+import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendStoreStepCommand, sendStoreButtonStepCommand, sendResetDeviceGainCommand } from "../Command";
 import Halfway from "../components/Halfway";
 
 
@@ -20,7 +20,7 @@ const blank_table = [[0, 0, 0],
 let last_arr: number[][] = [];
 let final_arr: number[] = [];
 let first_arr: number[][] = blank_table;
-let MAX_DB = 20;
+let MAX_DB = 30;
 
 export function getLast(arr: number[][]) {
   last_arr = arr;
@@ -160,7 +160,9 @@ export default function ButtonFitting(this: any) {
             />
           </div>
 
-          <NextButton onclick={() => finishButton()} to="/prompt" text="Finish" />
+          <NextButton onclick={() => {
+            finishButton();
+            sendResetDeviceGainCommand();}} to="/prompt" text="Finish" />
         </>
       )}
     </>
