@@ -13,7 +13,7 @@ export default function Prompt() {
       <button
         className="big-button-prompt " style={{ marginTop: 50 }}
         onClick={() => {
-          sendResetDeviceGainCommand();
+          // sendResetDeviceGainCommand();
           navigate("/select");
         }}
       >
@@ -24,7 +24,7 @@ export default function Prompt() {
         className="big-button-prompt "
         style={{ marginTop: 200 }}
         onClick={() => {
-          sendResetDeviceGainCommand();
+          // sendResetDeviceGainCommand();
           navigate("/finish");
         }}
       >

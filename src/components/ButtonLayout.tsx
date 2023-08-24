@@ -175,16 +175,10 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
   const coords: number[][] = getCoords();
   
   const gainClick = (index: number): void => {
-    if(trialNum == 1){
-      explored_set.add(0)
-    }
+    if(trialNum == 1){explored_set.add(0)}
     explored_set.add(index);
-    if(explored_set.size < 5){ //<---- ensure exploration #1
-      setIsExplored(false);
-    }
-    else{
-      setIsExplored(true);
-    }
+    if(explored_set.size < 5){setIsExplored(false)}//<---- ensure exploration #1
+    else{setIsExplored(true)}
     setLastClickedIndex(index)
 
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
