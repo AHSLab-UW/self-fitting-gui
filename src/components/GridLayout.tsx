@@ -293,7 +293,7 @@ const Grid = ({ setFitted, appendNextG, setHalf }: Props) => {
 
       }
       else{
-        sendStoreLogCommand(a, snapCoordinate, volume, currG, gLast, step);
+        sendStoreLogCommand(a, snapCoordinate, volume, g, gLast, step);
         sendSetDeviceGainButtonCommand(gridMatrixFormatter(g));
         setExploredSet(explored_set.add(selectedGrid));
       }
