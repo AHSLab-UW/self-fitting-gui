@@ -6,14 +6,13 @@ import "../styles/NextButton.css";
 import { getRandomColor } from "../Colors";
 import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand, sendStoreLogCommand } from '../Command';
 import { send } from 'process';
-import { getLast } from '../pages/ButtonFitting';
+import { getFinalG } from '../pages/ButtonFitting';
 import { getWindowDimensions } from './GridLayout';
 
 interface Props {
     setFitted: (fitted: number) => void;
     setHalf: (half: boolean) => void;
 }
-
 
 let explored_set = new Set();
 let trialNum = 1;
@@ -24,6 +23,7 @@ var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0],
                                 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
+
 
 export const db_indices = [6, 6, 
                             6, 6, 
@@ -58,7 +58,6 @@ export interface Coordinates {
 
 export const MAX_STEP = 28;
 export const DB_GAIN = 6;
-
 
 export const MAX_DB_LF = 30;
 export const MAX_DB_HF = 30;
@@ -295,7 +294,9 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     }
     setNewGain(aggregateGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
-    getLast(aggregateGain); //<--send to the button fitting
+    // getLast(aggregateGain); //<--send to the button fitting
+    getFinalG(aggregateGain)
+    console.log(aggregateGain)
 
      // get first column of newGain
      let avgGainCol = [];
