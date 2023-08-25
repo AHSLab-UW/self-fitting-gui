@@ -17,19 +17,36 @@ const blank_table = [[0, 0, 0],
 [6, 6, 6],
 [10, 10, 10]];
 
-let last_arr: number[][] = [];
+export var finalGains = [[0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0]];
+
+export var finalGains_afterSlider = [[0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0]];
+                        
+
+//let last_arr: number[][] = [];
 let final_arr: number[] = [];
 let first_arr: number[][] = blank_table;
 let MAX_DB = 30;
-
-export function getLast(arr: number[][]) {
-  last_arr = arr;
+let slider_flag = 0
+// export function getLast(arr: number[][]) {
+//   last_arr = arr;
+// }
+export function getFinalG(arr: number[][]) {
+  finalGains = arr;
 }
-
 export default function ButtonFitting(this: any) {
   const [gAvg, setGAvg] = useState<math.Matrix>(math.matrix([]));
   const [fitted, setFitted] = useState<number>(0);
-  const [finalG, setFinalG] = useState<math.Matrix>(math.matrix([]));
+  
   const [half, setHalf] = useState(true);
   
   useEffect(() => {
@@ -56,12 +73,22 @@ export default function ButtonFitting(this: any) {
   }
 
   function finishButton(){
+    let newGainCol = [];
 
-      //console.log("Final Button: " + finalG)
-      // sendSetDeviceGainButtonCommand(matrixFormatter(finalG));
-      sendStoreFinalStepCommand(math.matrix(final_arr))
+    if (slider_flag == 0){
+      // console.log("Final Button: " + finalGains)
+      for(let i = 0; i < 6; i++){
+        newGainCol.push(finalGains[i][0])
+      }
+    } else {
+      // console.log("Final Button: " + finalGains_afterSlider)
+      for(let i = 0; i < 6; i++){
+        newGainCol.push(finalGains_afterSlider[i][0])
+      }
+    }
+    // console.log("Final Button2: " + newGainCol)
+    sendStoreFinalStepCommand(math.matrix(newGainCol))
   }
-
 
   return (
     <>
@@ -77,7 +104,7 @@ export default function ButtonFitting(this: any) {
               renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
               orientation="vertical"
               pearling
-              minDistance={15}
+              minDistance={1}
               min={-10}
               max={10}
               invert={true}
@@ -126,13 +153,14 @@ export default function ButtonFitting(this: any) {
               renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
               orientation="vertical"
               pearling
-              minDistance={15}
+              minDistance={1}
               min={-10}
               max={10}
               invert={true}
               onChange={(val) => {
-                let gain_table: number[][] = JSON.parse(JSON.stringify(last_arr));
-                for(let i = 0; i < blank_table.length; i++){
+                //console.log(finalGains)
+                let gain_table: number[][] = JSON.parse(JSON.stringify(finalGains));
+                for(let i = 0; i < finalGains.length; i++){
                   if(i < 3){
                     var MAX_DB = MAX_DB_LF;
                     var MIN_DB = MIN_DB_LF;}
@@ -140,9 +168,9 @@ export default function ButtonFitting(this: any) {
                     var MAX_DB = MAX_DB_HF;
                     var MIN_DB = MIN_DB_HF;
                   }
-                  gain_table[i][0] = Math.min(Math.max(last_arr[i][0] + val, MIN_DB), MAX_DB)
-                  gain_table[i][1] = Math.min(Math.max(last_arr[i][1] + val, MIN_DB), MAX_DB)
-                  gain_table[i][2] = Math.min(Math.max(last_arr[i][2] + val, MIN_DB), MAX_DB)
+                  gain_table[i][0] = Math.min(Math.max(finalGains[i][0] + val, MIN_DB), MAX_DB)
+                  gain_table[i][1] = Math.min(Math.max(finalGains[i][1] + val, MIN_DB), MAX_DB)
+                  gain_table[i][2] = Math.min(Math.max(finalGains[i][2] + val, MIN_DB), MAX_DB)
                 }
                 
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
@@ -150,12 +178,14 @@ export default function ButtonFitting(this: any) {
                     // get first column of newGain
                 let newGainCol = [];
                 for(let i = 0; i < 6; i++){
-                  newGainCol.push(gain_table[i][0])
+                  newGainCol.push(gain_table[i][0]);
                 }
     
-                final_arr = newGainCol
-                // console.log("Final Slider: " + final_arr)
-                setFinalG(math.matrix(gain_table))
+                // final_arr = newGainCol
+                // console.log("Final Slider: " + newGainCol);
+                finalGains_afterSlider = gain_table;
+                slider_flag = 1;
+                
               }}
             />
           </div>

@@ -41,7 +41,6 @@ export default function GridFitting({}: Props) {
       // take the average of the gMatrix row 5 - 30 axis 1
       const gAvg = math.round(math.mean(gMatrix25Matrix, 0));
       setGAvg(gAvg);
-  
       setFinalG(gAvg);
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
       //console.log(gAvg)
@@ -77,13 +76,12 @@ export default function GridFitting({}: Props) {
           renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
           orientation="vertical"
           pearling
-          minDistance={10}
+          minDistance={1}
           min={-10}
           max={10}
           invert={true}
           onChange={(val) => {
             let finalG = math.add(gAvg, val) as math.Matrix;
-
               for(let i = 0; i < 6; i++){
                 if(i < 3){
                   var MAX_DB = MAX_DB_LF;
@@ -93,9 +91,7 @@ export default function GridFitting({}: Props) {
                   var MIN_DB = MIN_DB_HF;
                 }
                 finalG.set([i], Math.min(Math.max(finalG.get([i]), MIN_DB), MAX_DB))
-            
               }
-
             sendSetDeviceGainButtonCommand(gridMatrixFormatter(finalG));
             setFinalG(finalG);
           }}

@@ -6,14 +6,13 @@ import "../styles/NextButton.css";
 import { getRandomColor } from "../Colors";
 import { sendSetDeviceGainButtonCommand, sendStoreButtonClickCommand, sendStoreButtonStepCommand, sendStoreLogCommand } from '../Command';
 import { send } from 'process';
-import { getLast } from '../pages/ButtonFitting';
+import { getFinalG } from '../pages/ButtonFitting';
 import { getWindowDimensions } from './GridLayout';
 
 interface Props {
     setFitted: (fitted: number) => void;
     setHalf: (half: boolean) => void;
 }
-
 
 let explored_set = new Set();
 let trialNum = 1;
@@ -24,6 +23,7 @@ var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0],
                                 [0, 0, 0]]
 let aggregateGain: number[][] = initialGain
+
 
 export const db_indices = [6, 6, 
                             6, 6, 
@@ -58,7 +58,6 @@ export interface Coordinates {
 
 export const MAX_STEP = 28;
 export const DB_GAIN = 6;
-
 
 export const MAX_DB_LF = 30;
 export const MAX_DB_HF = 30;
@@ -175,16 +174,10 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
   const coords: number[][] = getCoords();
   
   const gainClick = (index: number): void => {
-    if(trialNum == 1){
-      explored_set.add(0)
-    }
+    if(trialNum == 1){explored_set.add(0)}
     explored_set.add(index);
-    if(explored_set.size < 5){ //<---- ensure exploration #1
-      setIsExplored(false);
-    }
-    else{
-      setIsExplored(true);
-    }
+    if(explored_set.size < 5){setIsExplored(false)}//<---- ensure exploration #1
+    else{setIsExplored(true)}
     setLastClickedIndex(index)
 
     let gainIndex = GAIN_INDICES.get(trialNum) || [];
@@ -301,7 +294,9 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     }
     setNewGain(aggregateGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
-    getLast(aggregateGain); //<--send to the button fitting
+    // getLast(aggregateGain); //<--send to the button fitting
+    getFinalG(aggregateGain)
+    console.log(aggregateGain)
 
      // get first column of newGain
      let avgGainCol = [];
