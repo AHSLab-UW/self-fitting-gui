@@ -6,8 +6,8 @@ import { NextButton } from "../components/NextButton";
 import "../styles/Fitting.css";
 import "../styles/Slider.css";
 import Halfway from "../components/Halfway";
-import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendResetDeviceGainCommand } from "../Command";
-import { gridMatrixFormatter, matrixFormatter, MAX_DB_LF, MAX_DB_HF, MIN_DB_LF, MIN_DB_HF } from "../components/ButtonLayout";
+import { sendStoreFinalStepCommand, sendSetDeviceGainButtonCommand, sendResetDeviceGainCommand, sendStoreStepCommand } from "../Command";
+import { gridMatrixFormatter, MAX_DB_LF, MAX_DB_HF, MIN_DB_LF, MIN_DB_HF } from "../components/ButtonLayout";
 import Halfway_grid from "../components/Halfway_grid";
 
 type Props = {};
@@ -43,6 +43,7 @@ export default function GridFitting({}: Props) {
       setGAvg(gAvg);
       setFinalG(gAvg);
       sendSetDeviceGainButtonCommand(gridMatrixFormatter(gAvg));
+      sendStoreStepCommand(gAvg, 50);
       //console.log(gAvg)
     }
   }, [fitted]);
