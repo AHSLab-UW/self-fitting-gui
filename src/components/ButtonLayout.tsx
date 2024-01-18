@@ -22,27 +22,16 @@ var initialGain: number[][] =  [[0, 0, 0],
                                 [0, 0, 0],
                                 [0, 0, 0],
                                 [0, 0, 0]]
+
 let aggregateGain: number[][] = initialGain
-
-
-export const db_indices = [6, 6, 
-                            6, 6, 
-                            6, 8, 8, 
-                            6, 8, 8, 
-                            7, 6, 7, 10, 7, 10, 
-                            7, 6, 7, 10, 7, 10,
-                            7, 6, 7, 10, 7, 10]
-
-// gainIndex determines which frequency band (1-6) to adjust
-const GAIN_INDICES = new Map<number, number[]>([
-  [1, [3, 4, 5]], [2, [0, 1, 2]], 
-  [3, [3, 4, 5]], [4, [0, 1, 2]], 
-  [5, [2, 3]], [6, [4, 5]], [7, [0, 1]],
-  [8, [2, 3]], [9, [4, 5]], [10, [0, 1]], 
-  [11, [2]], [12, [3]], [13, [4]], [14, [5]], [15, [1]], [16, [0]],
-  [17, [2]], [18, [3]], [19, [4]], [20, [5]], [21, [1]], [22, [0]], 
-  [23, [2]], [24, [3]], [25, [4]], [26, [5]], [27, [1]], [28, [0]]
-]);
+export var lastRounds = initialGain;
+// buttons map to different gains
+const VALUES = new Map<number, number>();
+VALUES.set(0, 0);
+VALUES.set(1, 1);
+VALUES.set(2, 2);
+VALUES.set(3, -1);
+VALUES.set(4, -2);
 
 const BLANK_TABLE = math.matrix( [[0, 0, 0],
                                   [0, 0, 0],
@@ -56,23 +45,35 @@ export interface Coordinates {
   y: number;
 }
 
-export const MAX_STEP = 28;
+export const MAX_STEP = 21;
 export const DB_GAIN = 6;
 
-export const MAX_DB_LF = 30;
-export const MAX_DB_HF = 30;
+export const MAX_DB_LF = 25;
+export const MAX_DB_HF = 25;
 export const MIN_DB_LF = -15;
 export const MIN_DB_HF = -15;
 
-// buttons map to different gains
-const VALUES = new Map<number, number>();
-VALUES.set(0, 0);
-VALUES.set(1, 1);
-VALUES.set(2, 2);
-VALUES.set(3, -1);
-VALUES.set(4, -2);
+export const db_indices = [ 6, 6, 
+                            6, 6, 
+                            5, 5, 
+                            5, 5, 
+                            6, 
+                            7, 7, 6, 6,
+                            7, 7, 6, 6,
+                            6, 5, 5, 6
+                          ]
 
-export var lastRounds = initialGain;
+// gainIndex determines which frequency band (1-6) to adjust
+const GAIN_INDICES = new Map<number, number[]>([
+                [1, [3, 4, 5]], [2, [0, 1, 2]], 
+                [3, [2, 4, 5]], [4, [0, 1, 4]], 
+                [5, [3, 4, 5]], [6, [0, 1, 2]], 
+                [7, [2, 4, 5]], [8, [0, 1, 4]], 
+                [9, [2, 3]], 
+                [10, [0, 1]],[11, [4, 5]], [12,[3]], [13, [2]],
+                [14, [4, 5]],[15,[0, 1]], [16, [2]], [17, [3]], 
+                [18, [0 ,1]],[19,[2]], [20, [3]], [21, [4, 5]]
+]);
 
 // displays gain table on front end for debugging purposes
 export function gainToString(arr: number[][]): string {
@@ -218,13 +219,13 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       return;
     }
     setBlockedClick(false);
-    if(trialNum > 10){
+    if(trialNum > 9){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
-      if(trialNum >= 17){
+      if(trialNum >= 14){
         round = 1
       }
-      if(trialNum >= 23){
+      if(trialNum >= 18){
         round = 2;
       }
       lastRounds[band[0]][round] = newGain[band[0]][round]
@@ -242,7 +243,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
 
     trialNum++;
-    if(trialNum == 15){
+    if(trialNum == 10){
       setHalf(true)
     }
     if(trialNum == MAX_STEP){
