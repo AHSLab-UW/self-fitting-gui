@@ -45,7 +45,7 @@ export interface Coordinates {
   y: number;
 }
 
-export const MAX_STEP = 21;
+export const MAX_STEP = 22;
 export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
@@ -57,7 +57,7 @@ export const db_indices = [ 6, 6,
                             6, 6, 
                             5, 5, 
                             5, 5, 
-                            6, 
+                            6, 3,
                             7, 7, 6, 6,
                             7, 7, 6, 6,
                             6, 5, 5, 6
@@ -66,13 +66,13 @@ export const db_indices = [ 6, 6,
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
                 [1, [3, 4, 5]], [2, [0, 1, 2]], 
-                [3, [2, 4, 5]], [4, [0, 1, 4]], 
+                [3, [2, 4, 5]], [4, [0, 1, 3]], 
                 [5, [3, 4, 5]], [6, [0, 1, 2]], 
-                [7, [2, 4, 5]], [8, [0, 1, 4]], 
-                [9, [2, 3]], 
-                [10, [0, 1]],[11, [4, 5]], [12,[3]], [13, [2]],
-                [14, [4, 5]],[15,[0, 1]], [16, [2]], [17, [3]], 
-                [18, [0 ,1]],[19,[2]], [20, [3]], [21, [4, 5]]
+                [7, [2, 4, 5]], [8, [0, 1, 3]], 
+                [9, [2, 3]], [10, [0, 1, 2, 3, 4, 5]], 
+                [11, [0, 1]],[12, [4, 5]], [13,[3]], [14, [2]],
+                [15, [4, 5]],[16,[0, 1]], [17, [2]], [18, [3]], 
+                [19, [0 ,1]],[20,[2]], [21, [3]], [22, [4, 5]]
 ]);
 
 // displays gain table on front end for debugging purposes
@@ -185,19 +185,28 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     let button_coeff= VALUES.get(gainShuffler[index]) || 0
     let delta_step = db_indices[trialNum-1]
     let delta = button_coeff * delta_step
-    //console.log(delta_step)
+    // console.log(gainIndex)
     const newGain = JSON.parse(JSON.stringify(aggregateGain));
-    for(let i = gainIndex[0]; i <= gainIndex[gainIndex.length - 1]; i++){
-      if(i < 3){
-        var MAX_DB = MAX_DB_LF;
-        var MIN_DB = MIN_DB_LF;}
-      else{
-        var MAX_DB = MAX_DB_HF;
-        var MIN_DB = MIN_DB_HF;
+    
+    for (let i = 0; i < gainIndex.length; i++) {
+      let gindex = gainIndex[i];
+      if (!isNaN(gindex)) {
+          // Determine MIN_DB and MAX_DB based on the condition
+          let MAX_DB, MIN_DB;
+          if (gindex < 3) {
+            MAX_DB = MAX_DB_LF;
+            MIN_DB = MIN_DB_LF;
+          } else {
+            MAX_DB = MAX_DB_HF;
+            MIN_DB = MIN_DB_HF;
+          }
+          // Update the matrix elements
+          newGain[gindex][0] = Math.min(Math.max(newGain[gindex][0] + delta, MIN_DB), MAX_DB);
+          newGain[gindex][1] = Math.min(Math.max(newGain[gindex][1] + delta, MIN_DB), MAX_DB);
+          newGain[gindex][2] = Math.min(Math.max(newGain[gindex][2] + delta, MIN_DB), MAX_DB);
+      } else {
+        console.error(`Invalid index: ${gainIndex[i]}`);
       }
-      newGain[i][0] = Math.min(Math.max(newGain[i][0] + delta, MIN_DB), MAX_DB);
-      newGain[i][1] = Math.min(Math.max(newGain[i][1] + delta, MIN_DB), MAX_DB);
-      newGain[i][2] = Math.min(Math.max(newGain[i][2] + delta, MIN_DB), MAX_DB);
     }
     //console.log("now " , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
     setNewGain(newGain)
@@ -219,16 +228,28 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       return;
     }
     setBlockedClick(false);
-    if(trialNum > 9){
+    if(trialNum > 10){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
-      if(trialNum >= 14){
+      if(trialNum > 14){
         round = 1
       }
-      if(trialNum >= 18){
+      if(trialNum > 18){
         round = 2;
       }
-      lastRounds[band[0]][round] = newGain[band[0]][round]
+      //console.log(band)
+      // Iterate over the elements in band
+      for (let i = 0; i < band.length; i++) {
+        let index = band[i];
+
+        // Check if index is a valid index for newGain and lastRounds
+        if (index >= 0 && index < newGain.length && index < lastRounds.length) {
+          lastRounds[index][round] = newGain[index][round];
+        } else {
+          console.error(`Invalid index: ${index}`);
+        }
+      }
+      //console.log(lastRounds)
     }
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
@@ -243,7 +264,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
 
     trialNum++;
-    if(trialNum == 10){
+    if(trialNum == 11){
       setHalf(true)
     }
     if(trialNum == MAX_STEP){
@@ -277,8 +298,21 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       return;
     }
     setBlockedClick(false);
-    lastRounds[0][2] = newGain[0][2]
-
+    if(trialNum > 10){
+      let band: number[] = GAIN_INDICES.get(trialNum) || []
+      //console.log(band)
+      // Iterate over the elements in band
+      for (let i = 0; i < band.length; i++) {
+        let index = band[i];
+        // Check if index is a valid index for newGain and lastRounds
+        if (index >= 0 && index < newGain.length && index < lastRounds.length) {
+          lastRounds[index][2] = newGain[index][2];
+        } else {
+          console.error(`Invalid index: ${index}`);
+        }
+      }
+      //console.log(lastRounds)
+    }
     // get first column of newGain
     let newGainCol = [];
     for(let i = 0; i < 6; i++){
@@ -297,7 +331,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
     // getLast(aggregateGain); //<--send to the button fitting
     getFinalG(aggregateGain)
-    console.log(aggregateGain)
+    //console.log(aggregateGain)
 
      // get first column of newGain
      let avgGainCol = [];
@@ -309,7 +343,6 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     setFitted(2)
     trialNum = 1;
   }
-
  
   return (
     
