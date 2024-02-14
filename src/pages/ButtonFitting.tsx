@@ -119,7 +119,7 @@ export default function ButtonFitting(this: any) {
                       var MAX_DB = MAX_DB_HF;
                       var MIN_DB = MIN_DB_HF;
                     }
-                    gain_table[i][0] = Math.min(Math.max(gain_table[i][0] + val, MIN_DB), MAX_DB-7);
+                    gain_table[i][0] = Math.min(Math.max(gain_table[i][0] + val, MIN_DB-8), MAX_DB-7);
                     gain_table[i][1] = Math.min(Math.max(gain_table[i][1] + val, MIN_DB), MAX_DB);
                     gain_table[i][2] = Math.min(Math.max(gain_table[i][2] + val, MIN_DB), MAX_DB);
                   }
@@ -170,13 +170,11 @@ export default function ButtonFitting(this: any) {
                     var MAX_DB = MAX_DB_HF;
                     var MIN_DB = MIN_DB_HF;
                   }
-                  gain_table[i][0] = Math.min(Math.max(finalGains[i][0] + val, MIN_DB), MAX_DB-7)
+                  gain_table[i][0] = Math.min(Math.max(finalGains[i][0] + val, MIN_DB-8), MAX_DB-7)
                   gain_table[i][1] = Math.min(Math.max(finalGains[i][1] + val, MIN_DB), MAX_DB)
                   gain_table[i][2] = Math.min(Math.max(finalGains[i][2] + val, MIN_DB), MAX_DB)
                 }
-                
                 sendSetDeviceGainButtonCommand(matrixFormatter(gain_table));
-   
                     // get first column of newGain
                 let newGainCol = [];
                 for(let i = 0; i < 6; i++){

@@ -201,7 +201,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
             MIN_DB = MIN_DB_HF;
           }
           // Update the matrix elements
-          newGain[gindex][0] = Math.min(Math.max(newGain[gindex][0] + delta, MIN_DB), MAX_DB-7);
+          newGain[gindex][0] = Math.min(Math.max(newGain[gindex][0] + delta, MIN_DB-8), MAX_DB-7);
           newGain[gindex][1] = Math.min(Math.max(newGain[gindex][1] + delta, MIN_DB), MAX_DB);
           newGain[gindex][2] = Math.min(Math.max(newGain[gindex][2] + delta, MIN_DB), MAX_DB);
       } else {
@@ -255,7 +255,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
     //sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
-    console.log("aggragategain", aggregateGain)
+    //console.log("aggragategain", aggregateGain)
      // get first column of newGain and store
      let newGainCol = [];
      for(let i = 0; i < 6; i++){
@@ -309,7 +309,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
           console.error(`Invalid index: ${index}`);
         }
       }
-      console.log("last rounds", lastRounds)
+      //console.log("last rounds", lastRounds)
     }
     // get first column of newGain
     let newGainCol = [];
