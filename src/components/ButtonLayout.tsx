@@ -16,12 +16,12 @@ interface Props {
 
 let explored_set = new Set();
 let trialNum = 1;
-var initialGain: number[][] =  [[0, 0, 0],
-                                [0, 0, 0],
-                                [0, 0, 0],
-                                [0, 0, 0],
-                                [0, 0, 0],
-                                [0, 0, 0]]
+var initialGain: number[][] = [ [0-5, 0, 0],
+[0-5, 0, 0],
+[0-6, 0, 0],
+[0-7, 0, 0],
+[6-8, 6, 6],
+[10-7, 10, 10]];
 
 let aggregateGain: number[][] = initialGain
 export var lastRounds = initialGain;
@@ -33,12 +33,12 @@ VALUES.set(2, 2);
 VALUES.set(3, -1);
 VALUES.set(4, -2);
 
-const BLANK_TABLE = math.matrix( [[0, 0, 0],
-                                  [0, 0, 0],
-                                  [0, 0, 0],
-                                  [0, 0, 0],
-                                  [6, 6, 6],
-                                  [10, 10, 10]] )
+const BLANK_TABLE = math.matrix( [ [0-5, 0, 0],
+  [0-5, 0, 0],
+  [0-6, 0, 0],
+  [0-7, 0, 0],
+  [6-8, 6, 6],
+  [10-7, 10, 10]] )
 
 export interface Coordinates {
   x: number;
@@ -50,8 +50,8 @@ export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
 export const MAX_DB_HF = 25;
-export const MIN_DB_LF = -10;
-export const MIN_DB_HF = -10;
+export const MIN_DB_LF = -15;
+export const MIN_DB_HF = -15;
 
 export const db_indices = [ 6, 6, 
                             5, 5, 
@@ -132,7 +132,7 @@ export function matrixFormatter(arr: number[][]): math.Matrix {
       matrix.set([i + 6, j], right)
     }
   }
-  // console.log("Sending this matrix: " + matrix.toString());
+  console.log("Sending this matrix: " + matrix.toString());
   return matrix
 }
 
@@ -201,21 +201,22 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
             MIN_DB = MIN_DB_HF;
           }
           // Update the matrix elements
-          newGain[gindex][0] = Math.min(Math.max(newGain[gindex][0] + delta, MIN_DB), MAX_DB);
+          newGain[gindex][0] = Math.min(Math.max(newGain[gindex][0] + delta, MIN_DB), MAX_DB-7);
           newGain[gindex][1] = Math.min(Math.max(newGain[gindex][1] + delta, MIN_DB), MAX_DB);
           newGain[gindex][2] = Math.min(Math.max(newGain[gindex][2] + delta, MIN_DB), MAX_DB);
       } else {
         console.error(`Invalid index: ${gainIndex[i]}`);
       }
     }
-    //console.log("now " , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
+    console.log("now l" , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
+    console.log("now h" , newGain[0][1],newGain[1] [1], newGain[2][1], newGain[3][1],newGain[4][1], newGain[5][1])
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     
     // get first column of newGain amd store
     let newGainCol = [];
     for(let i = 0; i < 6; i++){
-      newGainCol.push(newGain[i][0])
+      newGainCol.push(newGain[i][1])
     }
     //console.log(newGainCol)
     //sendStoreButtonClickCommand(math.matrix(newGainCol), trialNum, index);

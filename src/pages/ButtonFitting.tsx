@@ -10,12 +10,12 @@ import Halfway from "../components/Halfway";
 
 
 
-const blank_table = [[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0],
-[6, 6, 6],
-[10, 10, 10]];
+const blank_table = [ [0-5, 0, 0],
+[0-5, 0, 0],
+[0-6, 0, 0],
+[0-7, 0, 0],
+[6-8, 6, 6],
+[10-7, 10, 10]];
 
 export var finalGains = [[0, 0, 0],
                         [0, 0, 0],
@@ -119,7 +119,9 @@ export default function ButtonFitting(this: any) {
                       var MAX_DB = MAX_DB_HF;
                       var MIN_DB = MIN_DB_HF;
                     }
-                    gain_table[i][j] = Math.min(Math.max(gain_table[i][j] + val, MIN_DB), MAX_DB);
+                    gain_table[i][0] = Math.min(Math.max(gain_table[i][0] + val, MIN_DB), MAX_DB-7);
+                    gain_table[i][1] = Math.min(Math.max(gain_table[i][1] + val, MIN_DB), MAX_DB);
+                    gain_table[i][2] = Math.min(Math.max(gain_table[i][2] + val, MIN_DB), MAX_DB);
                   }
                 }
                 //console.log("Initial Slider: " + gain_table)
@@ -168,7 +170,7 @@ export default function ButtonFitting(this: any) {
                     var MAX_DB = MAX_DB_HF;
                     var MIN_DB = MIN_DB_HF;
                   }
-                  gain_table[i][0] = Math.min(Math.max(finalGains[i][0] + val, MIN_DB), MAX_DB)
+                  gain_table[i][0] = Math.min(Math.max(finalGains[i][0] + val, MIN_DB), MAX_DB-7)
                   gain_table[i][1] = Math.min(Math.max(finalGains[i][1] + val, MIN_DB), MAX_DB)
                   gain_table[i][2] = Math.min(Math.max(finalGains[i][2] + val, MIN_DB), MAX_DB)
                 }
@@ -178,7 +180,7 @@ export default function ButtonFitting(this: any) {
                     // get first column of newGain
                 let newGainCol = [];
                 for(let i = 0; i < 6; i++){
-                  newGainCol.push(gain_table[i][0]);
+                  newGainCol.push(gain_table[i][1]);
                 }
     
                 // final_arr = newGainCol
