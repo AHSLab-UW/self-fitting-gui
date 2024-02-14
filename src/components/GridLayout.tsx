@@ -14,7 +14,7 @@ import "../styles/GridLayout.css";
 import { gridMatrixFormatter, matrixFormatter, MAX_DB_HF, MAX_DB_LF, MIN_DB_LF, MIN_DB_HF } from "./ButtonLayout";
 
 
-const MAX_STEP = 30; //<---- fix this after testing
+const MAX_STEP = 22; //<---- fix this after testing
 
 const MIN_VOLUME = -15;
 const MAX_VOLUME = 15;
@@ -84,11 +84,10 @@ const getCoefficient = () => {
   // === Tuning Parameters ===
   // Generate an array of 6 random numbers with mean 0 and standard deviation 1
   let arr = math.random([6], -1, 1);
-
   // Subtract the mean of the array from each element to make the sum of all elements equal to 0
-  let sum = math.sum(arr);
-  arr = arr.map((x) => x - sum);
-
+  let mean = math.sum(arr)/6;
+  arr = arr.map((x) => x - mean);
+  
   let squares1 = 0;
   for(let i = 0; i < arr.length; i++){
     squares1 += (arr[i] * arr[i])

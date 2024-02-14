@@ -50,25 +50,25 @@ export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
 export const MAX_DB_HF = 25;
-export const MIN_DB_LF = -15;
-export const MIN_DB_HF = -15;
+export const MIN_DB_LF = -10;
+export const MIN_DB_HF = -10;
 
 export const db_indices = [ 6, 6, 
-                            6, 6, 
                             5, 5, 
-                            5, 5, 
-                            6, 3,
-                            7, 7, 6, 6,
-                            7, 7, 6, 6,
-                            6, 5, 5, 6
+                            4, 4, 
+                            3, 3, 
+                            5, 3,
+                            6, 6, 6, 6,
+                            5, 5, 5, 5,
+                            4, 4, 4, 4
                           ]
 
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
                 [1, [3, 4, 5]], [2, [0, 1, 2]], 
-                [3, [2, 4, 5]], [4, [0, 1, 3]], 
+                [3, [3, 4, 5]], [4, [0, 1, 2]], 
                 [5, [3, 4, 5]], [6, [0, 1, 2]], 
-                [7, [2, 4, 5]], [8, [0, 1, 3]], 
+                [7, [3, 4, 5]], [8, [0, 1, 2]], 
                 [9, [2, 3]], [10, [0, 1, 2, 3, 4, 5]], 
                 [11, [0, 1]],[12, [4, 5]], [13,[3]], [14, [2]],
                 [15, [4, 5]],[16,[0, 1]], [17, [2]], [18, [3]], 

@@ -32,6 +32,8 @@ export default function Name() {
             } else {
               navigate("/select")
               sendDeviceCommand("?read:/home/mha/self_fit.cfg");
+              // pause 1 seconds
+              setTimeout(() => {}, 1000)
               sendDeviceCommand("cmd=start");
             }
           }}
