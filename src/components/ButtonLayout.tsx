@@ -208,8 +208,8 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
         console.error(`Invalid index: ${gainIndex[i]}`);
       }
     }
-    console.log("now l" , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
-    console.log("now h" , newGain[0][1],newGain[1] [1], newGain[2][1], newGain[3][1],newGain[4][1], newGain[5][1])
+    //console.log("now l" , newGain[0][0],newGain[1] [0], newGain[2][0], newGain[3][0],newGain[4][0], newGain[5][0])
+    //console.log("now h" , newGain[0][1],newGain[1] [1], newGain[2][1], newGain[3][1],newGain[4][1], newGain[5][1])
     setNewGain(newGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(newGain));
     
@@ -255,15 +255,14 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     // setAggregateGain(newGain)
     aggregateGain = JSON.parse(JSON.stringify(newGain));
     //sendStoreButtonStepCommand(math.matrix(aggregateGain), trialNum);
-
+    console.log("aggragategain", aggregateGain)
      // get first column of newGain and store
      let newGainCol = [];
      for(let i = 0; i < 6; i++){
-       newGainCol.push(aggregateGain[i][0])
+       newGainCol.push(aggregateGain[i][1])
      }
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
     sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
-
     trialNum++;
     if(trialNum == 11){
       setHalf(true)
@@ -272,9 +271,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       // do averaging
       setShowContinue(true)
     }
-
     let randomIndex = Math.floor(Math.random() * 5)
-
     //random button
     while(randomIndex == lastClickedIndex) {randomIndex = Math.floor(Math.random() * 5)}
     let randomColor = Math.floor(Math.random() * 5)
@@ -312,12 +309,12 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
           console.error(`Invalid index: ${index}`);
         }
       }
-      //console.log(lastRounds)
+      console.log("last rounds", lastRounds)
     }
     // get first column of newGain
     let newGainCol = [];
     for(let i = 0; i < 6; i++){
-      newGainCol.push(newGain[i][0])
+      newGainCol.push(newGain[i][1])
     }
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
     // Taking average
@@ -328,16 +325,21 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       aggregateGain[i][1] = avg;
       aggregateGain[i][2] = avg;
     }
+    aggregateGain[0][0] = aggregateGain[0][0]-5;
+    aggregateGain[1][0] = aggregateGain[1][0]-5;
+    aggregateGain[2][0] = aggregateGain[2][0]-6;
+    aggregateGain[3][0] = aggregateGain[3][0]-7;
+    aggregateGain[4][0] = aggregateGain[4][0]-8;
+    aggregateGain[5][0] = aggregateGain[5][0]-7;
+    console.log("avg = " + aggregateGain)
     setNewGain(aggregateGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
     // getLast(aggregateGain); //<--send to the button fitting
     getFinalG(aggregateGain)
-    //console.log(aggregateGain)
-
      // get first column of newGain
      let avgGainCol = [];
      for(let i = 0; i < 6; i++){
-      avgGainCol.push(aggregateGain[i][0])
+      avgGainCol.push(aggregateGain[i][1])
      }
     sendStoreButtonStepCommand(math.matrix(avgGainCol), 50);
     
