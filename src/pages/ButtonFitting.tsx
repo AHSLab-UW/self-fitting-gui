@@ -78,12 +78,12 @@ export default function ButtonFitting(this: any) {
     if (slider_flag == 0){
       // console.log("Final Button: " + finalGains)
       for(let i = 0; i < 6; i++){
-        newGainCol.push(finalGains[i][0])
+        newGainCol.push(finalGains[i][1])
       }
     } else {
       // console.log("Final Button: " + finalGains_afterSlider)
       for(let i = 0; i < 6; i++){
-        newGainCol.push(finalGains_afterSlider[i][0])
+        newGainCol.push(finalGains_afterSlider[i][1])
       }
     }
     // console.log("Final Button2: " + newGainCol)

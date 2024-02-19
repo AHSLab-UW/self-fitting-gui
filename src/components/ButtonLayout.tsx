@@ -17,11 +17,11 @@ interface Props {
 let explored_set = new Set();
 let trialNum = 1;
 var initialGain: number[][] = [ [0-5, 0, 0],
-[0-5, 0, 0],
-[0-6, 0, 0],
-[0-7, 0, 0],
-[6-8, 6, 6],
-[10-7, 10, 10]];
+                                [0-5, 0, 0],
+                                [0-6, 0, 0],
+                                [0-7, 0, 0],
+                                [6-8, 6, 6],
+                                [10-7, 10, 10]];
 
 let aggregateGain: number[][] = initialGain
 export var lastRounds = initialGain;
@@ -45,7 +45,7 @@ export interface Coordinates {
   y: number;
 }
 
-export const MAX_STEP = 22;
+export const MAX_STEP = 20;
 export const DB_GAIN = 6;
 
 export const MAX_DB_LF = 25;
@@ -55,24 +55,24 @@ export const MIN_DB_HF = -15;
 
 export const db_indices = [ 6, 6, 
                             5, 5, 
+                            3, 
+                            4, 
                             4, 4, 
-                            3, 3, 
-                            5, 3,
-                            6, 6, 6, 6,
-                            5, 5, 5, 5,
-                            4, 4, 4, 4
+                            5, 7, 7, 6,
+                            7, 5, 6, 6,
+                            5, 6, 6, 6
                           ]
 
 // gainIndex determines which frequency band (1-6) to adjust
 const GAIN_INDICES = new Map<number, number[]>([
                 [1, [3, 4, 5]], [2, [0, 1, 2]], 
                 [3, [3, 4, 5]], [4, [0, 1, 2]], 
-                [5, [3, 4, 5]], [6, [0, 1, 2]], 
-                [7, [3, 4, 5]], [8, [0, 1, 2]], 
-                [9, [2, 3]], [10, [0, 1, 2, 3, 4, 5]], 
-                [11, [0, 1]],[12, [4, 5]], [13,[3]], [14, [2]],
-                [15, [4, 5]],[16,[0, 1]], [17, [2]], [18, [3]], 
-                [19, [0 ,1]],[20,[2]], [21, [3]], [22, [4, 5]]
+                [5, [0, 1, 2, 3, 4, 5]], 
+                [6, [2, 3]], 
+                [7, [3, 4, 5]], [8, [0, 1, 2]],
+                [9, [0, 1]],[10, [4, 5]], [11,[3]], [12, [2]],
+                [13, [4, 5]],[14,[0, 1]], [15, [2]], [16, [3]], 
+                [17, [0 ,1]],[18,[2]], [19, [3]], [20, [4, 5]]
 ]);
 
 // displays gain table on front end for debugging purposes
@@ -229,13 +229,13 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       return;
     }
     setBlockedClick(false);
-    if(trialNum > 10){
+    if(trialNum > 8){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       let round = 0;
-      if(trialNum > 14){
+      if(trialNum > 12){ // starts getting the last ones to average
         round = 1
       }
-      if(trialNum > 18){
+      if(trialNum > 16){
         round = 2;
       }
       //console.log(band)
@@ -264,7 +264,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
     sendStoreButtonStepCommand(math.matrix(newGainCol), trialNum);
     sendStoreLogCommand(math.matrix([]), { x: 0, y: 0 }, 6, math.matrix(newGainCol), math.matrix([]), trialNum);
     trialNum++;
-    if(trialNum == 11){
+    if(trialNum == 8){
       setHalf(true)
     }
     if(trialNum == MAX_STEP){
@@ -296,7 +296,7 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       return;
     }
     setBlockedClick(false);
-    if(trialNum > 10){
+    if(trialNum > 8){
       let band: number[] = GAIN_INDICES.get(trialNum) || []
       //console.log(band)
       // Iterate over the elements in band
@@ -325,12 +325,12 @@ const ButtonLayout = ({setFitted, setHalf}: Props) => {
       aggregateGain[i][1] = avg;
       aggregateGain[i][2] = avg;
     }
-    aggregateGain[0][0] = aggregateGain[0][0]-5;
-    aggregateGain[1][0] = aggregateGain[1][0]-5;
-    aggregateGain[2][0] = aggregateGain[2][0]-6;
-    aggregateGain[3][0] = aggregateGain[3][0]-7;
-    aggregateGain[4][0] = aggregateGain[4][0]-8;
-    aggregateGain[5][0] = aggregateGain[5][0]-7;
+    aggregateGain[0][0] = aggregateGain[0][1]-5;
+    aggregateGain[1][0] = aggregateGain[1][1]-5;
+    aggregateGain[2][0] = aggregateGain[2][1]-6;
+    aggregateGain[3][0] = aggregateGain[3][1]-7;
+    aggregateGain[4][0] = aggregateGain[4][1]-8;
+    aggregateGain[5][0] = aggregateGain[5][1]-7;
     console.log("avg = " + aggregateGain)
     setNewGain(aggregateGain)
     sendSetDeviceGainButtonCommand(matrixFormatter(aggregateGain));
